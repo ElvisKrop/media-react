@@ -21,6 +21,7 @@ export default class MediaReactService {
     return data;
   };
 
+  // получение списка всех тегов
   getTags = async () => {
     const tags = await this._getResourse("tags/");
     return tags;
@@ -46,6 +47,12 @@ export default class MediaReactService {
       articles: articles.map((art) => this._transformArticle(art)),
       articlesCount
     };
+  };
+
+  // получение статьи по slug
+  getOneArticle = async (slug) => {
+    const { article } = await this._getResourse(`articles/${slug}`);
+    return await this._transformArticle(article);
   };
 
   //трансформация данных о статье с сервера
