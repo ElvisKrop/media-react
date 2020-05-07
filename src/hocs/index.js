@@ -1,2 +1,5 @@
 import withService from "./withService";
-export { withService };
+import withBoundry from "./withBoundry";
+import withToken from "./withToken";
+
+export { withService, withBoundry, withToken };
