@@ -6,9 +6,7 @@ import HomePage from "./pages/homePage";
 import NewArticlePage from "./pages/newArticlePage";
 import SettingsPage from "./pages/settingsPage";
 import SignInUp from "./pages/signInUp";
-import Spinner from "./components/spinner";
-import ErrorComponent from "./components/errorComponent";
-import { withBoundry, withToken } from "./hocs";
+import { withToken } from "./hocs";
 import {
   BrowserRouter as Router,
   Route,
@@ -62,9 +60,9 @@ const App = ({ user, userLoaded, isToken }) => {
             render={({ match }) => <ArticlePage slug={match.params.slug} />}
           />
 
-          <Route path="/login" render={() => <SignInUp type="register" />} />
+          <Route path="/login" render={() => <SignInUp type="login" />} />
 
-          <Route path="/register" render={() => <SignInUp type="login" />} />
+          <Route path="/register" render={() => <SignInUp type="register" />} />
 
           <Route path="*" render={() => <Redirect to="/" />} />
         </Switch>
