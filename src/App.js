@@ -8,8 +8,13 @@ import SettingsPage from "./pages/settingsPage";
 import SignInUp from "./pages/signInUp";
 import Spinner from "./components/spinner";
 import ErrorComponent from "./components/errorComponent";
-import { withBoundry } from "./hocs";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { withBoundry, withToken } from "./hocs";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
 import { connect } from "react-redux";
 import { Actions } from "./redux-store";
 
@@ -26,23 +31,43 @@ const mockUser = {
   username: "New Human"
 };
 
-const App = ({ user, userLoaded }) => {
-  useEffect(() => {
-    userLoaded(mockUser);
-  }, [userLoaded]);
+const App = ({ user, userLoaded, isToken }) => {
+  // useEffect(() => {
+  //   userLoaded(mockUser);
+  // }, [userLoaded]);
 
   return (
     <div className="">
       <Router>
         <Header />
-        <ArticlePage />
-        <AuthorPage />
-        <HomePage />
-        <NewArticlePage />
-        <SettingsPage />
-        <SignInUp />
-        <Spinner />
-        <ErrorComponent error={new Error("ошибка").message} />
+        <Switch>
+          <Route path="/" exact component={HomePage} />
+
+          <Route
+            path="/editor/:slug?"
+            render={({ match }) => <NewArticlePage slug={match.params.slug} />}
+          />
+
+          <Route
+            path="/profile/:username"
+            render={({ match }) => (
+              <AuthorPage username={match.params.username} />
+            )}
+          />
+
+          <Route path="/settings" component={SettingsPage} />
+
+          <Route
+            path="/article/:slug"
+            render={({ match }) => <ArticlePage slug={match.params.slug} />}
+          />
+
+          <Route path="/login" render={() => <SignInUp type="register" />} />
+
+          <Route path="/register" render={() => <SignInUp type="login" />} />
+
+          <Route path="*" render={() => <Redirect to="/" />} />
+        </Switch>
       </Router>
     </div>
   );
@@ -56,4 +81,4 @@ const mapDispatchToProps = (dispatch) => ({
   userLoaded: (user) => dispatch(Actions.userLoaded(user))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(withToken(App));
