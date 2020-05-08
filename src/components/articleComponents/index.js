@@ -1,2 +1,3 @@
 import Buttons from "./buttons";
-export { Buttons };
+import NewComment from "./newComment";
+export { Buttons, NewComment };
