@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { withService } from "../../hocs";
 import "./signInUp.css";
 import { Link } from "react-router-dom";
 
-const SignInUp = ({ type }) => {
-  const sendFormFields = (event) => {
-    event.preventDefault();
-    console.log(event);
-  };
+const SignInUp = ({ type, mrService }) => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const makeBlank = useCallback(() => {
+    setUsername("");
+    setEmail("");
+    setPassword("");
+  }, []);
+
+  useEffect(() => {
+    makeBlank();
+  }, [type, makeBlank]);
 
   const settings = ((type) => {
     switch (type) {
@@ -30,6 +39,22 @@ const SignInUp = ({ type }) => {
     }
   })(type);
 
+  const sendFormFields = (event) => {
+    event.preventDefault();
+    const user = {
+      email,
+      password
+    };
+    if (settings.isUsername) {
+      user.username = username;
+      console.log(user);
+      // TODO post-request to /users
+      return;
+    }
+    // TODO post-request to /users/login
+    console.log(user);
+  };
+  // TODO errorlines(another component) for handling service errors
   return (
     <div className="container d-flex wrapper">
       <div className="col-lg-4 col-sm-10 col-11 mt-5 text-center">
@@ -43,6 +68,8 @@ const SignInUp = ({ type }) => {
                   type="text"
                   className="form-control"
                   placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
             )}
@@ -51,6 +78,8 @@ const SignInUp = ({ type }) => {
                 type="email"
                 className="form-control"
                 placeholder="Enter email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="form-group">
@@ -58,6 +87,8 @@ const SignInUp = ({ type }) => {
                 type="password"
                 className="form-control"
                 placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <button type="submit" className="btn btn-primary">
