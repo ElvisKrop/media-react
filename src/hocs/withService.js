@@ -6,7 +6,7 @@ const withService = () => (Wrapped) => {
     return (
       <ServiceConsumer>
         {(service) => {
-          return <Wrapped {...props} service={service} />;
+          return <Wrapped {...props} mrService={service} />;
         }}
       </ServiceConsumer>
     );

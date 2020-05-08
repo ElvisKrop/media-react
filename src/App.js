@@ -13,16 +13,8 @@ import { withBoundry } from "./hocs";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 const App = () => {
-  const api = new MediaReactService();
-  api.getTags().then((data) => console.log(data));
-  api.getArticlesAll(2).then((data) => console.log(data));
-  api.getArticlesByTag("sushi").then((data) => console.log(data));
-  api
-    ._getResourse("articles/feed?limit=10&offset=0")
-    .then((data) => console.log(data))
-    .catch((error) => console.log(error));
   return (
-    <div className="text-center container">
+    <div className="">
       <Router>
         <Header />
         <ArticlePage />
