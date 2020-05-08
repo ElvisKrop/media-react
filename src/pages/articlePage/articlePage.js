@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Buttons, NewComment } from "../../components/articleComponents";
-import { withService, withToken } from "../../hocs";
+import { withService } from "../../hocs";
 import Spinner from "../../components/spinner";
 
 const ArticlePage = ({ mrService, slug }) => {
   const [artInfo, setArtInfo] = useState("");
   useEffect(() => {
     mrService.getOneArticle(slug).then((data) => setArtInfo(data));
-  }, []);
+  }, [mrService, slug]);
 
   const {
     author,
@@ -46,6 +46,7 @@ const ArticlePage = ({ mrService, slug }) => {
                     src={author.image}
                     className="rounded-circle"
                     width="30px"
+                    alt={author.username}
                   />
                   <span>{author.username}</span>
                 </div>
