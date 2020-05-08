@@ -1,41 +1,34 @@
-import React from "react";
-import MediaReactService from "./services";
+import React, { useEffect } from "react";
 import Header from "./components/header";
 import ArticlePage from "./pages/articlePage";
-import AuthorPage from "./pages/authorPage";
-import HomePage from "./pages/homePage";
-import NewArticlePage from "./pages/newArticlePage";
-import SettingsPage from "./pages/settingsPage";
 import SignInUp from "./pages/signInUp";
-import Spinner from "./components/spinner";
-import ErrorComponent from "./components/errorComponent";
-import { withBoundry } from "./hocs";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
+import { Actions } from "./redux-store";
 
-const App = () => {
-  /*   const api = new MediaReactService();
-  api.getTags().then((data) => console.log(data));
-  api.getArticlesAll(2).then((data) => console.log(data));
-  api.getArticlesByTag("sushi").then((data) => console.log(data));
-  api
-    ._getResourse("articles/feed?limit=10&offset=0")
-    .then((data) => console.log(data))
-    .catch((error) => console.log(error)); */
+// fake userdata for testing
+const mockUser = {
+  bio: null,
+  createdAt: "2020-05-08T11:26:37.165Z",
+  email: "new_human@mail.com",
+  id: 96259,
+  image: null,
+  token:
+    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6OTYyNTksInVzZXJuYW1lIjoiTmV3IEh1bWFuIiwiZXhwIjoxNTk0MTIxMTk3fQ.IQqST95iW4Ez3ddzKauLDFgTs1KK5u0fW2ORTOVzSkE",
+  updatedAt: "2020-05-08T11:26:37.170Z",
+  username: "New Human"
+};
+
+const App = ({ user, userLoaded }) => {
+  useEffect(() => {
+    userLoaded(mockUser);
+  }, [userLoaded]);
 
   //TODO class container should be in each component
-  // "text-center" not needed
   return (
     <div>
       <Router>
         <Header />
-        {/* <ArticlePage />
-        <AuthorPage />
-        <HomePage />
-        <NewArticlePage />
-        <SettingsPage />
-        <SignInUp />
-        <Spinner />
-        <ErrorComponent error={new Error("ошибка").message} /> */}
         <Switch>
           <Route
             path="/article/:slug"
@@ -48,4 +41,12 @@ const App = () => {
   );
 };
 
-export default withBoundry(App);
+const mapStateToProps = ({ user }) => ({
+  user
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  userLoaded: (user) => dispatch(Actions.userLoaded(user))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
