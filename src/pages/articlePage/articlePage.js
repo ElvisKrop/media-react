@@ -3,10 +3,10 @@ import { Buttons } from "../../components/articleComponents";
 import { withService, withToken } from "../../hocs";
 import Spinner from "../../components/spinner";
 
-const ArticlePage = ({ service, slug }) => {
+const ArticlePage = ({ mrService, slug }) => {
   const [artInfo, setArtInfo] = useState("");
   useEffect(() => {
-    service.getOneArticle(slug).then((data) => setArtInfo(data));
+    mrService.getOneArticle(slug).then((data) => setArtInfo(data));
   }, []);
 
   const {

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 // TODO получить username из redux-store и сравнить с автором
 const user = {
-  username: "test"
+  username: "Winnerza"
 };
 const buttons = ({ isToken, settings, toggleFollow }) => {
   const { author, favorited, favoritesCount, slug } = settings;
@@ -14,12 +14,12 @@ const buttons = ({ isToken, settings, toggleFollow }) => {
         <div>
           <button className="btn btn-outline-secondary mx-2">
             <Link to={`/editor/${slug}`}>
-              <i class="fas fa-pen"></i> &nbsp;Edit Article
+              <i className="fas fa-pen"></i> &nbsp;Edit Article
             </Link>
           </button>
           <button className="btn btn-outline-success">
             <Link to="/">
-              <i class="fas fa-trash"></i>
+              <i className="fas fa-trash"></i>
               &nbsp; Delete article
             </Link>
           </button>

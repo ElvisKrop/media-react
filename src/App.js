@@ -41,6 +41,7 @@ const App = () => {
             path="/article/:slug"
             render={({ match }) => <ArticlePage slug={match.params.slug} />}
           />
+          <Route path="/login" component={SignInUp} />
         </Switch>
       </Router>
     </div>
