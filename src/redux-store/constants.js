@@ -1,0 +1,5 @@
+export const USER_LOADED = "USER_LOADED";
+export const USER_LOADING = "USER_DATA_LOADING";
+export const USER_LOAD_FAIL = "USER_LOADING_FAILED";
+export const USER_UPDATING = "USER_UPDATING_DATA";
+export const LOG_OUT_USER = "LOG_OUT_USER";
