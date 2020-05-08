@@ -54,7 +54,9 @@ const reducer = (state = initialState, action) => {
       };
 
     default:
-      throw new Error(`Such action(${action}) is not defined!!!`);
+      return {
+        ...state
+      };
   }
 };
 
