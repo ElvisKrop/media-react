@@ -103,10 +103,8 @@ export default class MediaReactService {
   postFavorited = async (slug) => {
     // TADO tranform
     const articles = await this._postResuurse(`articles/${slug}/favorite`);
-    return {
-      // TODO сделать свой конструктор
-      articles,
-    };
+    return articles;
+    // TODO сделать свой конструктор
   };
 
   ///////////////// Delete запросы //////////////////////////
@@ -127,10 +125,8 @@ export default class MediaReactService {
 
   deleteFavorited = async (slug) => {
     const articles = await this._deleteResuurse(`articles/${slug}/favorite`);
-    return {
-      // TODO сделать свой конструктор
-      articles,
-    };
+    return articles;
+    // TODO сделать свой конструктор
   };
 
   /////////////////// Transform /////////////////////////
