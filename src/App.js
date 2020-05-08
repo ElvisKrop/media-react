@@ -13,26 +13,33 @@ import { withBoundry } from "./hocs";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 const App = () => {
-  const api = new MediaReactService();
+  /* const api = new MediaReactService();
   api.getTags().then((data) => console.log(data));
   api.getArticlesAll(2).then((data) => console.log(data));
   api.getArticlesByTag("sushi").then((data) => console.log(data));
-  api
+    api
     ._getResourse("articles/feed?limit=10&offset=0")
     .then((data) => console.log(data))
-    .catch((error) => console.log(error));
+    .catch((error) => console.log(error)); */
   return (
     <div className="text-center container">
       <Router>
         <Header />
-        <ArticlePage />
+        {/* <ArticlePage />
         <AuthorPage />
         <HomePage />
         <NewArticlePage />
         <SettingsPage />
         <SignInUp />
         <Spinner />
-        <ErrorComponent error={new Error("ошибка").message} />
+        <ErrorComponent error={new Error("ошибка").message} /> */}
+        <Switch>
+          <Route
+            path="/profile/:username"
+            render={({ match }) => <AuthorPage slug={match.params.username} />}
+          />
+          <Route path="/login" component={SignInUp} />
+        </Switch>
       </Router>
     </div>
   );
