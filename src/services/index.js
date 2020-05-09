@@ -48,6 +48,26 @@ export default class MediaReactService {
     };
   };
 
+  // POST-requests
+  _postDataToResourse = async (url, data) => {
+    const response = await fetch(new URL(url, _base), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    if (!response.ok) {
+      throw await response.json();
+    }
+    return await response.json();
+  };
+
+  postUserToLogin = async (user = {}) => {
+    const response = await this._postDataToResourse("users/login", { user });
+    return await response;
+  };
+
   //трансформация данных о статье с сервера
   _transformArticle = (article) => {
     const { author } = article;
@@ -70,3 +90,15 @@ export default class MediaReactService {
     };
   };
 }
+
+const test = new MediaReactService();
+
+const user = {
+  email: "loginloginlogin@mail.com",
+  password: "loginloginlogin_pass_12345"
+};
+
+test
+  .postUserToLogin(user)
+  .then((data) => console.log("data", data))
+  .catch((e) => console.log("errrrrr", e));
