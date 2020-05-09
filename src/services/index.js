@@ -90,15 +90,3 @@ export default class MediaReactService {
     };
   };
 }
-
-const test = new MediaReactService();
-
-const user = {
-  email: "loginloginlogin@mail.com",
-  password: "loginloginlogin_pass_12345"
-};
-
-test
-  .postUserToLogin(user)
-  .then((data) => console.log("data", data))
-  .catch((e) => console.log("errrrrr", e));

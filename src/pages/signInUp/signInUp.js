@@ -1,9 +1,20 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { withService } from "../../hocs";
 import "./signInUp.css";
+import { Actions } from "../../redux-store";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-const SignInUp = ({ type, mrService }) => {
+const SignInUp = ({
+  type,
+  mrService,
+  errors,
+  user,
+  loading,
+  userLoaded,
+  userLoading,
+  userLoadFail
+}) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -41,18 +52,22 @@ const SignInUp = ({ type, mrService }) => {
 
   const sendFormFields = (event) => {
     event.preventDefault();
+    userLoading();
     const user = {
       email,
       password
     };
+    makeBlank();
     if (settings.isUsername) {
       user.username = username;
       console.log(user);
       // TODO post-request to /users
       return;
     }
-    // TODO post-request to /users/login
-    console.log(user);
+    mrService
+      .postUserToLogin(user)
+      .then(({ user }) => userLoaded(user))
+      .catch(({ errors }) => userLoadFail(errors));
   };
   // TODO errorlines(another component) for handling service errors
   return (
@@ -101,4 +116,19 @@ const SignInUp = ({ type, mrService }) => {
   );
 };
 
-export default withService()(SignInUp);
+const mapStateToProps = ({ errors, user, loading }) => ({
+  errors,
+  user,
+  loading
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  userLoaded: (user) => dispatch(Actions.userLoaded(user)),
+  userLoading: () => dispatch(Actions.userLoading()),
+  userLoadFail: (errors) => dispatch(Actions.userLoadFail(errors))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withService()(SignInUp));
