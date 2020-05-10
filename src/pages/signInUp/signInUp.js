@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { withService, withToken } from "../../hocs";
 import "./signInUp.css";
+import Spinner from "../../components/spinner";
 import { Actions } from "../../redux-store";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
@@ -17,8 +18,9 @@ const SignInUp = ({
   userLoadFail
 }) => {
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  //TODO delete this in production version
+  const [email, setEmail] = useState("loginloginlogin@mail.com");
+  const [password, setPassword] = useState("loginloginlogin_pass_12345");
 
   const makeBlank = useCallback(() => {
     setUsername("");
@@ -27,7 +29,7 @@ const SignInUp = ({
   }, []);
 
   useEffect(() => {
-    makeBlank();
+    //   makeBlank();
   }, [type, makeBlank]);
 
   const settings = ((type) => {
@@ -61,8 +63,10 @@ const SignInUp = ({
     makeBlank();
     if (settings.isUsername) {
       user.username = username;
-      console.log(user);
-      // TODO post-request to /users
+      mrService
+        .postUserToRegister(user)
+        .then(({ user }) => userLoaded(user))
+        .catch(({ errors }) => userLoadFail(errors));
       return;
     }
     mrService
@@ -70,9 +74,15 @@ const SignInUp = ({
       .then(({ user }) => userLoaded(user))
       .catch(({ errors }) => userLoadFail(errors));
   };
-  // TODO errorlines(another component) for handling service errors
 
+  // TODO errorlines(another component) for handling service errors
   if (isToken) return <Redirect to="/" />;
+  if (loading)
+    return (
+      <div className="container d-flex wrapper">
+        <Spinner />
+      </div>
+    );
   return (
     <div className="container d-flex wrapper">
       <div className="col-lg-4 col-sm-10 col-11 mt-5 text-center">

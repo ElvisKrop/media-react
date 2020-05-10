@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 
 const withToken = (Wrapped) => {
   return (props) => {
-    const [token, setToken] = useState(false);
+    const [token, setToken] = useState();
+
     useEffect(() => {
-      if (localStorage.getItem("mrToken")) {
-        setToken(true);
-      }
-    }, [setToken]);
+      setToken(Boolean(localStorage.getItem("mrToken")));
+    }, [props, setToken]);
+
     return <Wrapped {...props} isToken={token} />;
   };
 };

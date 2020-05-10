@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import { withToken } from "../../hocs";
 
 export default function Header() {
-  // TODO доделать всё, сырой компонент
-
   return (
     <nav className="navbar navbar-light">
       <Link className="navbar-brand" to="/">

@@ -1,5 +1,19 @@
 import React from "react";
+import { connect } from "react-redux";
+import { Actions } from "../../redux-store";
 
-export default function SettingsPage() {
-  return <div>SettingsPage</div>;
-}
+const SettingsPage = ({ userLogOut }) => {
+  return (
+    <div className="text-center">
+      <button className="btn btn-danger" onClick={() => userLogOut()}>
+        for test
+      </button>
+    </div>
+  );
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  userLogOut: () => dispatch(Actions.userLogOut())
+});
+
+export default connect(null, mapDispatchToProps)(SettingsPage);

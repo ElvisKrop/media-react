@@ -68,6 +68,11 @@ export default class MediaReactService {
     return await response;
   };
 
+  postUserToRegister = async (user = {}) => {
+    const response = await this._postDataToResourse("users", { user });
+    return await response;
+  };
+
   //трансформация данных о статье с сервера
   _transformArticle = (article) => {
     const { author } = article;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Header from "./components/header";
 import ArticlePage from "./pages/articlePage";
 import AuthorPage from "./pages/authorPage";
@@ -36,7 +36,9 @@ const App = ({ user, userLoaded, isToken }) => {
             )}
           />
 
-          <Route path="/settings" component={SettingsPage} />
+          <Route path="/settings">
+            {isToken ? <SettingsPage /> : <Redirect to="/" />}
+          </Route>
 
           <Route
             path="/article/:slug"
