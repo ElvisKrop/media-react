@@ -7,7 +7,7 @@ const withToken = (Wrapped) => {
       if (localStorage.getItem("mrToken")) {
         setToken(true);
       }
-    }, []);
+    }, [setToken]);
     return <Wrapped {...props} isToken={token} />;
   };
 };

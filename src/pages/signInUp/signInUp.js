@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { withService } from "../../hocs";
+import { withService, withToken } from "../../hocs";
 import "./signInUp.css";
 import { Actions } from "../../redux-store";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 const SignInUp = ({
   type,
+  isToken,
   mrService,
   errors,
   user,
@@ -70,6 +71,8 @@ const SignInUp = ({
       .catch(({ errors }) => userLoadFail(errors));
   };
   // TODO errorlines(another component) for handling service errors
+
+  if (isToken) return <Redirect to="/" />;
   return (
     <div className="container d-flex wrapper">
       <div className="col-lg-4 col-sm-10 col-11 mt-5 text-center">
@@ -131,4 +134,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withService()(SignInUp));
+)(withService()(withToken(SignInUp)));

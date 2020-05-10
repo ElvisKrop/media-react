@@ -16,24 +16,7 @@ import {
 import { connect } from "react-redux";
 import { Actions } from "./redux-store";
 
-// fake userdata for testing
-const mockUser = {
-  bio: null,
-  createdAt: "2020-05-08T11:26:37.165Z",
-  email: "new_human@mail.com",
-  id: 96259,
-  image: null,
-  token:
-    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6OTYyNTksInVzZXJuYW1lIjoiTmV3IEh1bWFuIiwiZXhwIjoxNTk0MTIxMTk3fQ.IQqST95iW4Ez3ddzKauLDFgTs1KK5u0fW2ORTOVzSkE",
-  updatedAt: "2020-05-08T11:26:37.170Z",
-  username: "New Human"
-};
-
 const App = ({ user, userLoaded, isToken }) => {
-  // useEffect(() => {
-  //   userLoaded(mockUser);
-  // }, [userLoaded]);
-
   return (
     <div className="">
       <Router>
