@@ -25,13 +25,12 @@ function ButtonLike({ mrService, isToken, data }) {
     }
   }
 
-  function updateFavorited(data) {
-    console.log(data.article.favorited);
-    setLike(data.article.favorited);
-    setLikeCount(data.article.favoritesCount);
+  function updateFavorited(article) {
+    setLike(article.favorited);
+    setLikeCount(article.favoritesCount);
   }
 
-  let className = "btn btn-outline-primary b-like";
+  let className = "btn-like";
 
   if (like) {
     className += " bg-primary text-white";

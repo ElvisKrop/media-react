@@ -9,8 +9,13 @@ import SettingsPage from "./pages/settingsPage";
 import SignInUp from "./pages/signInUp";
 import Spinner from "./components/spinner";
 import ErrorComponent from "./components/errorComponent";
-import { withBoundry } from "./hocs";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { withBoundry, withToken } from "./hocs";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 
 const App = () => {
   /* const api = new MediaReactService();
@@ -34,11 +39,32 @@ const App = () => {
         <Spinner />
         <ErrorComponent error={new Error("ошибка").message} /> */}
         <Switch>
+          <Route path="/" exact component={HomePage} />
+
+          <Route
+            path="/editor/:slug?"
+            render={({ match }) => <NewArticlePage slug={match.params.slug} />}
+          />
+
           <Route
             path="/profile/:username"
-            render={({ match }) => <AuthorPage slug={match.params.username} />}
+            render={({ match }) => (
+              <AuthorPage username={match.params.username} />
+            )}
           />
-          <Route path="/login" component={SignInUp} />
+
+          <Route path="/settings" component={SettingsPage} />
+
+          <Route
+            path="/article/:slug"
+            render={({ match }) => <ArticlePage slug={match.params.slug} />}
+          />
+
+          <Route path="/login" render={() => <SignInUp type="register" />} />
+
+          <Route path="/register" render={() => <SignInUp type="login" />} />
+
+          <Route path="*" render={() => <Redirect to="/" />} />
         </Switch>
       </Router>
     </div>

@@ -4,7 +4,7 @@ import Feed from "../../components/feed";
 export default function AuthorPage() {
   return (
     <>
-      <Feed str={"YourFeed"} />
+      <Feed str={"FavoritedPost"} />
       <div>AuthorPage</div>
     </>
   );

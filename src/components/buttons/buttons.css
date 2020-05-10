@@ -1,6 +1,19 @@
-.b-like {
+.btn-like {
   height: 27px;
   padding: 0 8px;
   letter-spacing: 1px;
   font-size: 14px;
+  color: #78c2ad;
+  border: 1px solid #78c2ad;
+  border-radius: 6px;
+  background: transparent;
+}
+
+.btn-like:hover {
+  color: #fff;
+  background: #78c2ad;
+}
+
+.btn-like:focus {
+  outline: none;
 }

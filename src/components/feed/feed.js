@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { withService } from "../../hocs";
 import { Link } from "react-router-dom";
 import UserIcon from "../userIcon";
@@ -6,22 +6,34 @@ import { ButtonLike } from "../buttons/index";
 import "./feed.css";
 
 function Feed({ mrService, str }) {
-  const [data, setData] = useState([]);
-  /* const [articlesCount, setCount] = useState(0); */
+  const [data, setDataArticle] = useState([]);
+  const [articlesCount, setCountArticle] = useState(0);
+
+  const getRequest = useCallback(() => {
+    switch (str) {
+      case "YourFeed":
+        return mrService.getArticlesByFollow().then((data) => setData(data));
+      case "GlobalFeed":
+        return mrService.getArticlesAll().then((data) => setData(data));
+      case "TagFeed":
+        return mrService.getArticlesByTag().then((data) => setData(data));
+      case "MyPosts":
+        return mrService.getUserArticles().then((data) => setData(data));
+      case "FavoritedPost":
+        return mrService.getArticlesByFavorited().then((data) => setData(data));
+      default:
+        return [];
+    }
+
+    function setData(data) {
+      setDataArticle(data.articles);
+      setCountArticle(data.articlesCount);
+    }
+  }, []);
 
   useEffect(() => {
-    if (str === "YourFeed") {
-      mrService.getArticlesByFollow().then((data) => setData(data.articles));
-    } else if (str === "GlobalFeed") {
-      mrService.getArticlesAll().then((data) => setData(data.articles));
-    } else if (str === "TagFeed") {
-      mrService.getArticlesByTag().then((data) => setData(data.articles));
-    } else if (str === "MyPosts") {
-      mrService.getUserArticles().then((data) => setData(data.articles));
-    } else if (str === "FavoritedPost") {
-      mrService.getArticlesByFavorited().then((data) => setData(data.articles));
-    }
-  }, [mrService, str]);
+    getRequest();
+  }, [getRequest]);
 
   function OtherContent({ data: { title, description, tagList, slug } }) {
     return (
@@ -66,6 +78,8 @@ function Feed({ mrService, str }) {
       </div>
     );
   });
+
+  function Pagination() {}
 }
 
 export default withService()(Feed);
