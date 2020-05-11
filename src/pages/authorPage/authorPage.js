@@ -21,7 +21,7 @@ function AuthorPage({ mrService, username }) {
     width: "100px",
     height: "100px",
     margin: "10px 0 16px 0",
-    borderRadius: "50px",
+    borderRadius: "50px"
   };
 
   if (loading) {
@@ -43,7 +43,7 @@ function AuthorPage({ mrService, username }) {
         </div>
       </div>
       <div className="container text-center">
-        <Feed strFeed={"GlobalFeed"} />
+        <Feed strFeed={"MyPosts"} author={username} />
       </div>
     </>
   );

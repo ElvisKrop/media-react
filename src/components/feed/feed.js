@@ -5,7 +5,7 @@ import Pagination from "./pagination";
 import Spinner from "../spinner";
 import "./feed.css";
 
-function Feed({ mrService, strFeed }) {
+function Feed({ mrService, strFeed, author = "" }) {
   const [data, setDataArticle] = useState([]);
   const [articlesCount, setCountArticle] = useState(0);
   const [currentPage, setPage] = useState(0);
@@ -19,11 +19,11 @@ function Feed({ mrService, strFeed }) {
         case "GlobalFeed":
           return mrService.getArticlesAll(page);
         case "TagFeed":
-          return mrService.getArticlesByTag(page, "butt");
+          return mrService.getArticlesByTag(page, "dragons");
         case "MyPosts":
-          return mrService.getUserArticles(page);
+          return mrService.getUserArticles(page, author);
         case "FavoritedPost":
-          return mrService.getArticlesByFavorited(page);
+          return mrService.getArticlesByFavorited(page, author);
         default:
           return [];
       }

@@ -31,10 +31,9 @@ export default class MediaReactService {
     return profile;
   };
 
-  //получение всех статей и их кол-ва
-  getArticlesAll = async (pageIndex = 0) => {
+  _getArticles = async (pageIndex = 0, property = "?", param = "") => {
     const { articles, articlesCount } = await this._getResourse(
-      `articles?limit=${_limit}&offset=${_limit * pageIndex}`
+      `articles${param}${property}limit=${_limit}&offset=${_limit * pageIndex}`
     );
     return {
       articles: articles.map((art) => this._transformArticle(art)),
@@ -42,15 +41,29 @@ export default class MediaReactService {
     };
   };
 
+  //получение всех статей и их кол-ва
+  getArticlesAll = async (pageIndex) => {
+    return this._getArticles(pageIndex);
+  };
+
   //получение статей и их кол-ва по тегу
-  getArticlesByTag = async (pageIndex = 0, tag = "test") => {
-    const { articles, articlesCount } = await this._getResourse(
-      `articles?tag=${tag}&limit=${_limit}&offset=${_limit * pageIndex}`
-    );
-    return {
-      articles: articles.map((art) => this._transformArticle(art)),
-      articlesCount: Math.ceil(articlesCount / _limit)
-    };
+  getArticlesByTag = async (pageIndex, tag) => {
+    return this._getArticles(pageIndex, tag + "&", "?tag=");
+  };
+
+  //получение статей по подписке(follow)
+  getArticlesByFollow = async (pageIndex) => {
+    return this._getArticles(pageIndex, "/feed?");
+  };
+
+  //получение статей созданных пользователем
+  getUserArticles = async (pageIndex = 0, user) => {
+    return this._getArticles(pageIndex, user + "&", "?author=");
+  };
+
+  //получение статей лайкнутых пользователям
+  getArticlesByFavorited = async (pageIndex = 0, user) => {
+    return this._getArticles(pageIndex, user + "&", "?favorited=");
   };
 
   // POST-requests
@@ -76,41 +89,6 @@ export default class MediaReactService {
   postUserToRegister = async (user = {}) => {
     const response = await this._postDataToResourse("users", { user });
     return await response;
-  };
-
-  //получение статей по подписке(follow)
-  getArticlesByFollow = async (pageIndex = 0) => {
-    const { articles, articlesCount } = await this._getResourse(
-      `articles/feed?limit=${_limit}&offset=${_limit * pageIndex}`
-    );
-    return {
-      articles: articles.map((art) => this._transformArticle(art)),
-      articlesCount: Math.ceil(articlesCount / _limit)
-    };
-  };
-
-  //получение статей созданных пользователя
-  // TODO придумать что нибудь с user по умолчанию
-  getUserArticles = async (pageIndex = 0, user = "dfgfdgfdgddfglll") => {
-    const { articles, articlesCount } = await this._getResourse(
-      `articles?author=${user}&limit=${_limit}&offset=${_limit * pageIndex}`
-    );
-    return {
-      articles: articles.map((art) => this._transformArticle(art)),
-      articlesCount: Math.ceil(articlesCount / _limit)
-    };
-  };
-
-  //получение статей лайкнутых пользователям
-  // TODO придумать что нибудь с user по умолчанию
-  getArticlesByFavorited = async (pageIndex = 0, user = "dfgfdgfdgddfglll") => {
-    const { articles, articlesCount } = await this._getResourse(
-      `articles?favorited=${user}&limit=${_limit}&offset=${_limit * pageIndex}`
-    );
-    return {
-      articles: articles.map((art) => this._transformArticle(art)),
-      articlesCount: Math.ceil(articlesCount / _limit)
-    };
   };
 
   ////////////////// Post запросы ////////////////////////
@@ -166,7 +144,6 @@ export default class MediaReactService {
   };
 
   /////////////////// Transform /////////////////////////
-
   //трансформация данных о статье с сервера
   _transformArticle = (article) => {
     const { author } = article;
