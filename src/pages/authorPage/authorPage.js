@@ -5,6 +5,13 @@ import { withService } from "../../hocs";
 import Spinner from "../../components/spinner";
 import "./authorPage.css";
 
+const styleImg = {
+  width: "100px",
+  height: "100px",
+  margin: "10px 0 16px 0",
+  borderRadius: "50px"
+};
+
 function AuthorPage({ mrService, username }) {
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(false);
@@ -17,17 +24,9 @@ function AuthorPage({ mrService, username }) {
 
   const { image, bio } = profile;
 
-  const styleImg = {
-    width: "100px",
-    height: "100px",
-    margin: "10px 0 16px 0",
-    borderRadius: "50px"
-  };
-
   if (loading) {
     return <Spinner />;
   }
-
   return (
     <>
       <div style={{ background: "#f3f3f3" }} className=" text-center py-4">
@@ -43,7 +42,7 @@ function AuthorPage({ mrService, username }) {
         </div>
       </div>
       <div className="container text-center">
-        <Feed strFeed={"MyPosts"} author={username} />
+        <Feed strFeed={"YourFeed"} author={username} />
       </div>
     </>
   );

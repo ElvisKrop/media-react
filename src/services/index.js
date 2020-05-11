@@ -31,9 +31,9 @@ export default class MediaReactService {
     return profile;
   };
 
-  _getArticles = async (pageIndex = 0, property = "?", param = "") => {
+  _getArticles = async (pageIndex = 0, param = "?") => {
     const { articles, articlesCount } = await this._getResourse(
-      `articles${param}${property}limit=${_limit}&offset=${_limit * pageIndex}`
+      `articles${param}limit=${_limit}&offset=${_limit * pageIndex}`
     );
     return {
       articles: articles.map((art) => this._transformArticle(art)),
@@ -48,7 +48,7 @@ export default class MediaReactService {
 
   //получение статей и их кол-ва по тегу
   getArticlesByTag = async (pageIndex, tag) => {
-    return this._getArticles(pageIndex, tag + "&", "?tag=");
+    return this._getArticles(pageIndex, `?tag=${tag}&`);
   };
 
   //получение статей по подписке(follow)
@@ -58,25 +58,29 @@ export default class MediaReactService {
 
   //получение статей созданных пользователем
   getUserArticles = async (pageIndex = 0, user) => {
-    return this._getArticles(pageIndex, user + "&", "?author=");
+    return this._getArticles(pageIndex, `?author=${user}&`);
   };
 
   //получение статей лайкнутых пользователям
   getArticlesByFavorited = async (pageIndex = 0, user) => {
-    return this._getArticles(pageIndex, user + "&", "?favorited=");
+    return this._getArticles(pageIndex, `?favorited=${user}&`);
   };
 
-  // POST-requests
-  _postDataToResourse = async (url, data) => {
+  ////////////////// Post запросы ////////////////////////
+  _postDataToResourse = async (url, data = {}) => {
     const response = await fetch(new URL(url, _base), {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        authorization: this._getToken()
       },
       body: JSON.stringify(data)
     });
     if (!response.ok) {
-      throw await response.json();
+      if (Object.keys(data).length) {
+        throw await response.json();
+      }
+      throw new Error(`Could not fetch ${url}, received ${response.status}`);
     }
     return await response.json();
   };
@@ -91,35 +95,20 @@ export default class MediaReactService {
     return await response;
   };
 
-  ////////////////// Post запросы ////////////////////////
-
-  _postResuurse = async (url) => {
-    const response = await fetch(new URL(url, _base), {
-      method: "POST",
-      headers: {
-        authorization: this._getToken()
-      }
-    });
-    if (!response.ok) {
-      throw new Error(`Could not fetch ${url}, received ${response.status}`);
-    }
-    const data = await response.json();
-    return data;
-  };
-
   postFavorited = async (slug) => {
-    const { article } = await this._postResuurse(`articles/${slug}/favorite`);
+    const { article } = await this._postDataToResourse(
+      `articles/${slug}/favorite`
+    );
     return this._transformArticle(article);
   };
 
   postFollowig = async (user) => {
-    const profile = await this._postResuurse(`profiles/${user}/follow`);
+    const profile = await this._postDataToResourse(`profiles/${user}/follow`);
     return profile;
   };
 
   ///////////////// Delete запросы //////////////////////////
-
-  _deleteResuurse = async (url) => {
+  _deleteResourse = async (url) => {
     const response = await fetch(new URL(url, _base), {
       method: "DELETE",
       headers: {
@@ -134,12 +123,12 @@ export default class MediaReactService {
   };
 
   deleteFavorited = async (slug) => {
-    const { article } = await this._deleteResuurse(`articles/${slug}/favorite`);
+    const { article } = await this._deleteResourse(`articles/${slug}/favorite`);
     return this._transformArticle(article);
   };
 
   deleteFollowig = async (user) => {
-    const profile = await this._deleteResuurse(`profiles/${user}/follow`);
+    const profile = await this._deleteResourse(`profiles/${user}/follow`);
     return profile;
   };
 

@@ -9,17 +9,17 @@ function Feed({ mrService, strFeed, author = "" }) {
   const [data, setDataArticle] = useState([]);
   const [articlesCount, setCountArticle] = useState(0);
   const [currentPage, setPage] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const getRequest = useCallback(
-    (page) => {
+    (page, author, tag) => {
       switch (strFeed) {
         case "YourFeed":
           return mrService.getArticlesByFollow(page);
         case "GlobalFeed":
           return mrService.getArticlesAll(page);
         case "TagFeed":
-          return mrService.getArticlesByTag(page, "dragons");
+          return mrService.getArticlesByTag(page, tag);
         case "MyPosts":
           return mrService.getUserArticles(page, author);
         case "FavoritedPost":
@@ -33,11 +33,11 @@ function Feed({ mrService, strFeed, author = "" }) {
 
   useEffect(() => {
     setLoading(true);
-    getRequest(currentPage)
+    getRequest(currentPage, author, "dragons")
       .then((data) => setData(data))
       .catch((error) => console.error(error));
     // TODO обработать ошибки, как нибудь;
-  }, [getRequest, currentPage]);
+  }, [getRequest, currentPage, author]);
 
   function setData({ articles, articlesCount }) {
     setDataArticle(articles);
@@ -45,18 +45,12 @@ function Feed({ mrService, strFeed, author = "" }) {
     setLoading(false);
   }
 
-  function switchingPage(page) {
-    setPage(page);
-  }
-
-  if (loading) {
-    return <Spinner />;
-  }
+  if (loading) return <Spinner />;
 
   return (
     <div className="col-md-9 m-auto">
       <Article data={data} />
-      <Pagination data={{ articlesCount, currentPage, switchingPage }} />
+      <Pagination data={{ articlesCount, currentPage, setPage }} />
     </div>
   );
 }
