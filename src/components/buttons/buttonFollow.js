@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withService, withToken } from "../../hocs";
 import { Link } from "react-router-dom";
 import MiniSpinner from "../mini-spinner";
@@ -9,6 +9,10 @@ function ButtonFollow({ mrService, isToken, profile }) {
 
   const [follow, setFollow] = useState(following);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setFollow(following);
+  }, [following]);
 
   function toggleFollow(username) {
     setLoading(true);

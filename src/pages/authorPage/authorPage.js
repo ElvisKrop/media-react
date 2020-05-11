@@ -37,11 +37,7 @@ function AuthorPage({ mrService, username }) {
             <h4 className="font-weight-bold">{username}</h4>
             <p className="text-muted">{bio}</p>
             <div className="text-right">
-              <ButtonFollow
-                profile={profile}
-                username={username}
-                className="float-right"
-              />
+              <ButtonFollow profile={profile} className="float-right" />
             </div>
           </div>
         </div>
