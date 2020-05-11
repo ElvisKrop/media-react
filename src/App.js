@@ -27,7 +27,7 @@ const App = () => {
     .then((data) => console.log(data))
     .catch((error) => console.log(error)); */
   return (
-    <div className="text-center container">
+    <>
       <Router>
         <Header />
         {/* <ArticlePage />
@@ -67,7 +67,7 @@ const App = () => {
           <Route path="*" render={() => <Redirect to="/" />} />
         </Switch>
       </Router>
-    </div>
+    </>
   );
 };
 

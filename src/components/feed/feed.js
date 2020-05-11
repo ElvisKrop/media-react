@@ -54,7 +54,7 @@ function Feed({ mrService, strFeed }) {
   }
 
   return (
-    <div className="col-md-9">
+    <div className="col-md-9 m-auto">
       <Article data={data} />
       <Pagination data={{ articlesCount, currentPage, switchingPage }} />
     </div>

@@ -7,13 +7,8 @@ import "./buttons.css";
 function ButtonFollow({ mrService, isToken, profile }) {
   const { username, following } = profile;
 
-  let [follow, setFollow] = useState(following);
+  const [follow, setFollow] = useState(following);
   const [loading, setLoading] = useState(false);
-
-  // TODO при загрузке страницы follow почему то равен undefined?
-  if (follow === undefined) {
-    follow = following;
-  }
 
   function toggleFollow(username) {
     setLoading(true);
