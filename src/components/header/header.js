@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import { withToken } from "../../hocs";
 
 export default function Header() {
-  // TODO доделать всё, сырой компонент
-
   return (
     <nav className="navbar navbar-light">
       <Link className="navbar-brand" to="/">
@@ -21,12 +19,12 @@ function navPanel({ isToken }) {
   const privateUl = (
     <>
       <li className="nav-item">
-        <Link className="nav-link" to="/login">
-          new art
+        <Link className="nav-link" to="/editor">
+          New Article
         </Link>
       </li>
       <li className="nav-item">
-        <Link className="nav-link" to="/register">
+        <Link className="nav-link" to="/settings">
           setting
         </Link>
       </li>

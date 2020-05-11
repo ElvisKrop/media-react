@@ -7,7 +7,7 @@ const user = {
   username: "Winnerza"
 };
 const buttons = ({ isToken, settings, toggleFollow }) => {
-  const { author, favorited, favoritesCount, slug } = settings;
+  const { author, favoritesCount, slug } = settings;
   if (isToken) {
     if (user.username === author.username) {
       return (

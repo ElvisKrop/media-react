@@ -27,34 +27,119 @@ export default class MediaReactService {
     return tags;
   };
 
-  //получение всех статей и их кол-ва
-  getArticlesAll = async (pageIndex = 0) => {
-    const { articles, articlesCount } = await this._getResourse(
-      `articles?limit=${_limit}&offset=${_limit * pageIndex}`
-    );
-    return {
-      articles: articles.map((art) => this._transformArticle(art)),
-      articlesCount
-    };
-  };
-
-  //получение статей и их кол-ва по тегу
-  getArticlesByTag = async (tag = "test", pageIndex = 0) => {
-    const { articles, articlesCount } = await this._getResourse(
-      `articles?tag=${tag}&limit=${_limit}&offset=${_limit * pageIndex}`
-    );
-    return {
-      articles: articles.map((art) => this._transformArticle(art)),
-      articlesCount
-    };
+  getProfile = async (username) => {
+    const profile = await this._getResourse(`profiles/${username}`);
+    return profile;
   };
 
   // получение статьи по slug
-  getOneArticle = async (slug) => {
+  getArticle = async (slug) => {
     const { article } = await this._getResourse(`articles/${slug}`);
     return await this._transformArticle(article);
   };
 
+  _getArticles = async (pageIndex = 0, param = "?") => {
+    const { articles, articlesCount } = await this._getResourse(
+      `articles${param}limit=${_limit}&offset=${_limit * pageIndex}`
+    );
+    return {
+      articles: articles.map((art) => this._transformArticle(art)),
+      articlesCount: Math.ceil(articlesCount / _limit)
+    };
+  };
+
+  //получение всех статей и их кол-ва
+  getArticlesAll = async (pageIndex) => {
+    return this._getArticles(pageIndex);
+  };
+
+  //получение статей и их кол-ва по тегу
+  getArticlesByTag = async (pageIndex, tag) => {
+    return this._getArticles(pageIndex, `?tag=${tag}&`);
+  };
+
+  //получение статей по подписке(follow)
+  getArticlesByFollow = async (pageIndex) => {
+    return this._getArticles(pageIndex, "/feed?");
+  };
+
+  //получение статей созданных пользователем
+  getUserArticles = async (pageIndex = 0, user) => {
+    return this._getArticles(pageIndex, `?author=${user}&`);
+  };
+
+  //получение статей лайкнутых пользователям
+  getArticlesByFavorited = async (pageIndex = 0, user) => {
+    return this._getArticles(pageIndex, `?favorited=${user}&`);
+  };
+
+  ////////////////// Post запросы ////////////////////////
+  _postDataToResourse = async (url, data = {}) => {
+    const response = await fetch(new URL(url, _base), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: this._getToken()
+      },
+      body: JSON.stringify(data)
+    });
+    if (!response.ok) {
+      if (Object.keys(data).length) {
+        throw await response.json();
+      }
+      throw new Error(`Could not fetch ${url}, received ${response.status}`);
+    }
+    return await response.json();
+  };
+
+  postUserToLogin = async (user = {}) => {
+    const response = await this._postDataToResourse("users/login", { user });
+    return await response;
+  };
+
+  postUserToRegister = async (user = {}) => {
+    const response = await this._postDataToResourse("users", { user });
+    return await response;
+  };
+
+  postFavorited = async (slug) => {
+    const { article } = await this._postDataToResourse(
+      `articles/${slug}/favorite`
+    );
+    return this._transformArticle(article);
+  };
+
+  postFollowig = async (user) => {
+    const profile = await this._postDataToResourse(`profiles/${user}/follow`);
+    return profile;
+  };
+
+  ///////////////// Delete запросы //////////////////////////
+  _deleteResourse = async (url) => {
+    const response = await fetch(new URL(url, _base), {
+      method: "DELETE",
+      headers: {
+        authorization: this._getToken()
+      }
+    });
+    if (!response.ok) {
+      throw new Error(`Could not fetch ${url}, received ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  };
+
+  deleteFavorited = async (slug) => {
+    const { article } = await this._deleteResourse(`articles/${slug}/favorite`);
+    return this._transformArticle(article);
+  };
+
+  deleteFollowig = async (user) => {
+    const profile = await this._deleteResourse(`profiles/${user}/follow`);
+    return profile;
+  };
+
+  /////////////////// Transform /////////////////////////
   //трансформация данных о статье с сервера
   _transformArticle = (article) => {
     const { author } = article;
@@ -62,7 +147,9 @@ export default class MediaReactService {
       author: {
         username: author.username,
         bio: author.bio,
-        image: author.image,
+        image:
+          author.image ||
+          "https://static.productionready.io/images/smiley-cyrus.jpg",
         following: author.following
       },
       body: article.body,

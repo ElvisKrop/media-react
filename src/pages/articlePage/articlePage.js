@@ -6,20 +6,10 @@ import Spinner from "../../components/spinner";
 const ArticlePage = ({ mrService, slug }) => {
   const [artInfo, setArtInfo] = useState("");
   useEffect(() => {
-    mrService.getOneArticle(slug).then((data) => setArtInfo(data));
+    mrService.getArticle(slug).then((data) => setArtInfo(data));
   }, [mrService, slug]);
 
-  const {
-    author,
-    body,
-    createdAt,
-    description,
-    favorited,
-    favoritesCount,
-    tagList,
-    title,
-    updatedAt
-  } = artInfo;
+  const { author, body, favorited, favoritesCount, title } = artInfo;
 
   const forBtns = { author, favorited, favoritesCount, slug };
 

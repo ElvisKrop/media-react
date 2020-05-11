@@ -3,6 +3,7 @@ import {
   USER_LOADING,
   USER_LOAD_FAIL,
   USER_UPDATING,
+  CLEAR_ERRORS,
   LOG_OUT_USER
 } from "./constants";
 
@@ -13,6 +14,10 @@ export const userLoaded = (user) => ({
 
 export const userLoading = () => ({
   type: USER_LOADING
+});
+
+export const clearErrors = () => ({
+  type: CLEAR_ERRORS
 });
 
 export const userUpdate = (user) => ({

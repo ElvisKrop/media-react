@@ -3,6 +3,7 @@ import {
   USER_LOADED,
   USER_LOAD_FAIL,
   LOG_OUT_USER,
+  CLEAR_ERRORS,
   USER_UPDATING
 } from "./constants";
 
@@ -17,6 +18,7 @@ const reducer = (state = initialState, action) => {
     case USER_LOADING:
       return {
         ...state,
+        errors: {},
         loading: true
       };
 
@@ -34,6 +36,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         loading: false,
         errors: action.payload
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        errors: {}
       };
 
     case USER_UPDATING:
