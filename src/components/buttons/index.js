@@ -1,2 +1,3 @@
 import ButtonLike from "./buttonLike";
-export { ButtonLike };
+import ButtonFollow from "./buttonFollow";
+export { ButtonLike, ButtonFollow };
