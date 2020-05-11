@@ -18,7 +18,7 @@ import { Actions } from "./redux-store";
 
 const App = ({ user, userLoaded, isToken }) => {
   return (
-    <div className="">
+    <>
       <Router>
         <Header />
         <Switch>
@@ -52,7 +52,7 @@ const App = ({ user, userLoaded, isToken }) => {
           <Route path="*" render={() => <Redirect to="/" />} />
         </Switch>
       </Router>
-    </div>
+    </>
   );
 };
 

@@ -1,0 +1,26 @@
+.text-gray {
+  font-size: 12px;
+  font-weight: lighter;
+  color: #bbb;
+}
+
+.tag-list {
+  display: flex;
+  justify-content: flex-start;
+  align-content: flex-end;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tag-list li {
+  display: inline-block;
+  height: 21px;
+  margin: 1.5px;
+  padding: 0 8px;
+  color: #aaa;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
