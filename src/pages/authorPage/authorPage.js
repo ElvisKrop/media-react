@@ -9,7 +9,7 @@ const styleImg = {
   width: "100px",
   height: "100px",
   margin: "10px 0 16px 0",
-  borderRadius: "50px"
+  borderRadius: "50px",
 };
 
 function AuthorPage({ mrService, username }) {
@@ -42,7 +42,7 @@ function AuthorPage({ mrService, username }) {
         </div>
       </div>
       <div className="container text-center">
-        <Feed strFeed={"YourFeed"} author={username} />
+        <Feed strFeed={"GlobalFeed"} author={username} />
       </div>
     </>
   );
