@@ -42,7 +42,7 @@ function AuthorPage({ mrService, username }) {
         </div>
       </div>
       <div className="container text-center">
-        <Feed strFeed={"GlobalFeed"} author={username} />
+        <Feed strFeed={"YourFeed"} author={username} />
       </div>
     </>
   );
