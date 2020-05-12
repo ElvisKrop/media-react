@@ -21,13 +21,11 @@ function ButtonFollow({ mrService, isToken, profile }) {
         .postFollowig(username)
         .then(updateFollow)
         .catch((error) => console.error(error));
-      // TODO обработать ошибки, как нибудь
     } else {
       mrService
         .deleteFollowig(username)
         .then(updateFollow)
         .catch((error) => console.error(error));
-      // TODO обработать ошибки, как нибудь
     }
   }
 

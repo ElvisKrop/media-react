@@ -2,6 +2,7 @@ import React from "react";
 
 function Pagination({ data: { articlesCount, currentPage, setPage } }) {
   function renderButton() {
+    if (articlesCount === 1) return;
     let arr = [];
     for (let i = 0; i < articlesCount; i++) {
       arr.push(i);
@@ -10,9 +11,7 @@ function Pagination({ data: { articlesCount, currentPage, setPage } }) {
     return arr.map((item) => {
       let className = "page-item";
 
-      if (item === currentPage) {
-        className += " active";
-      }
+      if (item === currentPage) className += " active";
 
       return (
         <li className={className} key={item} onClick={() => setPage(item)}>

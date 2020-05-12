@@ -4,12 +4,14 @@ import { withToken } from "../../hocs";
 
 export default function Header() {
   return (
-    <nav className="navbar navbar-light">
-      <Link className="navbar-brand" to="/">
-        Media React
-      </Link>
-      <NavPanel />
-    </nav>
+    <div className="container">
+      <nav className="navbar navbar-light">
+        <Link className="navbar-brand" to="/">
+          Media React
+        </Link>
+        <NavPanel />
+      </nav>
+    </div>
   );
 }
 
@@ -25,7 +27,12 @@ function navPanel({ isToken }) {
       </li>
       <li className="nav-item">
         <Link className="nav-link" to="/settings">
-          setting
+          Setting
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link className="nav-link" to="/">
+          User
         </Link>
       </li>
     </>

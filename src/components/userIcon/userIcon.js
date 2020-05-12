@@ -15,7 +15,7 @@ function UserIcon({ data: { image, username, createdAt } }) {
   };
 
   return (
-    <div className="d-flex">
+    <div className="d-flex overflow-hidden">
       <Link className="text-primary" to={`/profile/${username}`}>
         <img src={image} style={style} alt={username} />
       </Link>

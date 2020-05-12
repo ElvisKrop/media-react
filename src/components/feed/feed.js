@@ -36,8 +36,11 @@ function Feed({ mrService, strFeed, author = "" }) {
     getRequest(currentPage, author, "dragons")
       .then((data) => setData(data))
       .catch((error) => console.error(error));
-    // TODO обработать ошибки, как нибудь;
   }, [getRequest, currentPage, author]);
+
+  useEffect(() => {
+    setPage(0);
+  }, [strFeed]);
 
   function setData({ articles, articlesCount }) {
     setDataArticle(articles);
@@ -48,8 +51,10 @@ function Feed({ mrService, strFeed, author = "" }) {
   if (loading) return <Spinner />;
 
   return (
-    <div className="col-md-9 m-auto">
-      <Article data={data} />
+    <div>
+      {data.map((item) => (
+        <Article data={item} key={item.slug} />
+      ))}
       <Pagination data={{ articlesCount, currentPage, setPage }} />
     </div>
   );

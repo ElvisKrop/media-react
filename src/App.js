@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "./components/header";
+import Footer from "./components/footer";
 import ArticlePage from "./pages/articlePage";
 import AuthorPage from "./pages/authorPage";
 import HomePage from "./pages/homePage";
@@ -30,9 +31,19 @@ const App = ({ user, userLoaded, isToken }) => {
           />
 
           <Route
+            path="/profile/:username/favorites"
+            render={({ match }) => (
+              <AuthorPage
+                username={match.params.username}
+                strFeed="FavoritedPost"
+              />
+            )}
+          />
+
+          <Route
             path="/profile/:username"
             render={({ match }) => (
-              <AuthorPage username={match.params.username} />
+              <AuthorPage username={match.params.username} strFeed="MyPosts" />
             )}
           />
 
@@ -51,6 +62,7 @@ const App = ({ user, userLoaded, isToken }) => {
 
           <Route path="*" render={() => <Redirect to="/" />} />
         </Switch>
+        <Footer />
       </Router>
     </>
   );
