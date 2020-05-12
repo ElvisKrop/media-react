@@ -1,61 +1,82 @@
 import React, { useEffect, useState } from "react";
-import { Buttons, NewComment } from "../../components/articleComponents";
+import {
+  Buttons,
+  NewComment,
+  TagList
+} from "../../components/articleComponents";
 import { withService } from "../../hocs";
 import Spinner from "../../components/spinner";
+import UserIcon from "../../components/userIcon";
+import CommentList from "../../components/articleComponents/commentList";
 
 const ArticlePage = ({ mrService, slug }) => {
   const [artInfo, setArtInfo] = useState("");
+  const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    mrService.getArticle(slug).then((data) => setArtInfo(data));
+    setLoading(true);
+    mrService
+      .getArticle(slug)
+      .then((data) => setArtInfo(data))
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
   }, [mrService, slug]);
 
-  const { author, body, favorited, favoritesCount, title } = artInfo;
+  const {
+    author,
+    body,
+    createdAt,
+    description,
+    favorited,
+    favoritesCount,
+    title,
+    tagList
+  } = artInfo;
 
   const forBtns = { author, favorited, favoritesCount, slug };
-
-  const toggleFollow = () => {
-    if (author.following) {
-      //TODO delete-request
-    } else {
-      //TODO post-request
-    }
-  };
-
+  const forUser = { ...author, createdAt };
   return (
     <>
-      {!artInfo ? (
+      <div style={{ background: "#f3f3f3" }} className="py-4">
+        {loading ? (
+          <Spinner />
+        ) : (
+          <div className="container">
+            <h1 className="my-5 overflow-hidden">{title}</h1>
+            <div className="d-flex ">
+              <UserIcon {...forUser} />
+              <Buttons settings={forBtns} />
+            </div>
+          </div>
+        )}
+      </div>
+      {loading ? (
         <Spinner />
       ) : (
-        <>
-          <div className="bg-warning">
-            <div className="container py-2">
-              <h1 className="my-5">{title}</h1>
-              <div className="d-flex ">
-                <div>
-                  <img
-                    src={author.image}
-                    className="rounded-circle"
-                    width="30px"
-                    alt={author.username}
-                  />
-                  <span>{author.username}</span>
-                </div>
-                <Buttons settings={forBtns} toggleFollow={toggleFollow} />
-              </div>
-            </div>
+        <div className="container">
+          <div className="article-content py-4">
+            <p>{body}</p>
+            <TagList tagList={tagList} />
           </div>
-          <div className="container">
-            <div className="py-5">{body}</div>
-            <hr />
-            <div className="comments-block col-md-8 m-auto">
-              <div className="author-block">{author.username}</div>
-              <NewComment />
+          <hr />
+          <div className="comments-block col-md-8 m-auto">
+            <div className="d-flex justify-content-center">
+              <UserIcon {...forUser} />
+              <Buttons settings={forBtns} />
             </div>
+            <NewComment />
+            <CommentList comments={comments} />
           </div>
-        </>
+        </div>
       )}
     </>
   );
 };
 
 export default withService()(ArticlePage);
+
+//TODO:
+//      - сделать в сервисе метод для запроса комментов
+//      - в useEffect получить массив комментов и передать в useState c комментами
+//      - переиспользовать кнопки Пети в компоненте с ними
+//      -

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const user = {
   username: "Winnerza"
 };
-const buttons = ({ isToken, settings, toggleFollow }) => {
+const buttons = ({ isToken, settings }) => {
   const { author, favoritesCount, slug } = settings;
   if (isToken) {
     if (user.username === author.username) {
@@ -28,9 +28,7 @@ const buttons = ({ isToken, settings, toggleFollow }) => {
     } else {
       return (
         <div>
-          <button
-            onClick={() => toggleFollow()}
-            className="btn btn-outline-secondary mx-2">
+          <button className="btn btn-outline-secondary mx-2">
             <i className="fas fa-plus"></i> &nbsp;Follow {author.username}
           </button>
           <button className="btn btn-outline-success">

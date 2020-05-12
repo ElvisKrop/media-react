@@ -1,14 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function UserIcon({ data: { image, username, createdAt } }) {
-  const style = {
-    margin: "5px 6px 0 0",
-    height: "32px",
-    width: "32px",
-    borderRadius: "30px",
-  };
+const style = {
+  margin: "5px 6px 0 0",
+  height: "32px",
+  width: "32px",
+  borderRadius: "30px"
+};
 
+function UserIcon({ image, username, createdAt }) {
   const conversionDate = (createdAt) => {
     const date = new Date(createdAt).toDateString();
     return date.slice(4);
