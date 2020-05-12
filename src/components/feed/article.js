@@ -12,7 +12,7 @@ function Article({ data }) {
     description,
     favorited,
     favoritesCount,
-    author,
+    author
   } = data;
   const { username, image } = author;
 
@@ -26,7 +26,7 @@ function Article({ data }) {
         className="text-decoration-none d-flex flex-wrap justify-content-between"
         to={`/article/${slug}`}
       >
-        <div className="col-lg-7 w-100 overflow-hidden">
+        <div className="col-lg-7 w-100 overflow-hidden p-0">
           <h5 className="font-weight-bold mb-1">{title}</h5>
           <p className="card-text text-muted mb-3">{description}</p>
           <span className="text-gray">Read more...</span>

@@ -18,13 +18,11 @@ function ButtonLike({ mrService, isToken, data }) {
         .postFavorited(slug)
         .then(updateFavorited)
         .catch((error) => console.error(error));
-      // TODO обработать ошибки, как нибудь
     } else {
       mrService
         .deleteFavorited(slug)
         .then(updateFavorited)
         .catch((error) => console.error(error));
-      // TODO обработать ошибки, как нибудь
     }
   }
 

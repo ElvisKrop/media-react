@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { withToken } from "../../hocs";
+import { connect } from "react-redux";
 
-export default function Header() {
+function Header() {
   return (
     <div className="container">
       <nav className="navbar navbar-light">
@@ -15,24 +16,30 @@ export default function Header() {
   );
 }
 
-const NavPanel = withToken(navPanel);
+const mapStateToProps = ({ user }) => ({
+  username: user.username
+});
 
-function navPanel({ isToken }) {
+const NavPanel = connect(mapStateToProps)(withToken(navPanel));
+
+function navPanel({ isToken, username }) {
   const privateUl = (
     <>
       <li className="nav-item">
         <Link className="nav-link" to="/editor">
-          New Article
+          <i class="far fa-clipboard pr-1"></i>
+          <span>New Article</span>
         </Link>
       </li>
       <li className="nav-item">
         <Link className="nav-link" to="/settings">
-          Setting
+          <i className="fas fa-cog pr-1"></i>
+          <span>Setting</span>
         </Link>
       </li>
       <li className="nav-item">
-        <Link className="nav-link" to="/">
-          User
+        <Link className="nav-link" to={`/profile/${username}`}>
+          {username}
         </Link>
       </li>
     </>
@@ -62,3 +69,5 @@ function navPanel({ isToken }) {
     </ul>
   );
 }
+
+export default Header;
