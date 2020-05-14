@@ -1,0 +1,107 @@
+.burger {
+  display: none;
+}
+
+.substrate {
+  height: 56px;
+}
+
+.text-shedow {
+  text-shadow: 1px 1px 2px black;
+}
+
+@media (max-width: 992px) {
+  .block_toolbar .burger {
+    display: inline-block;
+    position: relative;
+    right: 0;
+    width: 40px;
+    height: 35px;
+    background: #233e36cf;
+    border: 1px solid #ffffffc7;
+    border-radius: 4px;
+  }
+  .block_toolbar .burger:hover {
+    cursor: pointer;
+    border-color: #ffffff;
+  }
+  .block_toolbar .burger span {
+    position: absolute;
+    width: 80%;
+    height: 3px;
+    left: 10%;
+    top: 16px;
+    background-color: #ffffffc7;
+    border-radius: 2px;
+  }
+  .block_toolbar .burger:before,
+  .block_toolbar .burger:after {
+    position: absolute;
+    width: 80%;
+    height: 3px;
+    left: 10%;
+    content: "";
+    background-color: #ffffffc7;
+    border-radius: 2px;
+    -webkit-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+  }
+  .block_toolbar .burger:before {
+    top: 5px;
+  }
+  .block_toolbar .burger:after {
+    bottom: 5px;
+  }
+  .block_toolbar .burger.open:before {
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    top: 16px;
+    -webkit-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+  }
+  .block_toolbar .burger.open:after {
+    -webkit-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    bottom: 16px;
+    -webkit-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+  }
+  .block_toolbar .burger.open > span {
+    width: 0px;
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0);
+    -webkit-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+  }
+  .block_toolbar .toolbar {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    right: 16px;
+    top: -300px;
+    background: #233e36cf;
+    z-index: 3;
+    -webkit-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+  }
+  .block_toolbar .toolbar.open {
+    top: 55px;
+    -webkit-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+  }
+  .block_toolbar .toolbar li {
+    padding: 10px;
+    border: 1px solid #ffffffc7;
+    border-radius: 4px;
+    display: block;
+  }
+}

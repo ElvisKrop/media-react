@@ -53,10 +53,11 @@ function ButtonLike({ mrService, isToken, data }) {
         className={className}
         onClick={() => toggleFavorited(slug)}
       >
-        <i className="fas fa-heart">
+        <i className="fas fa-heart" />
+        <span>
           {text}
           {likeCount}
-        </i>
+        </span>
       </button>
     );
   }
@@ -64,10 +65,11 @@ function ButtonLike({ mrService, isToken, data }) {
   return (
     <Link to="/login">
       <button type="button" className={className}>
-        <i className="fas fa-heart">
+        <i className="fas fa-heart" />
+        <span>
           {text}
-          {favoritesCount}
-        </i>
+          {likeCount}
+        </span>
       </button>
     </Link>
   );

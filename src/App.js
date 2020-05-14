@@ -21,47 +21,57 @@ const App = ({ user, userLoaded, isToken }) => {
   return (
     <>
       <Router>
-        <Header />
-        <Switch>
-          <Route path="/" exact component={HomePage} />
+        <div className="content">
+          <Header />
+          <Switch>
+            <Route path="/" exact component={HomePage} />
 
-          <Route
-            path="/editor/:slug?"
-            render={({ match }) => <NewArticlePage slug={match.params.slug} />}
-          />
+            <Route
+              path="/editor/:slug?"
+              render={({ match }) => (
+                <NewArticlePage slug={match.params.slug} />
+              )}
+            />
 
-          <Route
-            path="/profile/:username/favorites"
-            render={({ match }) => (
-              <AuthorPage
-                username={match.params.username}
-                strFeed="FavoritedPost"
-              />
-            )}
-          />
+            <Route
+              path="/profile/:username/favorites"
+              render={({ match }) => (
+                <AuthorPage
+                  username={match.params.username}
+                  strFeed="FavoritedPost"
+                />
+              )}
+            />
 
-          <Route
-            path="/profile/:username"
-            render={({ match }) => (
-              <AuthorPage username={match.params.username} strFeed="MyPosts" />
-            )}
-          />
+            <Route
+              path="/profile/:username"
+              render={({ match }) => (
+                <AuthorPage
+                  username={match.params.username}
+                  strFeed="MyPosts"
+                />
+              )}
+            />
 
-          <Route path="/settings">
-            {isToken ? <SettingsPage /> : <Redirect to="/" />}
-          </Route>
+            <Route path="/settings">
+              {isToken ? <SettingsPage /> : <Redirect to="/" />}
+            </Route>
 
-          <Route
-            path="/article/:slug"
-            render={({ match }) => <ArticlePage slug={match.params.slug} />}
-          />
+            <Route
+              path="/article/:slug"
+              render={({ match }) => <ArticlePage slug={match.params.slug} />}
+            />
 
-          <Route path="/login" render={() => <SignInUp type="login" />} />
+            <Route path="/login" render={() => <SignInUp type="login" />} />
 
-          <Route path="/register" render={() => <SignInUp type="register" />} />
+            <Route
+              path="/register"
+              render={() => <SignInUp type="register" />}
+            />
 
-          <Route path="*" render={() => <Redirect to="/" />} />
-        </Switch>
+            <Route path="*" render={() => <Redirect to="/" />} />
+          </Switch>
+        </div>
         <Footer />
       </Router>
     </>

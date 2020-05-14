@@ -57,7 +57,7 @@ function ButtonFollow({ mrService, isToken, profile }) {
         className="btn-follow"
         onClick={() => toggleFollow(username)}
       >
-        <i className={classSVG}></i>
+        <i className={classSVG} />
         {textBtn}
       </button>
     );
@@ -66,7 +66,7 @@ function ButtonFollow({ mrService, isToken, profile }) {
   return (
     <Link to="/login">
       <button type="button" className="btn-follow">
-        <i className={classSVG}></i>
+        <i className={classSVG} />
         {textBtn}
       </button>
     </Link>

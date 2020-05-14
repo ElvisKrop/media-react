@@ -15,11 +15,12 @@ function Article({ data }) {
     author
   } = data;
   const { username, image } = author;
+  const forUser = { image, username, createdAt };
 
   return (
     <div className="border-top mb-1 py-4 text-left">
       <div className="d-flex justify-content-between">
-        <UserIcon data={{ image, username, createdAt }} />
+        <UserIcon {...forUser} />
         <ButtonLike data={{ favoritesCount, favorited, slug }} />
       </div>
       <Link
