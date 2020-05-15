@@ -1,15 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { withService } from "../../hocs";
+import "./buttons.css";
 
-const DeleteArticle = () => {
+const DeleteArticle = ({ mrService, slug }) => {
+  const onDeleteArt = () => {
+    mrService.deleteArticle(slug).catch((err) => console.error(err));
+  };
+
   return (
-    <button className="btn btn-outline-success">
-      <Link to="/">
+    <Link to="/">
+      <button className="btn-delete" onClick={onDeleteArt}>
         <i className="fas fa-trash"></i>
         &nbsp; Delete article
-      </Link>
-    </button>
+      </button>
+    </Link>
   );
 };
 
-export default DeleteArticle;
+export default withService()(DeleteArticle);

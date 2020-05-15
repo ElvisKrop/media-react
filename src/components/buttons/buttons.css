@@ -9,6 +9,22 @@
   background: transparent;
 }
 
+.btn-delete {
+  height: 27px;
+  padding: 0 8px;
+  letter-spacing: 1px;
+  font-size: 14px;
+  color: #ff2525;
+  border: 1px solid #ff2525;
+  border-radius: 3px;
+  background: transparent;
+}
+
+.btn-delete:hover {
+  color: #fff;
+  background: #ff2525;
+}
+
 .btn-like:hover {
   color: #fff;
   background: #78c2ad;
@@ -16,7 +32,8 @@
 
 .btn-like:focus,
 .btn-follow:focus,
-.btn-edit:focus {
+.btn-edit:focus,
+.btn-delete:focus {
   outline: none;
 }
 

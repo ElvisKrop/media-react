@@ -151,6 +151,10 @@ export default class MediaReactService {
     return this._deleteResourse(`articles/${slug}/comments/${id}`);
   };
 
+  deleteArticle = async (slug) => {
+    return await this._deleteResourse(`articles/${slug}`);
+  };
+
   /////////////////// Transform /////////////////////////
   //трансформация данных о статье с сервера
   _transformArticle = (article) => {

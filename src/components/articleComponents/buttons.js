@@ -13,7 +13,7 @@ const Buttons = ({ isToken, settings }) => {
     return (
       <>
         <EditArticle slug={forBtn.slug} />
-        <DeleteArticle />
+        <DeleteArticle slug={forBtn.slug} />
       </>
     );
   } else {
