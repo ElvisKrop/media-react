@@ -17,25 +17,26 @@ export default class MediaReactService {
     if (!response.ok) {
       throw new Error(`Could not fetch ${url}, received ${response.status}`);
     }
-    const data = await response.json();
-    return data;
+    return await response.json();
   };
 
   // получение списка всех тегов
   getTags = async () => {
-    const tags = await this._getResourse("tags/");
-    return tags;
+    return await this._getResourse("tags/");
   };
 
   getProfile = async (username) => {
-    const profile = await this._getResourse(`profiles/${username}`);
-    return profile;
+    return await this._getResourse(`profiles/${username}`);
   };
 
   // получение статьи по slug
   getArticle = async (slug) => {
     const { article } = await this._getResourse(`articles/${slug}`);
     return await this._transformArticle(article);
+  };
+
+  getUser = async () => {
+    return await this._getResourse("user");
   };
 
   _getArticles = async (pageIndex = 0, param = "?") => {
@@ -73,6 +74,11 @@ export default class MediaReactService {
     return this._getArticles(pageIndex, `?favorited=${user}&`);
   };
 
+  // получение комментов статьи по slug
+  getComments = async (slug) => {
+    return await this._getResourse(`articles/${slug}/comments`);
+  };
+
   ////////////////// Post запросы ////////////////////////
   _postDataToResourse = async (url, data = {}) => {
     const response = await fetch(new URL(url, _base), {
@@ -93,13 +99,11 @@ export default class MediaReactService {
   };
 
   postUserToLogin = async (user = {}) => {
-    const response = await this._postDataToResourse("users/login", { user });
-    return await response;
+    return await this._postDataToResourse("users/login", { user });
   };
 
   postUserToRegister = async (user = {}) => {
-    const response = await this._postDataToResourse("users", { user });
-    return await response;
+    return await this._postDataToResourse("users", { user });
   };
 
   postFavorited = async (slug) => {
@@ -110,8 +114,7 @@ export default class MediaReactService {
   };
 
   postFollowig = async (user) => {
-    const profile = await this._postDataToResourse(`profiles/${user}/follow`);
-    return profile;
+    return await this._postDataToResourse(`profiles/${user}/follow`);
   };
 
   ///////////////// Delete запросы //////////////////////////
@@ -125,8 +128,7 @@ export default class MediaReactService {
     if (!response.ok) {
       throw new Error(`Could not fetch ${url}, received ${response.status}`);
     }
-    const data = await response.json();
-    return data;
+    return await response.json();
   };
 
   deleteFavorited = async (slug) => {
@@ -135,8 +137,11 @@ export default class MediaReactService {
   };
 
   deleteFollowig = async (user) => {
-    const profile = await this._deleteResourse(`profiles/${user}/follow`);
-    return profile;
+    return await this._deleteResourse(`profiles/${user}/follow`);
+  };
+
+  deleteComment = async (slug, id) => {
+    return this._deleteResourse(`articles/${slug}/comments/${id}`);
   };
 
   /////////////////// Transform /////////////////////////

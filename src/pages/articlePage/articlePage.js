@@ -8,10 +8,10 @@ import { withService } from "../../hocs";
 import Spinner from "../../components/spinner";
 import UserIcon from "../../components/userIcon";
 import CommentList from "../../components/articleComponents/commentList";
+import { connect } from "react-redux";
 
-const ArticlePage = ({ mrService, slug }) => {
+const ArticlePage = ({ mrService, slug, username }) => {
   const [artInfo, setArtInfo] = useState("");
-  const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     setLoading(true);
@@ -26,15 +26,16 @@ const ArticlePage = ({ mrService, slug }) => {
     author,
     body,
     createdAt,
-    description,
+    // description,
     favorited,
     favoritesCount,
     title,
     tagList
   } = artInfo;
 
-  const forBtns = { author, favorited, favoritesCount, slug };
+  const forBtns = { author, favorited, favoritesCount, slug, username };
   const forUser = { ...author, createdAt };
+
   return (
     <>
       <div style={{ background: "#f3f3f3" }} className="py-4">
@@ -65,7 +66,7 @@ const ArticlePage = ({ mrService, slug }) => {
               <Buttons settings={forBtns} />
             </div>
             <NewComment />
-            <CommentList comments={comments} />
+            <CommentList slug={slug} username={username} />
           </div>
         </div>
       )}
@@ -73,10 +74,12 @@ const ArticlePage = ({ mrService, slug }) => {
   );
 };
 
-export default withService()(ArticlePage);
+const mapStateToProps = ({ user }) => ({
+  username: user.username
+});
+
+export default connect(mapStateToProps)(withService()(ArticlePage));
 
 //TODO:
-//      - сделать в сервисе метод для запроса комментов
-//      - в useEffect получить массив комментов и передать в useState c комментами
 //      - переиспользовать кнопки Пети в компоненте с ними
 //      -
