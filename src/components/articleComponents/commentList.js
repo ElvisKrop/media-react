@@ -5,7 +5,7 @@ import UserIcon from "../userIcon";
 const CommentList = ({ slug, mrService, username }) => {
   const [comments, setComments] = useState([]);
 
-  const test = useCallback(() => {
+  const getCommentsCallback = useCallback(() => {
     mrService
       .getComments(slug)
       .then(({ comments }) => setComments(comments))
@@ -13,11 +13,11 @@ const CommentList = ({ slug, mrService, username }) => {
   }, [slug, mrService]);
 
   useEffect(() => {
-    test();
-  }, [test]);
+    getCommentsCallback();
+  }, [getCommentsCallback]);
 
   const onDelete = (id) => {
-    mrService.deleteComment(slug, id).finally(() => test());
+    mrService.deleteComment(slug, id).finally(() => getCommentsCallback());
   };
 
   return (

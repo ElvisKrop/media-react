@@ -126,6 +126,7 @@ export default class MediaReactService {
       }
     });
     if (!response.ok) {
+      if (response.status === 404) throw await response.json();
       throw new Error(`Could not fetch ${url}, received ${response.status}`);
     }
     return await response.json();
