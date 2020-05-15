@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import {
   Buttons,
-  NewComment,
-  TagList
+  TagList,
+  CommentBlock
 } from "../../components/articleComponents";
 import { withService } from "../../hocs";
 import Spinner from "../../components/spinner";
 import UserIcon from "../../components/userIcon";
-import CommentList from "../../components/articleComponents/commentList";
 import { connect } from "react-redux";
 
 const ArticlePage = ({ mrService, slug, username }) => {
@@ -65,8 +64,7 @@ const ArticlePage = ({ mrService, slug, username }) => {
               <UserIcon {...forUser} />
               <Buttons settings={forBtns} />
             </div>
-            <NewComment />
-            <CommentList slug={slug} username={username} />
+            <CommentBlock slug={slug} username={username} />
           </div>
         </div>
       )}
@@ -79,7 +77,3 @@ const mapStateToProps = ({ user }) => ({
 });
 
 export default connect(mapStateToProps)(withService()(ArticlePage));
-
-//TODO:
-//      - переиспользовать кнопки Пети в компоненте с ними
-//      -

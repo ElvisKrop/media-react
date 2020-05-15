@@ -1,24 +1,10 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { withService } from "../../hocs";
+import React, { useEffect } from "react";
 import UserIcon from "../userIcon";
 
-const CommentList = ({ slug, mrService, username }) => {
-  const [comments, setComments] = useState([]);
-
-  const getCommentsCallback = useCallback(() => {
-    mrService
-      .getComments(slug)
-      .then(({ comments }) => setComments(comments))
-      .catch((err) => console.error(err));
-  }, [slug, mrService]);
-
+const CommentList = ({ username, getCommentsCallback, comments, onDelete }) => {
   useEffect(() => {
     getCommentsCallback();
   }, [getCommentsCallback]);
-
-  const onDelete = (id) => {
-    mrService.deleteComment(slug, id).finally(() => getCommentsCallback());
-  };
 
   return (
     <div>
@@ -34,15 +20,7 @@ const CommentList = ({ slug, mrService, username }) => {
   );
 };
 
-function Comment({
-  author,
-  body,
-  createdAt,
-  id,
-  updatedAt,
-  username,
-  onDelete
-}) {
+function Comment({ author, body, createdAt, username, onDelete }) {
   const forUser = { ...author, createdAt };
   return (
     <div className="card bg-light mb-3">
@@ -64,4 +42,4 @@ function Comment({
   );
 }
 
-export default withService()(CommentList);
+export default CommentList;

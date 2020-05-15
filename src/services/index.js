@@ -117,6 +117,12 @@ export default class MediaReactService {
     return await this._postDataToResourse(`profiles/${user}/follow`);
   };
 
+  postComment = async (slug, comment = {}) => {
+    return await this._postDataToResourse(`articles/${slug}/comments`, {
+      comment
+    });
+  };
+
   ///////////////// Delete запросы //////////////////////////
   _deleteResourse = async (url) => {
     const response = await fetch(new URL(url, _base), {
