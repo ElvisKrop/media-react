@@ -18,13 +18,11 @@ function ButtonLike({ mrService, isToken, data }) {
         .postFavorited(slug)
         .then(updateFavorited)
         .catch((error) => console.error(error));
-      // TODO обработать ошибки, как нибудь
     } else {
       mrService
         .deleteFavorited(slug)
         .then(updateFavorited)
         .catch((error) => console.error(error));
-      // TODO обработать ошибки, как нибудь
     }
   }
 
@@ -35,9 +33,12 @@ function ButtonLike({ mrService, isToken, data }) {
   }
 
   let className = "btn-like";
+  let textForLike = text;
+  if (text) textForLike = ` F${text} `;
 
   if (like) {
     className += " bg-primary text-white";
+    if (text) textForLike = ` Unf${text} `;
   }
 
   if (loading) {
@@ -53,12 +54,10 @@ function ButtonLike({ mrService, isToken, data }) {
       <button
         type="button"
         className={className}
-        onClick={() => toggleFavorited(slug)}
-      >
-        <i className="fas fa-heart">
-          {text}
-          {likeCount}
-        </i>
+        onClick={() => toggleFavorited(slug)}>
+        <i className="fas fa-heart" />
+        {textForLike}
+        {likeCount}
       </button>
     );
   }
@@ -66,10 +65,9 @@ function ButtonLike({ mrService, isToken, data }) {
   return (
     <Link to="/login">
       <button type="button" className={className}>
-        <i className="fas fa-heart">
-          {text}
-          {favoritesCount}
-        </i>
+        <i className="fas fa-heart" />
+        {textForLike}
+        {favoritesCount}
       </button>
     </Link>
   );

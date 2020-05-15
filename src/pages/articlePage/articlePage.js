@@ -43,7 +43,7 @@ const ArticlePage = ({ mrService, slug, username, image }) => {
         ) : (
           <div className="container">
             <h1 className="my-5 overflow-hidden">{title}</h1>
-            <div className="d-flex ">
+            <div className="col-md-8 d-flex justify-content-around align-items-center">
               <UserIcon {...forUser} />
               <Buttons settings={forBtns} />
             </div>
@@ -60,7 +60,7 @@ const ArticlePage = ({ mrService, slug, username, image }) => {
           </div>
           <hr />
           <div className="comments-block col-md-8 m-auto">
-            <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-between align-items-center">
               <UserIcon {...forUser} />
               <Buttons settings={forBtns} />
             </div>

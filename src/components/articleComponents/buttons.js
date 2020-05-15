@@ -1,60 +1,32 @@
 import React from "react";
 import { withToken } from "../../hocs";
-import { Link } from "react-router-dom";
+import {
+  ButtonFollow,
+  ButtonLike,
+  DeleteArticle,
+  EditArticle
+} from "../buttons";
 
-// TODO получить username из redux-store и сравнить с автором
-const user = {
-  username: "Winnerza"
-};
-const buttons = ({ isToken, settings }) => {
-  const { author, favoritesCount, slug } = settings;
-  if (isToken) {
-    if (user.username === author.username) {
-      return (
-        <div>
-          <button className="btn btn-outline-secondary mx-2">
-            <Link to={`/editor/${slug}`}>
-              <i className="fas fa-pen"></i> &nbsp;Edit Article
-            </Link>
-          </button>
-          <button className="btn btn-outline-success">
-            <Link to="/">
-              <i className="fas fa-trash"></i>
-              &nbsp; Delete article
-            </Link>
-          </button>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <button className="btn btn-outline-secondary mx-2">
-            <i className="fas fa-plus"></i> &nbsp;Follow {author.username}
-          </button>
-          <button className="btn btn-outline-success">
-            <i className="fas fa-heart"></i>
-            &nbsp; Favorite Article ({favoritesCount})
-          </button>
-        </div>
-      );
-    }
-  } else {
+const Buttons = ({ isToken, settings }) => {
+  const { author, username, ...forBtn } = settings;
+  if (username === author.username) {
     return (
-      <div>
-        <button className="btn btn-outline-secondary mx-2">
-          <Link to="/login">
-            <i className="fas fa-plus"></i> &nbsp;Follow {author.username}
-          </Link>
-        </button>
-        <button className="btn btn-outline-success">
-          <Link to="/login">
-            <i className="fas fa-heart"></i>
-            &nbsp; Favorite Article ({favoritesCount})
-          </Link>
-        </button>
-      </div>
+      <>
+        <EditArticle slug={forBtn.slug} />
+        <DeleteArticle />
+      </>
+    );
+  } else {
+    // FIXME на странице два блока с этими кнопками, надо как-то синхронизировать их
+    // FIXME размер у кнопки по контенту => при загрузке она становиться меньше и едет верстка
+    forBtn.text = "avorite Article";
+    return (
+      <>
+        <ButtonFollow profile={author} />
+        <ButtonLike data={forBtn} />
+      </>
     );
   }
 };
 
-export default withToken(buttons);
+export default withToken(Buttons);

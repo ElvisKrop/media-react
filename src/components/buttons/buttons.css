@@ -15,11 +15,13 @@
 }
 
 .btn-like:focus,
-.btn-follow:focus {
+.btn-follow:focus,
+.btn-edit:focus {
   outline: none;
 }
 
-.btn-follow {
+.btn-follow,
+.btn-edit {
   height: 27px;
   padding: 0 8px;
   font-size: 14px;
@@ -29,7 +31,8 @@
   border-radius: 3px;
 }
 
-.btn-follow:hover {
+.btn-follow:hover,
+.btn-edit:hover {
   color: #fff;
   background: #999;
 }

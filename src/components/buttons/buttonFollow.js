@@ -21,13 +21,11 @@ function ButtonFollow({ mrService, isToken, profile }) {
         .postFollowig(username)
         .then(updateFollow)
         .catch((error) => console.error(error));
-      // TODO обработать ошибки, как нибудь
     } else {
       mrService
         .deleteFollowig(username)
         .then(updateFollow)
         .catch((error) => console.error(error));
-      // TODO обработать ошибки, как нибудь
     }
   }
 
@@ -44,23 +42,20 @@ function ButtonFollow({ mrService, isToken, profile }) {
     classSVG = "fas fa-minus";
   }
 
-  if (loading) {
-    return (
-      <button type="button" className="btn-follow">
-        <MiniSpinner />
-      </button>
-    );
-  }
-
   if (isToken) {
     return (
       <button
         type="button"
         className="btn-follow"
-        onClick={() => toggleFollow(username)}
-      >
-        <i className={classSVG}></i>
-        {textBtn}
+        onClick={() => toggleFollow(username)}>
+        {loading ? (
+          <MiniSpinner />
+        ) : (
+          <>
+            <i className={classSVG} />
+            {textBtn}
+          </>
+        )}
       </button>
     );
   }
@@ -68,7 +63,7 @@ function ButtonFollow({ mrService, isToken, profile }) {
   return (
     <Link to="/login">
       <button type="button" className="btn-follow">
-        <i className={classSVG}></i>
+        <i className={classSVG} />
         {textBtn}
       </button>
     </Link>
