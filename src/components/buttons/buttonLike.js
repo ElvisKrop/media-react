@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withService, withToken } from "../../hocs";
 import { Link } from "react-router-dom";
-import MiniSpinner from "../mini-spinner";
 import "./buttons.css";
 
-function ButtonLike({ mrService, isToken, data }) {
+function ButtonLike({ mrService, isToken, data, onChange }) {
   const { favoritesCount, favorited, slug, text = "" } = data;
 
   const [like, setLike] = useState(favorited);
   const [likeCount, setLikeCount] = useState(favoritesCount);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLike(favorited);
+    setLikeCount(favoritesCount);
+  }, [favorited, favoritesCount]);
 
   function toggleFavorited(slug) {
     setLoading(true);
@@ -30,6 +34,7 @@ function ButtonLike({ mrService, isToken, data }) {
     setLike(article.favorited);
     setLikeCount(article.favoritesCount);
     setLoading(false);
+    onChange();
   }
 
   let className = "btn-like";
@@ -39,14 +44,6 @@ function ButtonLike({ mrService, isToken, data }) {
   if (like) {
     className += " bg-primary text-white";
     if (text) textForLike = ` Unf${text} `;
-  }
-
-  if (loading) {
-    return (
-      <button type="button" className={className}>
-        <MiniSpinner />
-      </button>
-    );
   }
 
   if (isToken) {

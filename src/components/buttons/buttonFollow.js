@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { withService, withToken } from "../../hocs";
 import { Link } from "react-router-dom";
-import MiniSpinner from "../mini-spinner";
 import "./buttons.css";
 
-function ButtonFollow({ mrService, isToken, profile }) {
+function ButtonFollow({ mrService, isToken, profile, onChange }) {
   const { username, following } = profile;
 
   const [follow, setFollow] = useState(following);
@@ -32,6 +31,7 @@ function ButtonFollow({ mrService, isToken, profile }) {
   function updateFollow({ profile }) {
     setFollow(profile.following);
     setLoading(false);
+    onChange();
   }
 
   let textBtn = ` Follow ${username}`;
@@ -48,14 +48,8 @@ function ButtonFollow({ mrService, isToken, profile }) {
         type="button"
         className="btn-follow"
         onClick={() => toggleFollow(username)}>
-        {loading ? (
-          <MiniSpinner />
-        ) : (
-          <>
-            <i className={classSVG} />
-            {textBtn}
-          </>
-        )}
+        <i className={classSVG} />
+        {textBtn}
       </button>
     );
   }

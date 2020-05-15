@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   Buttons,
   TagList,
@@ -12,27 +12,38 @@ import { connect } from "react-redux";
 const ArticlePage = ({ mrService, slug, username, image }) => {
   const [artInfo, setArtInfo] = useState("");
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    setLoading(true);
+
+  const onChange = useCallback(() => {
     mrService
       .getArticle(slug)
       .then((data) => setArtInfo(data))
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
-  }, [mrService, slug]);
+  }, [slug, mrService]);
+
+  useEffect(() => {
+    setLoading(true);
+    onChange();
+  }, [onChange]);
 
   const {
     author,
     body,
     createdAt,
-    // description,
     favorited,
     favoritesCount,
     title,
     tagList
   } = artInfo;
 
-  const forBtns = { author, favorited, favoritesCount, slug, username };
+  const forBtns = {
+    author,
+    favorited,
+    favoritesCount,
+    slug,
+    username,
+    onChange
+  };
   const forUser = { ...author, createdAt };
 
   return (

@@ -1,5 +1,4 @@
 import React from "react";
-import { withToken } from "../../hocs";
 import {
   ButtonFollow,
   ButtonLike,
@@ -7,8 +6,8 @@ import {
   EditArticle
 } from "../buttons";
 
-const Buttons = ({ isToken, settings }) => {
-  const { author, username, ...forBtn } = settings;
+const Buttons = ({ settings }) => {
+  const { author, username, onChange, ...forBtn } = settings;
   if (username === author.username) {
     return (
       <>
@@ -17,16 +16,14 @@ const Buttons = ({ isToken, settings }) => {
       </>
     );
   } else {
-    // FIXME на странице два блока с этими кнопками, надо как-то синхронизировать их
-    // FIXME размер у кнопки по контенту => при загрузке она становиться меньше и едет верстка
     forBtn.text = "avorite Article";
     return (
       <>
-        <ButtonFollow profile={author} />
-        <ButtonLike data={forBtn} />
+        <ButtonFollow profile={author} onChange={onChange} />
+        <ButtonLike data={forBtn} onChange={onChange} />
       </>
     );
   }
 };
 
-export default withToken(Buttons);
+export default Buttons;
