@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import ArticlePage from "./pages/articlePage";
@@ -7,7 +7,7 @@ import HomePage from "./pages/homePage";
 import NewArticlePage from "./pages/newArticlePage";
 import SettingsPage from "./pages/settingsPage";
 import SignInUp from "./pages/signInUp";
-import { withToken } from "./hocs";
+import { withToken, withService } from "./hocs";
 import {
   BrowserRouter as Router,
   Route,
@@ -17,7 +17,16 @@ import {
 import { connect } from "react-redux";
 import { Actions } from "./redux-store";
 
-const App = ({ user, userLoaded, isToken }) => {
+const App = ({ user, userLoaded, isToken, mrService }) => {
+  useEffect(() => {
+    if (isToken) {
+      mrService
+        .getUser()
+        .then(({ user }) => userLoaded(user))
+        .catch((err) => console.error(err));
+    }
+  }, [isToken, mrService, userLoaded]);
+
   return (
     <>
       <Router>
@@ -86,4 +95,7 @@ const mapDispatchToProps = (dispatch) => ({
   userLoaded: (user) => dispatch(Actions.userLoaded(user))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withToken(App));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withToken(withService()(App)));

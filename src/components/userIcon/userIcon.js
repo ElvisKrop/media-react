@@ -5,7 +5,7 @@ const style = {
   margin: "5px 6px 0 0",
   height: "32px",
   width: "32px",
-  borderRadius: "30px"
+  borderRadius: "50%"
 };
 
 function UserIcon({ image, username, createdAt }) {
@@ -23,7 +23,7 @@ function UserIcon({ image, username, createdAt }) {
         <Link className="text-primary" to={`/profile/${username}`}>
           {username}
         </Link>
-        <p className="text-gray">{conversionDate(createdAt)}</p>
+        <p className="text-gray mb-0">{conversionDate(createdAt)}</p>
       </div>
     </div>
   );

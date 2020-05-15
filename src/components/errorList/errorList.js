@@ -4,7 +4,7 @@ const ErrorItem = ({ area, messages }) => {
   return (
     <div className="alert alert-danger d-flex m-auto col-lg-6 col-sm-10 col-11">
       <strong>In the {area}: </strong>
-      <ul>
+      <ul className="mb-0">
         {messages.map((mes, i) => (
           <li key={i}>{mes}</li>
         ))}
@@ -15,7 +15,7 @@ const ErrorItem = ({ area, messages }) => {
 
 const ErrorList = ({ errors }) => {
   return (
-    <div className="container mt-4">
+    <div className="container my-2">
       {Object.entries(errors).map((item, i) => (
         <ErrorItem key={i} area={item[0]} messages={item[1]} />
       ))}

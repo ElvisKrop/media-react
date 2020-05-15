@@ -1,3 +1,5 @@
 import ButtonLike from "./buttonLike";
 import ButtonFollow from "./buttonFollow";
-export { ButtonLike, ButtonFollow };
+import EditArticle from "./editArticle";
+import DeleteArticle from "./deleteArticle";
+export { ButtonLike, ButtonFollow, EditArticle, DeleteArticle };
