@@ -64,7 +64,7 @@ const SignInUp = ({
           <SignForm {...{ settings, ...forUserLoad }} />
         </div>
       </div>
-      {Object.keys(errors).length ? <ErrorList errors={errors} /> : null}
+      <ErrorList errors={errors} />
     </>
   );
 };

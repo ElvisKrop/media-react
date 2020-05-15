@@ -9,7 +9,7 @@ import Spinner from "../../components/spinner";
 import UserIcon from "../../components/userIcon";
 import { connect } from "react-redux";
 
-const ArticlePage = ({ mrService, slug, username }) => {
+const ArticlePage = ({ mrService, slug, username, image }) => {
   const [artInfo, setArtInfo] = useState("");
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -64,7 +64,7 @@ const ArticlePage = ({ mrService, slug, username }) => {
               <UserIcon {...forUser} />
               <Buttons settings={forBtns} />
             </div>
-            <CommentBlock slug={slug} username={username} />
+            <CommentBlock slug={slug} username={username} image={image} />
           </div>
         </div>
       )}
@@ -73,7 +73,8 @@ const ArticlePage = ({ mrService, slug, username }) => {
 };
 
 const mapStateToProps = ({ user }) => ({
-  username: user.username
+  username: user.username,
+  image: user.image
 });
 
 export default connect(mapStateToProps)(withService()(ArticlePage));

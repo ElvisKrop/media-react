@@ -3,7 +3,7 @@ import NewComment from "./newComment";
 import CommentList from "./commentList";
 import { withService } from "../../hocs";
 
-const CommentBlock = ({ slug, username, mrService }) => {
+const CommentBlock = ({ slug, username, mrService, image }) => {
   const [comments, setComments] = useState([]);
 
   const getCommentsCallback = useCallback(() => {
@@ -21,7 +21,11 @@ const CommentBlock = ({ slug, username, mrService }) => {
 
   return (
     <>
-      <NewComment slug={slug} getCommentsCallback={getCommentsCallback} />
+      <NewComment
+        slug={slug}
+        image={image}
+        getCommentsCallback={getCommentsCallback}
+      />
       <CommentList {...forList} />
     </>
   );
