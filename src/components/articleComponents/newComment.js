@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ErrorList from "../errorList";
 import { withToken, withService } from "../../hocs";
 import { Link } from "react-router-dom";
@@ -19,16 +19,22 @@ const NewComment = ({
 }) => {
   const [comment, setComment] = useState("");
   const [errors, setErrors] = useState({});
+  const subRef = useRef(true);
+  useEffect(() => {
+    return () => {
+      subRef.current = false;
+    };
+  }, []);
 
   const onSubmitComment = (e) => {
     e.preventDefault();
     mrService
       .postComment(slug, { body: comment })
       .then(() => {
-        getCommentsCallback();
+        getCommentsCallback(subRef.current);
         setErrors({});
       })
-      .catch(({ errors }) => setErrors(errors));
+      .catch(({ errors }) => (subRef.current ? setErrors(errors) : null));
     setComment("");
   };
 

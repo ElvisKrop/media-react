@@ -3,7 +3,10 @@ import UserIcon from "../userIcon";
 
 const CommentList = ({ username, getCommentsCallback, comments, onDelete }) => {
   useEffect(() => {
-    getCommentsCallback();
+    getCommentsCallback(true);
+    return () => {
+      getCommentsCallback(false);
+    };
   }, [getCommentsCallback]);
 
   return (
