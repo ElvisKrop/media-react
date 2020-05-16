@@ -123,6 +123,29 @@ export default class MediaReactService {
     });
   };
 
+  ///////////////// Put запросы //////////////////////////
+  _putDataResourse = async (url, data) => {
+    const response = await fetch(new URL(url, _base), {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: this._getToken()
+      },
+      body: JSON.stringify(data)
+    });
+    if (!response.ok) {
+      if (Object.keys(data).length) {
+        throw await response.json();
+      }
+      throw new Error(`Could not fetch ${url}, received ${response.status}`);
+    }
+    return await response.json();
+  };
+
+  putUserUpdate = async (user = {}) => {
+    return await this._putDataResourse("user", { user });
+  };
+
   ///////////////// Delete запросы //////////////////////////
   _deleteResourse = async (url) => {
     const response = await fetch(new URL(url, _base), {
