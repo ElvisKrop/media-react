@@ -5,6 +5,7 @@ import { withService } from "../../hocs";
 
 const CommentBlock = ({ slug, username, mrService, image }) => {
   const [comments, setComments] = useState([]);
+  // FIXME memory leak
   const subRef = useRef(true);
   useEffect(() => {
     return () => {

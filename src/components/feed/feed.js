@@ -5,7 +5,7 @@ import Pagination from "./pagination";
 import Spinner from "../spinner";
 import "./feed.css";
 
-function Feed({ mrService, strFeed, author = "" }) {
+function Feed({ mrService, strFeed, author = "", tagName = "" }) {
   const [data, setDataArticle] = useState([]);
   const [articlesCount, setCountArticle] = useState(0);
   const [currentPage, setPage] = useState(0);
@@ -33,10 +33,10 @@ function Feed({ mrService, strFeed, author = "" }) {
 
   useEffect(() => {
     setLoading(true);
-    getRequest(currentPage, author, "dragons")
+    getRequest(currentPage, author, tagName)
       .then((data) => setData(data))
       .catch((error) => console.error(error));
-  }, [getRequest, currentPage, author]);
+  }, [getRequest, currentPage, author, tagName]);
 
   useEffect(() => {
     setPage(0);
