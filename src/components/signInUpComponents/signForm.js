@@ -10,8 +10,8 @@ const SignForm = ({
 }) => {
   const [username, setUsername] = useState("");
   //TODO In production mode: delete default values
-  const [email, setEmail] = useState("loginloginlogin@mail.com");
-  const [password, setPassword] = useState("loginloginlogin_pass_12345");
+  const [email, setEmail] = useState("new_human@mail.com");
+  const [password, setPassword] = useState("human_password_12345");
 
   const makeBlank = useCallback(() => {
     setUsername("");

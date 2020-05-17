@@ -1,11 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import UserIcon from "../userIcon";
 
-const CommentList = ({ username, getCommentsCallback, comments, onDelete }) => {
-  useEffect(() => {
-    getCommentsCallback();
-  }, [getCommentsCallback]);
-
+const CommentList = ({ username, comments, onDelete }) => {
   return (
     <div>
       {comments.map((item) => (

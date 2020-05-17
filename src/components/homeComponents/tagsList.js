@@ -1,14 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { withService } from "../../hocs";
 
-const Tag = ({ label }) => {
-  return <span>{label}</span>;
+const Tag = ({ label, selectTag }) => {
+  return (
+    <button
+      type="button"
+      className="btn btn-warning btn-sm m-1"
+      onClick={selectTag}>
+      {label}
+    </button>
+  );
 };
 
-export default function TagsList() {
-  //TODO сетевой запрос за списком тегов
+const TagsList = ({ mrService, setSelectedTag }) => {
+  const [tags, setTags] = useState([]);
+
+  useEffect(() => {
+    mrService.getTags().then(({ tags }) => setTags(tags));
+  }, [mrService]);
+
   return (
-    <div>
-      <Tag label={"test"} />
+    <div className="card bg-light">
+      <div className="card-header">Popular Tags</div>
+      <div className="card-body p-0 d-flex flex-wrap justify-content-around">
+        {tags.map((item, i) => (
+          <Tag
+            key={item + i}
+            label={item}
+            selectTag={() => setSelectedTag(item)}
+          />
+        ))}
+      </div>
     </div>
   );
-}
+};
+export default withService()(TagsList);
