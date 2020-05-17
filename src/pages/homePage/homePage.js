@@ -1,12 +1,17 @@
 import React, { Fragment, useState, useEffect } from "react";
 import Feed from "../../components/feed";
 import { withToken } from "../../hocs";
+import { Redirect } from "react-router";
+import TagsList from "../../components/homeComponents";
 
 const HomePage = ({ isToken }) => {
-  const [strFeed, setStrFeed] = useState("GlobalFeed");
+  const [strFeed, setStrFeed] = useState("");
 
   useEffect(() => {
-    if (isToken) setStrFeed("YourFeed");
+    if (typeof isToken !== "undefined") {
+      if (isToken) setStrFeed("YourFeed");
+      else setStrFeed("GlobalFeed");
+    }
   }, [isToken]);
 
   let classYPost = "nav-link";
@@ -14,9 +19,10 @@ const HomePage = ({ isToken }) => {
 
   if (strFeed === "YourFeed") {
     classYPost += ` bg-primary text-white`;
-  } else {
+  } else if (strFeed === "GlobalFeed") {
     classGPost += ` bg-primary text-white`;
-  }
+  } /*  else if */
+
   return (
     <Fragment>
       {isToken ? null : (
@@ -30,15 +36,27 @@ const HomePage = ({ isToken }) => {
           </p>
         </div>
       )}
-      <div className="container row m-auto">
+      <div className="container row mx-auto mt-3">
         <div className="col-md-9">
           <ul className="nav nav-tabs border-bottom-0">
-            <button className={classYPost}>Your Feed</button>
-            <button className={classGPost}>Global Feed</button>
+            <button
+              className={classYPost}
+              onClick={() =>
+                isToken ? setStrFeed("YourFeed") : <Redirect to="/login" />
+              }>
+              Your Feed
+            </button>
+            <button
+              className={classGPost}
+              onClick={() => setStrFeed("GlobalFeed")}>
+              Global Feed
+            </button>
           </ul>
-          <Feed strFeed={"GlobalFeed"} />
+          <Feed strFeed={strFeed} />
         </div>
-        <div className="col-md-3">TAGS</div>
+        <div className="col-md-3">
+          <TagsList />
+        </div>
       </div>
     </Fragment>
   );
