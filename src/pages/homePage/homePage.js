@@ -1,11 +1,17 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useCallback } from "react";
 import Feed from "../../components/feed";
 import { withToken } from "../../hocs";
-import { Redirect } from "react-router";
+import { Link } from "react-router-dom";
 import TagsList from "../../components/homeComponents";
 
 const HomePage = ({ isToken }) => {
   const [strFeed, setStrFeed] = useState("");
+  const [selectedTag, setSelectedTag] = useState("");
+
+  const setTag = useCallback((tagName) => {
+    setSelectedTag(tagName);
+    setStrFeed("TagFeed");
+  }, []);
 
   useEffect(() => {
     if (typeof isToken !== "undefined") {
@@ -16,12 +22,21 @@ const HomePage = ({ isToken }) => {
 
   let classYPost = "nav-link";
   let classGPost = "nav-link";
+  let classTPost = "nav-link";
 
-  if (strFeed === "YourFeed") {
-    classYPost += ` bg-primary text-white`;
-  } else if (strFeed === "GlobalFeed") {
-    classGPost += ` bg-primary text-white`;
-  } /*  else if */
+  switch (strFeed) {
+    case "YourFeed":
+      classYPost += ` bg-primary text-white`;
+      break;
+    case "GlobalFeed":
+      classGPost += ` bg-primary text-white`;
+      break;
+    case "TagFeed":
+      classTPost += ` bg-primary text-white`;
+      break;
+    default:
+      break;
+  }
 
   return (
     <Fragment>
@@ -39,23 +54,30 @@ const HomePage = ({ isToken }) => {
       <div className="container row mx-auto mt-3">
         <div className="col-md-9">
           <ul className="nav nav-tabs border-bottom-0">
-            <button
-              className={classYPost}
-              onClick={() =>
-                isToken ? setStrFeed("YourFeed") : <Redirect to="/login" />
-              }>
-              Your Feed
-            </button>
+            {isToken ? (
+              <button
+                className={classYPost}
+                onClick={() => setStrFeed("YourFeed")}>
+                Your Feed
+              </button>
+            ) : (
+              <Link className={classYPost} to="/login">
+                Your Feed
+              </Link>
+            )}
             <button
               className={classGPost}
               onClick={() => setStrFeed("GlobalFeed")}>
               Global Feed
             </button>
+            {strFeed === "TagFeed" && (
+              <button className={classTPost}>#{selectedTag}</button>
+            )}
           </ul>
-          <Feed strFeed={strFeed} />
+          {strFeed && <Feed strFeed={strFeed} tagName={selectedTag} />}
         </div>
         <div className="col-md-3">
-          <TagsList />
+          <TagsList setSelectedTag={setTag} />
         </div>
       </div>
     </Fragment>

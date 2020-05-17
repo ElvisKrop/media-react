@@ -33,16 +33,14 @@ function Feed({ mrService, strFeed, author = "", tagName = "" }) {
 
   useEffect(() => {
     setLoading(true);
-    if (strFeed) {
-      getRequest(currentPage, author, tagName)
-        .then((data) => setData(data))
-        .catch((error) => console.error(error));
-    }
-  }, [getRequest, currentPage, author, tagName, strFeed]);
+    getRequest(currentPage, author, tagName)
+      .then((data) => setData(data))
+      .catch((error) => console.error(error));
+  }, [getRequest, currentPage, author, tagName]);
 
   useEffect(() => {
     setPage(0);
-  }, [strFeed]);
+  }, [strFeed, tagName]);
 
   function setData({ articles, articlesCount }) {
     setDataArticle(articles);
