@@ -78,6 +78,10 @@ export default class MediaReactService {
   getComments = async (slug) => {
     return await this._getResourse(`articles/${slug}/comments`);
   };
+  //получение данных для страницы NewArticle
+  getArticleForInputs = async (slug) => {
+    return await this._getResourse(`articles/${slug}`);
+  };
 
   ////////////////// Post запросы ////////////////////////
   _postDataToResourse = async (url, data = {}) => {
@@ -106,6 +110,10 @@ export default class MediaReactService {
     return await this._postDataToResourse("users", { user });
   };
 
+  postNewArticle = async (article = {}) => {
+    return await this._postDataToResourse("articles", { article });
+  };
+
   postFavorited = async (slug) => {
     const { article } = await this._postDataToResourse(
       `articles/${slug}/favorite`
@@ -121,6 +129,33 @@ export default class MediaReactService {
     return await this._postDataToResourse(`articles/${slug}/comments`, {
       comment
     });
+  };
+
+  ///////////////// Put запросы //////////////////////////
+  _putDataResourse = async (url, data) => {
+    const response = await fetch(new URL(url, _base), {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: this._getToken()
+      },
+      body: JSON.stringify(data)
+    });
+    if (!response.ok) {
+      if (Object.keys(data).length) {
+        throw await response.json();
+      }
+      throw new Error(`Could not fetch ${url}, received ${response.status}`);
+    }
+    return await response.json();
+  };
+
+  putUserUpdate = async (user = {}) => {
+    return await this._putDataResourse("user", { user });
+  };
+
+  putArticleUpdate = async (article, slug) => {
+    return await this._putDataResourse(`articles/${slug}`, { article });
   };
 
   ///////////////// Delete запросы //////////////////////////

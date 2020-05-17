@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 function Footer() {
   return (
-    <footer style={{ background: "#f3f3f3" }}>
+    <footer>
       <div className="container py-3">
         <Link className="logo-font font-weight-bold pr-3" to="/">
           Media React

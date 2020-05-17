@@ -23,12 +23,12 @@ const reducer = (state = initialState, action) => {
       };
 
     case USER_LOADED:
-      const { token, ...otherUserFields } = action.payload;
+      const { token } = action.payload;
       localStorage.setItem("mrToken", token);
       return {
         ...state,
         loading: false,
-        user: otherUserFields
+        user: action.payload
       };
 
     case USER_LOAD_FAIL:

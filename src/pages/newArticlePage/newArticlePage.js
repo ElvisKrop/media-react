@@ -1,5 +1,61 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import NewArticleForm from "./newArticleForm";
+import { withService } from "../../hocs";
+import { Redirect } from "react-router-dom";
+import ErrorList from "../../components/errorList/errorList";
+import Spinner from "../../components/spinner";
 
-export default function NewArticlePage() {
-  return <div>NewArticle</div>;
-}
+const SettingsPage = ({ mrService, slug }) => {
+  const [checkingSendData, setCheckingSendData] = useState(false);
+  const [slugForRedirect, setSlugForRedirect] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [dataError, setDataError] = useState({});
+
+  useEffect(() => {
+    new Promise((resolve, reject) => {
+      if (!Object.keys(dataError).length) reject();
+      setTimeout(resolve, 5000);
+    })
+      .then(() => setDataError({}))
+      .catch(() => {});
+  }, [dataError]);
+
+  const sendForm = (e, newArticle) => {
+    e.preventDefault();
+    setLoading(true);
+    if (slug) {
+      sendingRequest(mrService.putArticleUpdate, newArticle, slug);
+    } else {
+      sendingRequest(mrService.postNewArticle, newArticle);
+    }
+  };
+
+  function sendingRequest(request, newArticle, slug = null) {
+    return request(newArticle, slug)
+      .then(({ article }) => {
+        setSlugForRedirect(article.slug);
+        setError(false);
+      })
+      .catch(({ errors }) => {
+        setDataError(errors);
+        setError(true);
+      })
+      .finally(() => setCheckingSendData(true));
+  }
+
+  // если нету ошибок и данные отправлены, то выполнить редирект
+  if (!error && checkingSendData) {
+    return <Redirect to={`/article/${slugForRedirect}`} />;
+  } // из-за редиректа идет утечка памяти
+
+  return (
+    <>
+      <NewArticleForm {...{ slug, sendForm }} />
+      <ErrorList errors={dataError} />
+      {loading && !error ? <Spinner /> : null}
+    </>
+  );
+};
+
+export default withService()(SettingsPage);
