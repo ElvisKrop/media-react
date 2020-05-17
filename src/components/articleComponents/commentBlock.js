@@ -5,39 +5,51 @@ import { withService } from "../../hocs";
 
 const CommentBlock = ({ slug, username, mrService, image }) => {
   const [comments, setComments] = useState([]);
-  // FIXME memory leak
   const subRef = useRef(true);
+
   useEffect(() => {
+    mrService
+      .getComments(slug)
+      .then(({ comments }) =>
+        slug && subRef.current ? setComments(comments) : null
+      )
+      .catch((err) => (slug && subRef.current ? console.error(err) : null));
     return () => {
       subRef.current = false;
     };
-  }, []);
+  }, [slug, mrService]);
 
-  const getCommentsCallback = useCallback(
-    (subscribe) => {
-      mrService
-        .getComments(slug)
-        .then(({ comments }) => (subscribe ? setComments(comments) : null))
-        .catch((err) => (subscribe ? console.error(err) : null));
+  const _deleteOneComment = useCallback(
+    (id) => {
+      const temp = comments.filter((item) => item.id !== id);
+      setComments(temp);
     },
-    [slug, mrService]
+    [comments]
   );
 
-  const onDelete = (id) => {
-    mrService
-      .deleteComment(slug, id)
-      .finally(() => getCommentsCallback(subRef.current));
-  };
+  const addOneComment = useCallback(
+    (comment) => {
+      const temp = [comment, ...comments];
+      setComments(temp);
+    },
+    [comments]
+  );
 
-  const forList = { slug, username, comments, onDelete, getCommentsCallback };
+  const onDelete = useCallback(
+    (id) => {
+      mrService
+        .deleteComment(slug, id)
+        .finally(() => (slug && subRef.current ? _deleteOneComment(id) : null));
+    },
+    [mrService, slug, _deleteOneComment]
+  );
+
+  const forList = { username, comments, onDelete };
+  const forNewCom = { slug, image, addOneComment };
 
   return (
     <>
-      <NewComment
-        slug={slug}
-        image={image}
-        getCommentsCallback={getCommentsCallback}
-      />
+      <NewComment {...forNewCom} />
       <CommentList {...forList} />
     </>
   );

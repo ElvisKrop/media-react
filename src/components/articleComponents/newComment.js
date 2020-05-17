@@ -10,14 +10,8 @@ const style = {
   boxShadow: "0 0 3px black"
 };
 
-const NewComment = ({
-  slug,
-  image,
-  isToken,
-  mrService,
-  getCommentsCallback
-}) => {
-  const [comment, setComment] = useState("");
+const NewComment = ({ slug, image, addOneComment, isToken, mrService }) => {
+  const [newComment, setNewComment] = useState("");
   const [errors, setErrors] = useState({});
   const subRef = useRef(true);
   useEffect(() => {
@@ -29,13 +23,15 @@ const NewComment = ({
   const onSubmitComment = (e) => {
     e.preventDefault();
     mrService
-      .postComment(slug, { body: comment })
-      .then(() => {
-        getCommentsCallback(subRef.current);
-        setErrors({});
+      .postComment(slug, { body: newComment })
+      .then(({ comment }) => {
+        if (subRef.current) {
+          addOneComment(comment);
+          setErrors({});
+        }
       })
       .catch(({ errors }) => (subRef.current ? setErrors(errors) : null));
-    setComment("");
+    setNewComment("");
   };
 
   if (!isToken)
@@ -53,8 +49,8 @@ const NewComment = ({
           <textarea
             className="form-control"
             id="exampleTextarea"
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
             rows="3"
             placeholder="Write a comment..."
           />
