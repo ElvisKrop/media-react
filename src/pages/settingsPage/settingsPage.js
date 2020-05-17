@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import SettingsForm from "./settingsForm";
 import { withService } from "../../hocs";
 import { connect } from "react-redux";
 import { Actions } from "../../redux-store";
+import { Redirect } from "react-router-dom";
 import ErrorList from "../../components/errorList/errorList";
 import Spinner from "../../components/spinner";
 
@@ -11,11 +12,15 @@ const SettingsPage = ({
   clearErrors,
   errors,
   loading,
+  user,
   userLoading,
   userUpdate,
   userLoadFail,
   ...forUserLoad
 }) => {
+  const [checkingSendData, setCheckingSendData] = useState(false);
+  const [error, setError] = useState(false);
+
   useEffect(() => {
     new Promise((resolve, reject) => {
       if (!Object.keys(errors).length) reject();
@@ -25,22 +30,29 @@ const SettingsPage = ({
       .catch(() => {});
   }, [errors, clearErrors]);
 
-  const sendForm = (e, userNew) => {
+  const sendForm = (e, newUser) => {
     e.preventDefault();
     userLoading();
     mrService
-      .putUserUpdate(userNew)
+      .putUserUpdate(newUser)
       .then(({ user }) => userUpdate(user))
-      .catch(({ errors }) => userLoadFail(errors));
+      .catch(({ errors }) => {
+        userLoadFail(errors);
+        setError(true);
+      })
+      .finally(() => setCheckingSendData(true));
   };
 
-  const load = loading && !Object.keys(errors).length ? <Spinner /> : null;
+  // если нету ошибок и данные отправлены, то выполнить редирект
+  if (!error && checkingSendData) {
+    return <Redirect to={`/profile/${user.username}`} />;
+  }
 
   return (
     <>
-      <SettingsForm {...forUserLoad} sendForm={sendForm} />
+      <SettingsForm {...{ user, ...forUserLoad }} sendForm={sendForm} />
       <ErrorList errors={errors} />
-      {load}
+      {!Object.keys(errors).length && loading ? <Spinner /> : null}
     </>
   );
 };

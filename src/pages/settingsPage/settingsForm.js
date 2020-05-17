@@ -9,7 +9,7 @@ function SettingsForm({ userLogOut, user, sendForm }) {
   const [newEmail, setEmail] = useState(email);
   const [newPassword, setPassword] = useState("");
 
-  const userNew = {
+  const newUser = {
     image: newImage,
     username: newUsername,
     bio: newBio,
@@ -24,7 +24,7 @@ function SettingsForm({ userLogOut, user, sendForm }) {
         <h1 className="mt-4 mb-3">Your Settings</h1>
         <form
           onSubmit={(e) => {
-            sendForm(e, userNew);
+            sendForm(e, newUser);
             setPassword("");
           }}
         >

@@ -10,16 +10,16 @@ const SettingsPage = ({ mrService, slug }) => {
   const [slugForRedirect, setSlugForRedirect] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [dataError, setDataError] = useState({});
+  const [objError, setObjError] = useState({});
 
   useEffect(() => {
     new Promise((resolve, reject) => {
-      if (!Object.keys(dataError).length) reject();
+      if (!Object.keys(objError).length) reject();
       setTimeout(resolve, 5000);
     })
-      .then(() => setDataError({}))
+      .then(() => setObjError({}))
       .catch(() => {});
-  }, [dataError]);
+  }, [objError]);
 
   const sendForm = (e, newArticle) => {
     e.preventDefault();
@@ -38,7 +38,7 @@ const SettingsPage = ({ mrService, slug }) => {
         setError(false);
       })
       .catch(({ errors }) => {
-        setDataError(errors);
+        setObjError(errors);
         setError(true);
       })
       .finally(() => setCheckingSendData(true));
@@ -52,7 +52,7 @@ const SettingsPage = ({ mrService, slug }) => {
   return (
     <>
       <NewArticleForm {...{ slug, sendForm }} />
-      <ErrorList errors={dataError} />
+      <ErrorList errors={objError} />
       {loading && !error ? <Spinner /> : null}
     </>
   );
