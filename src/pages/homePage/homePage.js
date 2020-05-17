@@ -61,9 +61,9 @@ const HomePage = ({ isToken }) => {
                 Your Feed
               </button>
             ) : (
-              <Link className={classYPost} to="/login">
-                Your Feed
-              </Link>
+              <button className={classYPost}>
+                <Link to="/login">Your Feed</Link>
+              </button>
             )}
             <button
               className={classGPost}
