@@ -7,14 +7,14 @@ function ButtonFollow({ mrService, isToken, profile, onChange }) {
   const { username, following } = profile;
 
   const [follow, setFollow] = useState(following);
-  const [loading, setLoading] = useState(false);
+  /*  const [loading, setLoading] = useState(false); */
 
   useEffect(() => {
     setFollow(following);
   }, [following]);
 
   function toggleFollow(username) {
-    setLoading(true);
+    /* setLoading(true); */
     if (!follow) {
       mrService
         .postFollowig(username)
@@ -30,7 +30,7 @@ function ButtonFollow({ mrService, isToken, profile, onChange }) {
 
   function updateFollow({ profile }) {
     setFollow(profile.following);
-    setLoading(false);
+    /* setLoading(false); */
     if (onChange) onChange();
   }
 
@@ -47,7 +47,8 @@ function ButtonFollow({ mrService, isToken, profile, onChange }) {
       <button
         type="button"
         className="btn-follow"
-        onClick={() => toggleFollow(username)}>
+        onClick={() => toggleFollow(username)}
+      >
         <i className={classSVG} />
         {textBtn}
       </button>

@@ -78,6 +78,10 @@ export default class MediaReactService {
   getComments = async (slug) => {
     return await this._getResourse(`articles/${slug}/comments`);
   };
+  //получение данных для страницы NewArticle
+  getArticleForInputs = async (slug) => {
+    return await this._getResourse(`articles/${slug}`);
+  };
 
   ////////////////// Post запросы ////////////////////////
   _postDataToResourse = async (url, data = {}) => {
@@ -104,6 +108,10 @@ export default class MediaReactService {
 
   postUserToRegister = async (user = {}) => {
     return await this._postDataToResourse("users", { user });
+  };
+
+  postNewArticle = async (article = {}) => {
+    return await this._postDataToResourse("articles", { article });
   };
 
   postFavorited = async (slug) => {
@@ -144,6 +152,10 @@ export default class MediaReactService {
 
   putUserUpdate = async (user = {}) => {
     return await this._putDataResourse("user", { user });
+  };
+
+  putArticleUpdate = async (article, slug) => {
+    return await this._putDataResourse(`articles/${slug}`, { article });
   };
 
   ///////////////// Delete запросы //////////////////////////

@@ -8,7 +8,7 @@ function ButtonLike({ mrService, isToken, data, onChange }) {
 
   const [like, setLike] = useState(favorited);
   const [likeCount, setLikeCount] = useState(favoritesCount);
-  const [loading, setLoading] = useState(false);
+  /*   const [loading, setLoading] = useState(false); */
 
   useEffect(() => {
     setLike(favorited);
@@ -16,7 +16,7 @@ function ButtonLike({ mrService, isToken, data, onChange }) {
   }, [favorited, favoritesCount]);
 
   function toggleFavorited(slug) {
-    setLoading(true);
+    /* setLoading(true); */
     if (!like) {
       mrService
         .postFavorited(slug)
@@ -33,7 +33,7 @@ function ButtonLike({ mrService, isToken, data, onChange }) {
   function updateFavorited(article) {
     setLike(article.favorited);
     setLikeCount(article.favoritesCount);
-    setLoading(false);
+    /* setLoading(false); */
     if (text) onChange();
   }
 
@@ -51,7 +51,8 @@ function ButtonLike({ mrService, isToken, data, onChange }) {
       <button
         type="button"
         className={className}
-        onClick={() => toggleFavorited(slug)}>
+        onClick={() => toggleFavorited(slug)}
+      >
         <i className="fas fa-heart" />
         <span>
           {textForLike}
