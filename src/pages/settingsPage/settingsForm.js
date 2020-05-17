@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 function SettingsForm({ userLogOut, user, sendForm }) {
   const { image, username, bio, email, ...restData } = user;
-
+  console.log(user);
   const [newImage, setImage] = useState(image);
   const [newUsername, setUsername] = useState(username);
   const [newBio, setBio] = useState(bio);

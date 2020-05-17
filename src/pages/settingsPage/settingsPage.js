@@ -35,12 +35,14 @@ const SettingsPage = ({
     userLoading();
     mrService
       .putUserUpdate(newUser)
-      .then(({ user }) => userUpdate(user))
+      .then(({ user }) => {
+        userUpdate(user);
+        setCheckingSendData(true);
+      })
       .catch(({ errors }) => {
         userLoadFail(errors);
         setError(true);
-      })
-      .finally(() => setCheckingSendData(true));
+      });
   };
 
   // если нету ошибок и данные отправлены, то выполнить редирект

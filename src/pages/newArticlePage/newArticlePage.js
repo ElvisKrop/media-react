@@ -36,12 +36,12 @@ const SettingsPage = ({ mrService, slug }) => {
       .then(({ article }) => {
         setSlugForRedirect(article.slug);
         setError(false);
+        setCheckingSendData(true);
       })
       .catch(({ errors }) => {
         setObjError(errors);
         setError(true);
-      })
-      .finally(() => setCheckingSendData(true));
+      });
   }
 
   // если нету ошибок и данные отправлены, то выполнить редирект
