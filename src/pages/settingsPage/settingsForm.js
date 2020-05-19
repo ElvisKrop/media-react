@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 
 function SettingsForm({ userLogOut, user, sendForm }) {
-  const { image, username, bio, email, ...restData } = user;
-  console.log(user);
+  let { image, username, bio, email, ...restData } = user;
+
+  if (!image) image = "";
+  if (!bio) bio = "";
+
   const [newImage, setImage] = useState(image);
   const [newUsername, setUsername] = useState(username);
   const [newBio, setBio] = useState(bio);
