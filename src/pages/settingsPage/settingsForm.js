@@ -3,9 +3,6 @@ import React, { useState } from "react";
 function SettingsForm({ userLogOut, user, sendForm }) {
   let { image, username, bio, email, ...restData } = user;
 
-  if (!image) image = "";
-  if (!bio) bio = "";
-
   const [newImage, setImage] = useState(image);
   const [newUsername, setUsername] = useState(username);
   const [newBio, setBio] = useState(bio);
@@ -29,8 +26,7 @@ function SettingsForm({ userLogOut, user, sendForm }) {
           onSubmit={(e) => {
             sendForm(e, newUser);
             setPassword("");
-          }}
-        >
+          }}>
           <fieldset>
             <div className="form-group">
               <input
@@ -56,8 +52,7 @@ function SettingsForm({ userLogOut, user, sendForm }) {
                 placeholder="Short bio about you"
                 value={newBio}
                 onChange={(e) => setBio(e.target.value)}
-                rows="8"
-              ></textarea>
+                rows="8"></textarea>
             </div>
             <div className="form-group">
               <input
@@ -86,8 +81,7 @@ function SettingsForm({ userLogOut, user, sendForm }) {
         <div style={{ height: "50px" }}>
           <button
             className="btn btn-outline-danger float-left"
-            onClick={() => userLogOut()}
-          >
+            onClick={() => userLogOut()}>
             Or click here to logout
           </button>
         </div>

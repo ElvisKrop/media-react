@@ -22,7 +22,7 @@ const App = ({ user, userLoaded, isToken, mrService }) => {
     if (isToken) {
       mrService
         .getUser()
-        .then(({ user }) => userLoaded(user))
+        .then((user) => userLoaded(user))
         .catch((err) => console.error(err));
     }
   }, [isToken, mrService, userLoaded]);

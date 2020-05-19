@@ -36,7 +36,8 @@ export default class MediaReactService {
   };
 
   getUser = async () => {
-    return await this._getResourse("user");
+    const { user } = await this._getResourse("user");
+    return this._transformUser(user);
   };
 
   _getArticles = async (pageIndex = 0, param = "?") => {
@@ -214,4 +215,16 @@ export default class MediaReactService {
       updatedAt: article.updatedAt
     };
   };
+
+  _transformUser = (user) => ({
+    bio: user.bio || "",
+    createdAt: user.createdAt,
+    email: user.email,
+    id: user.id,
+    image:
+      user.image || "https://static.productionready.io/images/smiley-cyrus.jpg",
+    token: user.token,
+    updatedAt: user.updatedAt,
+    username: user.username
+  });
 }
