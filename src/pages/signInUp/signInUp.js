@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { withToken } from "../../hocs";
-import "./signInUp.css";
+import "./signInUp.scss";
 import Spinner from "../../components/spinner";
 import { Actions } from "../../redux-store";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import ErrorList from "../../components/errorList/errorList";
-import SignForm from "../../components/signInUpComponents";
+import SignForm from "./signInUpComponents";
 
 const SignInUp = ({
   type,

@@ -4,7 +4,7 @@ import {
   ButtonLike,
   DeleteArticle,
   EditArticle
-} from "../buttons";
+} from "../../../components/buttons";
 
 const Buttons = ({ settings }) => {
   const { author, username, onChange, ...forBtn } = settings;

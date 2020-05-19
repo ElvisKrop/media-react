@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import NewComment from "./newComment";
 import CommentList from "./commentList";
-import { withService } from "../../hocs";
+import { withService } from "../../../hocs";
 
 const CommentBlock = ({ slug, username, mrService, image }) => {
   const [comments, setComments] = useState([]);

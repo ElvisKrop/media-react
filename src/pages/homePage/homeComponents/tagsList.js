@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { withService } from "../../hocs";
+import { withService } from "../../../hocs";
 
 const Tag = ({ label, selectTag }) => {
   return (

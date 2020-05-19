@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { withService, withToken } from "../../hocs";
 import { Link } from "react-router-dom";
-import "./buttons.css";
+import "./buttons.scss";
 
 function ButtonLike({ mrService, isToken, data, onChange }) {
   const { favoritesCount, favorited, slug, text = "" } = data;
@@ -51,8 +51,7 @@ function ButtonLike({ mrService, isToken, data, onChange }) {
       <button
         type="button"
         className={className}
-        onClick={() => toggleFavorited(slug)}
-      >
+        onClick={() => toggleFavorited(slug)}>
         <i className="fas fa-heart" />
         <span>
           {textForLike}

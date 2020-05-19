@@ -1,5 +1,5 @@
 import React from "react";
-import UserIcon from "../userIcon";
+import UserIcon from "../../../components/userIcon";
 
 const CommentList = ({ username, comments, onDelete }) => {
   return (

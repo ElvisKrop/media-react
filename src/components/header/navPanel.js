@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { withToken } from "../../hocs";
 import { connect } from "react-redux";
-import "./header.css";
+import "./header.scss";
 
 function NavPanel({ isToken, username, data: { burgerMenu, setburgerMenu } }) {
   const linkList = {
@@ -24,8 +24,7 @@ function NavPanel({ isToken, username, data: { burgerMenu, setburgerMenu } }) {
         <li
           key={index}
           className="nav-item text-shedow"
-          onClick={() => setburgerMenu(false)}
-        >
+          onClick={() => setburgerMenu(false)}>
           <Link className="nav-link" to={item[0]}>
             <i className={`${item[1]} pr-1`} />
             <span>{item[2]}</span>

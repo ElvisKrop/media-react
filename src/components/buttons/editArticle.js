@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./buttons.css";
+import "./buttons.scss";
 
 const EditArticle = ({ slug }) => {
   return (

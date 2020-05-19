@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import UserBanner from "./user-banner";
+import { UserBanner } from "./authorComponents";
 import Feed from "../../components/feed";
 import { withService } from "../../hocs";
 import { Link } from "react-router-dom";
 import Spinner from "../../components/spinner";
-import "./authorPage.css";
+import "./authorPage.scss";
 
 function AuthorPage({ mrService, username, strFeed }) {
   const [profile, setProfile] = useState({});

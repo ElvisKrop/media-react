@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect, useCallback } from "react";
 import Feed from "../../components/feed";
 import { withToken } from "../../hocs";
 import { Link } from "react-router-dom";
-import TagsList from "../../components/homeComponents";
+import { TagsList } from "./homeComponents";
 
 const HomePage = ({ isToken }) => {
   const [strFeed, setStrFeed] = useState("");

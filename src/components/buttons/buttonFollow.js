@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { withService, withToken } from "../../hocs";
 import { Link } from "react-router-dom";
-import "./buttons.css";
+import "./buttons.scss";
 
 function ButtonFollow({ mrService, isToken, profile, onChange }) {
   const { username, following } = profile;
@@ -47,8 +47,7 @@ function ButtonFollow({ mrService, isToken, profile, onChange }) {
       <button
         type="button"
         className="btn-follow"
-        onClick={() => toggleFollow(username)}
-      >
+        onClick={() => toggleFollow(username)}>
         <i className={classSVG} />
         {textBtn}
       </button>

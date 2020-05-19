@@ -1,5 +1,5 @@
 import React from "react";
-import { ButtonFollow } from "../../components/buttons/index";
+import { ButtonFollow } from "../../../components/buttons/index";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 

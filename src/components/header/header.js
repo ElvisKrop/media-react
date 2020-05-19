@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import NavPanel from "./navPanel";
-import "./header.css";
+import "./header.scss";
 
 function Header() {
   const [burgerMenu, setburgerMenu] = useState(false);
@@ -19,8 +19,7 @@ function Header() {
               <NavPanel data={{ burgerMenu, setburgerMenu }} />
               <div
                 className={burgerMenu ? "burger open" : "burger"}
-                onClick={() => setburgerMenu(!burgerMenu)}
-              >
+                onClick={() => setburgerMenu(!burgerMenu)}>
                 <span></span>
               </div>
             </div>

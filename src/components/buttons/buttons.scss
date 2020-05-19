@@ -7,6 +7,10 @@
   border: 1px solid #78c2ad;
   border-radius: 6px;
   background: transparent;
+  &:hover {
+    color: #fff;
+    background: #78c2ad;
+  }
 }
 
 .btn-delete {
@@ -18,16 +22,10 @@
   border: 1px solid #ff2525;
   border-radius: 3px;
   background: transparent;
-}
-
-.btn-delete:hover {
-  color: #fff;
-  background: #ff2525;
-}
-
-.btn-like:hover {
-  color: #fff;
-  background: #78c2ad;
+  &:hover {
+    color: #fff;
+    background: #ff2525;
+  }
 }
 
 .btn-like:focus,
@@ -46,10 +44,8 @@
   background: transparent;
   border: 1px solid #999;
   border-radius: 3px;
-}
-
-.btn-follow:hover,
-.btn-edit:hover {
-  color: #fff;
-  background: #999;
+  &:hover {
+    color: #fff;
+    background: #999;
+  }
 }

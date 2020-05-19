@@ -3,7 +3,7 @@ import { withService } from "../../hocs";
 import Article from "./article";
 import Pagination from "./pagination";
 import Spinner from "../spinner";
-import "./feed.css";
+import "./feed.scss";
 
 function Feed({ mrService, strFeed, author = "", tagName = "" }) {
   const [data, setDataArticle] = useState([]);

@@ -1,9 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import {
-  Buttons,
-  TagList,
-  CommentBlock
-} from "../../components/articleComponents";
+import { Buttons, TagList, CommentBlock } from "./articleComponents";
 import { withService } from "../../hocs";
 import Spinner from "../../components/spinner";
 import UserIcon from "../../components/userIcon";

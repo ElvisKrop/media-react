@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { withService } from "../../hocs";
-import "./buttons.css";
+import "./buttons.scss";
 
 const DeleteArticle = ({ mrService, slug }) => {
   const onDeleteArt = () => {

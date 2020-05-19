@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import ErrorList from "../errorList";
-import { withToken, withService } from "../../hocs";
+import ErrorList from "../../../components/errorList";
+import { withToken, withService } from "../../../hocs";
 import { Link } from "react-router-dom";
 
 const style = {
