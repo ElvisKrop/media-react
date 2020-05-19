@@ -47,8 +47,7 @@ function SettingsForm({ mrService, sendForm, slug }) {
         <form
           onSubmit={(e) => {
             sendForm(e, newArticle);
-          }}
-        >
+          }}>
           <fieldset>
             <div className="form-group">
               <input
@@ -75,14 +74,14 @@ function SettingsForm({ mrService, sendForm, slug }) {
                 value={body}
                 onChange={(e) => setBody(e.target.value)}
                 rows="8"
-              ></textarea>
+              />
             </div>
             <div className="form-group">
               <input
                 type="text"
                 className="form-control"
                 placeholder="Enter tags with a space"
-                value={tagList}
+                value={tagList.join(" ")}
                 onChange={(e) => setTagList(e.target.value.split(" "))}
               />
             </div>
