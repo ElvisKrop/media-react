@@ -1,12 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-const style = {
-  margin: "5px 6px 0 0",
-  height: "32px",
-  width: "32px",
-  borderRadius: "50%"
-};
+import "./userIcon.scss";
 
 function UserIcon({ image, username, createdAt }) {
   const conversionDate = (createdAt) => {
@@ -17,7 +11,7 @@ function UserIcon({ image, username, createdAt }) {
   return (
     <div className="d-flex overflow-hidden">
       <Link className="text-primary" to={`/profile/${username}`}>
-        <img src={image} style={style} alt={username} />
+        <img src={image} className="user-icon-img" alt={username} />
       </Link>
       <div>
         <Link className="text-primary" to={`/profile/${username}`}>

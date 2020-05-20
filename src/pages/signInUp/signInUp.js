@@ -17,13 +17,8 @@ const SignInUp = ({
   ...forUserLoad
 }) => {
   useEffect(() => {
-    new Promise((resolve, reject) => {
-      if (!Object.keys(errors).length) reject();
-      setTimeout(resolve, 5000);
-    })
-      .then(() => clearErrors())
-      .catch(() => {});
-  }, [errors, clearErrors]);
+    clearErrors();
+  }, [type, clearErrors]);
 
   const settings = ((type) => {
     switch (type) {

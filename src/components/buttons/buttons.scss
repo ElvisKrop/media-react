@@ -28,10 +28,7 @@
   }
 }
 
-.btn-like:focus,
-.btn-follow:focus,
-.btn-edit:focus,
-.btn-delete:focus {
+button:focus {
   outline: none;
 }
 

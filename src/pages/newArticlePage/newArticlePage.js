@@ -3,27 +3,19 @@ import NewArticleForm from "./newArticleForm";
 import { withService } from "../../hocs";
 import { Redirect } from "react-router-dom";
 import ErrorList from "../../components/errorList/errorList";
-import Spinner from "../../components/spinner";
 
 const SettingsPage = ({ mrService, slug }) => {
   const [checkingSendData, setCheckingSendData] = useState(false);
   const [slugForRedirect, setSlugForRedirect] = useState("");
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [objError, setObjError] = useState({});
 
   useEffect(() => {
-    new Promise((resolve, reject) => {
-      if (!Object.keys(objError).length) reject();
-      setTimeout(resolve, 5000);
-    })
-      .then(() => setObjError({}))
-      .catch(() => {});
-  }, [objError]);
+    setObjError({});
+  }, []);
 
   const sendForm = (e, newArticle) => {
     e.preventDefault();
-    setLoading(true);
     if (slug) {
       sendingRequest(mrService.putArticleUpdate, newArticle, slug);
     } else {
@@ -39,21 +31,18 @@ const SettingsPage = ({ mrService, slug }) => {
         setCheckingSendData(true);
       })
       .catch(({ errors }) => {
-        setObjError(errors);
         setError(true);
+        setObjError(errors);
       });
   }
-
-  // если нету ошибок и данные отправлены, то выполнить редирект
   if (!error && checkingSendData) {
     return <Redirect to={`/article/${slugForRedirect}`} />;
-  } // из-за редиректа идет утечка памяти
+  }
 
   return (
     <>
       <NewArticleForm {...{ slug, sendForm }} />
       <ErrorList errors={objError} />
-      {loading && !error ? <Spinner /> : null}
     </>
   );
 };

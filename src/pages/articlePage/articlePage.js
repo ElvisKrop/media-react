@@ -42,7 +42,7 @@ const ArticlePage = ({ mrService, slug, username, image }) => {
   };
   const forUser = { ...author, createdAt };
   const classNameForButtons =
-    "d-flex justify-content-around flex-wrap align-items-center";
+    "d-flex justify-content-around flex-wrap align-items-center mb-1";
   return (
     <>
       <div style={{ background: "#f3f3f3" }} className="py-4">

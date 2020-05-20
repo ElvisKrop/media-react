@@ -1,26 +1,18 @@
 import React from "react";
-
-const ErrorItem = ({ area, messages }) => {
-  return (
-    <div className="alert alert-danger d-flex m-auto col-lg-6 col-sm-10 col-11">
-      <strong>In the {area}: </strong>
-      <ul className="mb-0">
-        {messages.map((mes, i) => (
-          <li key={i}>{mes}</li>
-        ))}
-      </ul>
-    </div>
-  );
-};
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ErrorList = ({ errors }) => {
-  return (
-    <div className="container my-2">
-      {Object.entries(errors).map((item, i) => (
-        <ErrorItem key={i} area={item[0]} messages={item[1]} />
-      ))}
-    </div>
-  );
+  return Object.entries(errors).map((item, i) => {
+    return <ErrorItem key={i} area={item[0]} messages={item[1]} />;
+  });
+};
+
+const ErrorItem = ({ area, messages }) => {
+  messages.map((mes) => {
+    return toast.error(`In the ${area}: ${mes}`);
+  });
+  return <ToastContainer position="bottom-right" />;
 };
 
 export default ErrorList;

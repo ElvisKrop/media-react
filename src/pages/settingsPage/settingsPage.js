@@ -5,34 +5,25 @@ import { connect } from "react-redux";
 import { Actions } from "../../redux-store";
 import { Redirect } from "react-router-dom";
 import ErrorList from "../../components/errorList/errorList";
-import Spinner from "../../components/spinner";
 
 const SettingsPage = ({
   mrService,
-  clearErrors,
   errors,
-  loading,
   user,
-  userLoading,
   userUpdate,
   userLoadFail,
+  clearErrors,
   ...forUserLoad
 }) => {
   const [checkingSendData, setCheckingSendData] = useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    new Promise((resolve, reject) => {
-      if (!Object.keys(errors).length) reject();
-      setTimeout(resolve, 5000);
-    })
-      .then(() => clearErrors())
-      .catch(() => {});
-  }, [errors, clearErrors]);
+    clearErrors();
+  }, [clearErrors]);
 
   const sendForm = (e, newUser) => {
     e.preventDefault();
-    userLoading();
     mrService
       .putUserUpdate(newUser)
       .then(({ user }) => {
@@ -40,12 +31,11 @@ const SettingsPage = ({
         setCheckingSendData(true);
       })
       .catch(({ errors }) => {
-        userLoadFail(errors);
         setError(true);
+        userLoadFail(errors);
       });
   };
 
-  // если нету ошибок и данные отправлены, то выполнить редирект
   if (!error && checkingSendData) {
     return <Redirect to={`/profile/${user.username}`} />;
   }
@@ -54,20 +44,17 @@ const SettingsPage = ({
     <>
       <SettingsForm {...{ user, ...forUserLoad }} sendForm={sendForm} />
       <ErrorList errors={errors} />
-      {!Object.keys(errors).length && loading ? <Spinner /> : null}
     </>
   );
 };
 
-const mapStateToProps = ({ user, errors, loading }) => ({
+const mapStateToProps = ({ user, errors }) => ({
   user,
-  errors,
-  loading
+  errors
 });
 
 const mapDispatchToProps = (dispatch) => ({
   userLogOut: () => dispatch(Actions.userLogOut()),
-  userLoading: () => dispatch(Actions.userLoading()),
   userUpdate: (user) => dispatch(Actions.userUpdate(user)),
   userLoadFail: (errors) => dispatch(Actions.userLoadFail(errors)),
   clearErrors: () => dispatch(Actions.clearErrors())
