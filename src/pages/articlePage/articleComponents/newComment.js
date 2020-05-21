@@ -10,7 +10,14 @@ const style = {
   boxShadow: "0 0 3px black"
 };
 
-const NewComment = ({ slug, image, addOneComment, isToken, mrService }) => {
+const NewComment = ({
+  slug,
+  image,
+  addOneComment,
+  getStateLoad,
+  isToken,
+  mrService
+}) => {
   const [newComment, setNewComment] = useState("");
   const [errors, setErrors] = useState({});
   const subRef = useRef(true);
@@ -21,6 +28,7 @@ const NewComment = ({ slug, image, addOneComment, isToken, mrService }) => {
   }, []);
 
   const onSubmitComment = (e) => {
+    getStateLoad(true);
     e.preventDefault();
     mrService
       .postComment(slug, { body: newComment })
@@ -30,7 +38,8 @@ const NewComment = ({ slug, image, addOneComment, isToken, mrService }) => {
           setErrors({});
         }
       })
-      .catch(({ errors }) => (subRef.current ? setErrors(errors) : null));
+      .catch(({ errors }) => (subRef.current ? setErrors(errors) : null))
+      .finally(() => getStateLoad(false));
     setNewComment("");
   };
 

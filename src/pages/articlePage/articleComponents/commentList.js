@@ -1,7 +1,10 @@
 import React from "react";
 import UserIcon from "../../../components/userIcon";
+import Spinner from "../../../components/spinner";
 
-const CommentList = ({ username, comments, onDelete }) => {
+const CommentList = ({ username, comments, onDelete, loading }) => {
+  if (loading) return <Spinner />;
+
   return (
     <div>
       {comments.map((item) => (

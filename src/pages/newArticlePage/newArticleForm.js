@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Spinner from "../../components/spinner";
 import { withService } from "../../hocs";
 
 function SettingsForm({ mrService, sendForm, slug }) {
@@ -6,14 +7,17 @@ function SettingsForm({ mrService, sendForm, slug }) {
   const [description, setDescription] = useState("");
   const [body, setBody] = useState("");
   const [tagList, setTagList] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     // загрузка данных для ввода и их редактирования
     if (slug) {
+      setLoading(true);
       mrService
         .getArticleForInputs(slug)
         .then(({ article }) => loadingInputsData(article))
-        .catch(({ errors }) => console.error(errors));
+        .catch(({ errors }) => console.error(errors))
+        .finally(() => setLoading(false));
     } else {
       defaultInputsData();
     }
@@ -40,6 +44,8 @@ function SettingsForm({ mrService, sendForm, slug }) {
     tagList
   };
 
+  if (loading) return <Spinner />;
+
   return (
     <div className="container text-center">
       <div className="col-lg-6 col-sm-10 col-11 mt-5 m-auto">
@@ -47,7 +53,8 @@ function SettingsForm({ mrService, sendForm, slug }) {
         <form
           onSubmit={(e) => {
             sendForm(e, newArticle);
-          }}>
+          }}
+        >
           <fieldset>
             <div className="form-group">
               <input

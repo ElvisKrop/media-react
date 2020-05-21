@@ -5,6 +5,7 @@ import { withService } from "../../../hocs";
 
 const CommentBlock = ({ slug, username, mrService, image }) => {
   const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState(false);
   const subRef = useRef(true);
 
   useEffect(() => {
@@ -23,12 +24,14 @@ const CommentBlock = ({ slug, username, mrService, image }) => {
     (id) => {
       const temp = comments.filter((item) => item.id !== id);
       setComments(temp);
+      setLoading(false);
     },
     [comments]
   );
 
   const addOneComment = useCallback(
     (comment) => {
+      setLoading(true);
       const temp = [comment, ...comments];
       setComments(temp);
     },
@@ -37,6 +40,7 @@ const CommentBlock = ({ slug, username, mrService, image }) => {
 
   const onDelete = useCallback(
     (id) => {
+      setLoading(true);
       mrService
         .deleteComment(slug, id)
         .finally(() => (slug && subRef.current ? _deleteOneComment(id) : null));
@@ -44,13 +48,17 @@ const CommentBlock = ({ slug, username, mrService, image }) => {
     [mrService, slug, _deleteOneComment]
   );
 
+  const getStateLoad = (load) => {
+    setLoading(load);
+  };
+
   const forList = { username, comments, onDelete };
-  const forNewCom = { slug, image, addOneComment };
+  const forNewCom = { slug, image, addOneComment, getStateLoad };
 
   return (
     <>
       <NewComment {...forNewCom} />
-      <CommentList {...forList} />
+      <CommentList {...{ loading, ...forList }} />
     </>
   );
 };

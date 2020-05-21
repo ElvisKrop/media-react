@@ -1,20 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { withService, withToken } from "../../hocs";
 import { Link } from "react-router-dom";
+import MiniSpinner from "../mini-spinner";
 import "./buttons.scss";
 
 function ButtonFollow({ mrService, isToken, profile, onChange }) {
-  const { username, following } = profile;
-
+  const { username, following, loadFollow } = profile;
   const [follow, setFollow] = useState(following);
-  /*  const [loading, setLoading] = useState(false); */
+  const [loading, setLoading] = useState(loadFollow);
+  const [widthBtn, setWidthBtn] = useState(0);
+  const ref = React.createRef();
 
   useEffect(() => {
     setFollow(following);
-  }, [following]);
+    setLoading(loadFollow);
+  }, [following, loadFollow]);
+
+  useEffect(() => {
+    if (ref.current !== null) setWidthBtn(ref.current.offsetWidth);
+  }, [ref]);
 
   function toggleFollow(username) {
-    /* setLoading(true); */
+    setLoading(true);
     if (!follow) {
       mrService
         .postFollowig(username)
@@ -30,8 +37,8 @@ function ButtonFollow({ mrService, isToken, profile, onChange }) {
 
   function updateFollow({ profile }) {
     setFollow(profile.following);
-    /* setLoading(false); */
-    if (onChange) onChange();
+    if (onChange) onChange("follow");
+    setLoading(false);
   }
 
   let textBtn = ` Follow ${username}`;
@@ -42,12 +49,26 @@ function ButtonFollow({ mrService, isToken, profile, onChange }) {
     classSVG = "fas fa-minus";
   }
 
+  if (loading) {
+    return (
+      <button
+        type="button"
+        className="btn-follow"
+        style={{ minWidth: widthBtn + "px" }}
+      >
+        <MiniSpinner />
+      </button>
+    );
+  }
+
   if (isToken) {
     return (
       <button
         type="button"
         className="btn-follow"
-        onClick={() => toggleFollow(username)}>
+        onClick={() => toggleFollow(username)}
+        ref={ref}
+      >
         <i className={classSVG} />
         {textBtn}
       </button>

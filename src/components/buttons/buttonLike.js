@@ -1,22 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { withService, withToken } from "../../hocs";
 import { Link } from "react-router-dom";
+import MiniSpinner from "../mini-spinner";
 import "./buttons.scss";
 
 function ButtonLike({ mrService, isToken, data, onChange }) {
-  const { favoritesCount, favorited, slug, text = "" } = data;
-
+  const { favoritesCount, favorited, loadLike, slug, text = "" } = data;
   const [like, setLike] = useState(favorited);
   const [likeCount, setLikeCount] = useState(favoritesCount);
-  /*   const [loading, setLoading] = useState(false); */
+  const [load, setLoad] = useState(loadLike);
+  const [widthBtn, setWidthBtn] = useState(0);
+  const ref = React.createRef();
 
   useEffect(() => {
     setLike(favorited);
     setLikeCount(favoritesCount);
-  }, [favorited, favoritesCount]);
+    setLoad(loadLike);
+  }, [favorited, favoritesCount, loadLike]);
+
+  useEffect(() => {
+    if (ref.current !== null) setWidthBtn(ref.current.offsetWidth);
+  }, [ref]);
 
   function toggleFavorited(slug) {
-    /* setLoading(true); */
+    setLoad(true);
     if (!like) {
       mrService
         .postFavorited(slug)
@@ -33,8 +40,8 @@ function ButtonLike({ mrService, isToken, data, onChange }) {
   function updateFavorited(article) {
     setLike(article.favorited);
     setLikeCount(article.favoritesCount);
-    /* setLoading(false); */
-    if (text) onChange();
+    if (onChange) onChange("like");
+    setLoad(false);
   }
 
   let className = "btn-like";
@@ -46,12 +53,26 @@ function ButtonLike({ mrService, isToken, data, onChange }) {
     if (text) textForLike = ` Unf${text} `;
   }
 
+  if (load) {
+    return (
+      <button
+        type="button"
+        className={className}
+        style={{ minWidth: widthBtn + "px" }}
+      >
+        <MiniSpinner />
+      </button>
+    );
+  }
+
   if (isToken) {
     return (
       <button
         type="button"
         className={className}
-        onClick={() => toggleFavorited(slug)}>
+        onClick={() => toggleFavorited(slug)}
+        ref={ref}
+      >
         <i className="fas fa-heart" />
         <span>
           {textForLike}

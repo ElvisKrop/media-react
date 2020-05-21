@@ -8,14 +8,25 @@ import { connect } from "react-redux";
 const ArticlePage = ({ mrService, slug, username, image }) => {
   const [artInfo, setArtInfo] = useState("");
   const [loading, setLoading] = useState(true);
+  const [loadLike, setLoadLike] = useState(false);
+  const [loadFollow, setLoadFollow] = useState(false);
 
-  const onChange = useCallback(() => {
-    mrService
-      .getArticle(slug)
-      .then((data) => setArtInfo(data))
-      .catch((err) => console.error(err))
-      .finally(() => setLoading(false));
-  }, [slug, mrService]);
+  const onChange = useCallback(
+    (text) => {
+      if (text === "like") setLoadLike(true);
+      if (text === "follow") setLoadFollow(true);
+      mrService
+        .getArticle(slug)
+        .then((data) => setArtInfo(data))
+        .catch((err) => console.error(err))
+        .finally(() => {
+          setLoading(false);
+          setLoadLike(false);
+          setLoadFollow(false);
+        });
+    },
+    [slug, mrService]
+  );
 
   useEffect(() => {
     setLoading(true);
@@ -38,6 +49,8 @@ const ArticlePage = ({ mrService, slug, username, image }) => {
     favoritesCount,
     slug,
     username,
+    loadLike,
+    loadFollow,
     onChange
   };
   const forUser = { ...author, createdAt };

@@ -7,7 +7,7 @@ import {
 } from "../../../components/buttons";
 
 const Buttons = ({ settings }) => {
-  const { author, username, onChange, ...forBtn } = settings;
+  const { author, username, onChange, loadFollow, ...forBtn } = settings;
   if (username === author.username) {
     return (
       <>
@@ -19,7 +19,7 @@ const Buttons = ({ settings }) => {
     forBtn.text = "avorite Article";
     return (
       <>
-        <ButtonFollow profile={author} onChange={onChange} />
+        <ButtonFollow profile={{ loadFollow, ...author }} onChange={onChange} />
         <ButtonLike data={forBtn} onChange={onChange} />
       </>
     );
