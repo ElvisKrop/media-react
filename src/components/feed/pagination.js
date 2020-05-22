@@ -2,57 +2,53 @@ import React, { useState, useEffect } from "react";
 
 function Pagination({ data: { articlesCount, currentPage, setPage } }) {
   const [currentPos, setCurrentPos] = useState(0);
-  const [currentClick, setCurrentClick] = useState(0);
-  const [widthListPx, setWidthListPx] = useState(0);
-  const [maxCurrentClick, setMaxCurrentClick] = useState(0);
-  const [transitionWidth, setTransitionWidth] = useState(0);
+  const [countClicks, setCountClicks] = useState(0);
+  const [invisibleBlock, setInvisibleBlock] = useState(0);
+  const [maxClick, setMaxClick] = useState(0);
+  const [shearWidth, setShearWidth] = useState(0);
   const [remainderDivision, setRemainderDivision] = useState(0);
-  const [remainderInPixel, setRemainderInPixel] = useState(0);
+
   const refList = React.createRef();
   const refFeed = React.createRef();
-  const style = { left: currentPos + "px" };
-  let classNameNext = "page-item";
-  let classNamePrev = "page-item";
-  if (currentClick === 0) classNamePrev = "page-item disabled";
-  if (currentClick === maxCurrentClick) classNameNext = "page-item disabled";
 
   useEffect(() => {
     if (refList.current !== null) {
-      const widthList = refList.current.offsetWidth;
-      const widthFeed = refFeed.current.offsetWidth;
-      console.log(
-        `1.Длина всей кнопок - то что на экране${widthList - widthFeed}`
-      );
-      setWidthListPx(widthList);
-      setTransitionWidth(widthFeed / 4);
-      setMaxCurrentClick(Math.floor((widthList - widthFeed) / transitionWidth));
-      setRemainderDivision(+(widthList / transitionWidth).toFixed(3).slice(1));
-      setRemainderInPixel(+(remainderDivision * widthFeed).toFixed(0) - 17); // Что-то не то
+      const wholeBlockWidth = refList.current.offsetWidth;
+      const visiblePartBlock = refFeed.current.offsetWidth;
+      const invisiblePartBlock = wholeBlockWidth - visiblePartBlock;
+
+      setInvisibleBlock(invisiblePartBlock + 68);
+      setShearWidth(visiblePartBlock / 4);
+      setMaxClick(Math.floor(invisiblePartBlock / shearWidth));
+      setRemainderDivision(invisibleBlock - shearWidth * maxClick);
+      console.log("вызов useEffect");
     }
-  }, [refList, refFeed, transitionWidth, remainderDivision]);
+  }, [
+    refList,
+    refFeed,
+    shearWidth,
+    remainderDivision,
+    countClicks,
+    invisibleBlock,
+    maxClick
+  ]);
 
   const next = () => {
-    console.log(`2. Количество кликов ${maxCurrentClick}`);
-    console.log(`3. Один переход ${maxCurrentClick}`);
-    console.log(`4.переход * на max клик ${transitionWidth * maxCurrentClick}`);
-    console.log(`5. Остаток ${remainderInPixel}`);
-
-    if (currentClick === maxCurrentClick - 1) {
-      setCurrentPos(currentPos - remainderInPixel);
+    if (currentPos === -(shearWidth * maxClick)) {
+      setCurrentPos(-invisibleBlock);
     } else {
-      setCurrentPos(currentPos - transitionWidth);
+      setCurrentPos(currentPos - shearWidth);
     }
-
-    setCurrentClick(currentClick + 1);
+    setCountClicks(countClicks + 1);
   };
-  const prev = () => {
-    if (currentClick === 1) {
-      setCurrentPos(currentPos + remainderInPixel);
-    } else {
-      setCurrentPos(currentPos + transitionWidth);
-    }
 
-    setCurrentClick(currentClick - 1);
+  const prev = () => {
+    if (currentPos === -remainderDivision) {
+      setCurrentPos(0);
+    } else {
+      setCurrentPos(currentPos + shearWidth);
+    }
+    setCountClicks(countClicks - 1);
   };
 
   function renderButton() {
@@ -67,7 +63,7 @@ function Pagination({ data: { articlesCount, currentPage, setPage } }) {
       let classNameBtn = "page-link";
 
       if (item === currentPage) classNameItem += " active";
-      if (widthListPx > transitionWidth * 4 - 70) classNameBtn += " rounded-0";
+      if (invisibleBlock > shearWidth * 4 - 70) classNameBtn += " rounded-0";
 
       return (
         <li className={classNameItem} key={item} onClick={() => setPage(item)}>
@@ -77,9 +73,20 @@ function Pagination({ data: { articlesCount, currentPage, setPage } }) {
     });
   }
 
-  if (widthListPx < transitionWidth * 4 - 70) {
-    return <ul className="pagination d-flex">{renderButton()}</ul>;
+  if (invisibleBlock < shearWidth * 4 - 70) {
+    return (
+      <ul className="pagination d-flex justify-content-center">
+        {renderButton()}
+      </ul>
+    );
   }
+
+  const style = { left: currentPos + "px" };
+
+  let classNameNext = "page-item";
+  let classNamePrev = "page-item";
+  if (countClicks === 0) classNamePrev = "page-item disabled";
+  if (countClicks === maxClick + 1) classNameNext = "page-item disabled";
 
   return (
     <div ref={refFeed}>
