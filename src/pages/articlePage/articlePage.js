@@ -11,6 +11,7 @@ const ArticlePage = ({ mrService, slug, username, image }) => {
   const [loadLike, setLoadLike] = useState(false);
   const [loadFollow, setLoadFollow] = useState(false);
 
+  //onChange вызывается при загрузке страницы и в компонентах btnLike и btnFollow при клике по им
   const onChange = useCallback(
     (text) => {
       if (text === "like") setLoadLike(true);

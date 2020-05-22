@@ -23,3 +23,21 @@
     border-radius: 10px;
   }
 }
+
+.list-btn-pages {
+  display: flex;
+  position: relative;
+  transition-duration: 0.5s;
+}
+
+.block-btn-pages {
+  display: flex;
+  position: relative;
+  top: -38px;
+  margin: 0 34px;
+  overflow: hidden;
+  transition-duration: 0.5s;
+}
+.none-border {
+  border-radius: 0;
+}
