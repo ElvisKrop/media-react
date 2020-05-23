@@ -3,62 +3,80 @@ import NewComment from "./newComment";
 import CommentList from "./commentList";
 import { withService } from "../../../hocs";
 
+function checkMountingConstructor(fn, flag) {
+  return flag ? fn : null;
+}
+
 const CommentBlock = ({ slug, username, mrService, image }) => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
   const subRef = useRef(true);
 
+  const upgradeSetComments = useCallback(
+    (comments) => {
+      return checkMountingConstructor(
+        setComments(comments),
+        slug && subRef.current
+      );
+    },
+    [subRef, slug]
+  );
+
+  const upgradeSetLoading = useCallback(
+    (load) => {
+      return checkMountingConstructor(setLoading(load), slug && subRef.current);
+    },
+    [subRef, slug]
+  );
+
   useEffect(() => {
     mrService
       .getComments(slug)
-      .then(({ comments }) =>
-        slug && subRef.current ? setComments(comments) : null
-      )
-      .catch((err) => (slug && subRef.current ? console.error(err) : null));
+      .then(({ comments }) => upgradeSetComments(comments))
+      .catch(console.error);
     return () => {
       subRef.current = false;
     };
-  }, [slug, mrService]);
+  }, [slug, mrService, upgradeSetComments]);
 
   const _deleteOneComment = useCallback(
     (id) => {
       const temp = comments.filter((item) => item.id !== id);
-      setComments(temp);
-      setLoading(false);
+      upgradeSetComments(temp);
+      upgradeSetLoading(false);
     },
-    [comments]
+    [comments, upgradeSetLoading, upgradeSetComments]
   );
 
   const addOneComment = useCallback(
     (comment) => {
-      setLoading(true);
       const temp = [comment, ...comments];
-      setComments(temp);
+      upgradeSetComments(temp);
     },
-    [comments]
+    [comments, upgradeSetComments]
   );
 
   const onDelete = useCallback(
     (id) => {
-      setLoading(true);
+      upgradeSetLoading(true);
       mrService
         .deleteComment(slug, id)
-        .finally(() => (slug && subRef.current ? _deleteOneComment(id) : null));
+        .finally(() => (subRef.current && slug ? _deleteOneComment(id) : null));
     },
-    [mrService, slug, _deleteOneComment]
+    [mrService, slug, _deleteOneComment, upgradeSetLoading]
   );
 
   const getStateLoad = (load) => {
-    setLoading(load);
+    upgradeSetLoading(load);
   };
 
-  const forList = { username, comments, onDelete };
+  const forList = { username, comments, onDelete, loading };
   const forNewCom = { slug, image, addOneComment, getStateLoad };
 
   return (
     <>
       <NewComment {...forNewCom} />
-      <CommentList {...{ loading, ...forList }} />
+      <CommentList {...forList} />
     </>
   );
 };
