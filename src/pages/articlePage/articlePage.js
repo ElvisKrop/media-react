@@ -55,8 +55,7 @@ const ArticlePage = ({ mrService, slug, username, image }) => {
     onChange
   };
   const forUser = { ...author, createdAt };
-  const classNameForButtons =
-    "d-flex justify-content-around flex-wrap align-items-center mb-1";
+  const classNameForButtons = "d-flex flex-wrap align-items-center mb-1";
   return (
     <>
       <div style={{ background: "#f3f3f3" }} className="py-4">
@@ -65,7 +64,7 @@ const ArticlePage = ({ mrService, slug, username, image }) => {
         ) : (
           <div className="container">
             <h1 className="my-5 overflow-hidden">{title}</h1>
-            <div className={`col-md-8 ${classNameForButtons}`}>
+            <div className={`${classNameForButtons}`}>
               <UserIcon {...forUser} />
               <Buttons settings={forBtns} />
             </div>
@@ -82,7 +81,7 @@ const ArticlePage = ({ mrService, slug, username, image }) => {
           </div>
           <hr />
           <div className="comments-block col-md-8 m-auto">
-            <div className={classNameForButtons}>
+            <div className={`${classNameForButtons} justify-content-around`}>
               <UserIcon {...forUser} />
               <Buttons settings={forBtns} />
             </div>

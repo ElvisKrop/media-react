@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import NewArticleForm from "./newArticleForm";
 import { withService } from "../../hocs";
 import { Redirect } from "react-router-dom";
@@ -9,10 +9,6 @@ const SettingsPage = ({ mrService, slug }) => {
   const [slugForRedirect, setSlugForRedirect] = useState("");
   const [error, setError] = useState(false);
   const [objError, setObjError] = useState({});
-
-  useEffect(() => {
-    setObjError({});
-  }, []);
 
   const sendForm = (e, newArticle) => {
     e.preventDefault();

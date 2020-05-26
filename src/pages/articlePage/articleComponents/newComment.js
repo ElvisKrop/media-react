@@ -18,6 +18,7 @@ const NewComment = ({
   isToken,
   mrService
 }) => {
+  // при каждом изменении поля, компонент перерисовывается и объект ошибки тоже, после каждой буквы!
   const [newComment, setNewComment] = useState("");
   const [errors, setErrors] = useState({});
   const subRef = useRef(true);
@@ -39,7 +40,7 @@ const NewComment = ({
         }
       })
       .catch(({ errors }) => (subRef.current ? setErrors(errors) : null))
-      .finally(() => getStateLoad(false));
+      .finally(() => (subRef.current ? getStateLoad(false) : null));
     setNewComment("");
   };
 
@@ -52,7 +53,7 @@ const NewComment = ({
     );
   return (
     <>
-      <ErrorList errors={errors} />
+      {Object.keys(errors).length ? <ErrorList errors={errors} /> : null}
       <form onSubmit={onSubmitComment} className="card border-primary mb-2">
         <div className="form-group card-body p-0 m-0">
           <textarea
