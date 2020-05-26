@@ -21,7 +21,6 @@ function Pagination({ data: { articlesCount, currentPage, setPage } }) {
       setShearWidth(visiblePartBlock / 4);
       setMaxClick(Math.floor(invisiblePartBlock / shearWidth));
       setRemainderDivision(invisibleBlock - shearWidth * maxClick);
-      console.log("вызов useEffect");
     }
   }, [
     refList,
