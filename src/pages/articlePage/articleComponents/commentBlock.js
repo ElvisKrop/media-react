@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import NewComment from "./newComment";
+import ErrorList from "../../../components/errorList";
 import CommentList from "./commentList";
 import { withService } from "../../../hocs";
 
@@ -10,6 +11,7 @@ function checkMountingConstructor(fn, flag) {
 const CommentBlock = ({ slug, username, mrService, image }) => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
   const subRef = useRef(true);
 
   const upgradeSetComments = useCallback(
@@ -48,13 +50,7 @@ const CommentBlock = ({ slug, username, mrService, image }) => {
     [comments, upgradeSetLoading, upgradeSetComments]
   );
 
-  const addOneComment = useCallback(
-    (comment) => {
-      const temp = [comment, ...comments];
-      upgradeSetComments(temp);
-    },
-    [comments, upgradeSetComments]
-  );
+  const addOneComment = (comment) => upgradeSetComments([comment, ...comments]);
 
   const onDelete = useCallback(
     (id) => {
@@ -66,15 +62,26 @@ const CommentBlock = ({ slug, username, mrService, image }) => {
     [mrService, slug, _deleteOneComment, upgradeSetLoading]
   );
 
-  const getStateLoad = (load) => {
-    upgradeSetLoading(load);
+  const submitNewComment = (newCom) => {
+    upgradeSetLoading(true);
+    mrService
+      .postComment(slug, { body: newCom })
+      .then(({ comment }) => {
+        if (subRef.current) {
+          addOneComment(comment);
+          setErrors({});
+        }
+      })
+      .catch(({ errors }) => (subRef.current ? setErrors(errors) : null))
+      .finally(() => (subRef.current ? upgradeSetLoading(false) : null));
   };
 
   const forList = { username, comments, onDelete, loading };
-  const forNewCom = { slug, image, addOneComment, getStateLoad };
+  const forNewCom = { image, submitNewComment };
 
   return (
     <>
+      {Object.keys(errors).length ? <ErrorList errors={errors} /> : null}
       <NewComment {...forNewCom} />
       <CommentList {...forList} />
     </>
