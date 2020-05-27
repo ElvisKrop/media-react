@@ -25,8 +25,7 @@ function Article({ data }) {
       </div>
       <Link
         className="text-decoration-none d-flex flex-wrap justify-content-between"
-        to={`/article/${slug}`}
-      >
+        to={`/article/${slug}`}>
         <div className="col-lg-7 w-100 overflow-hidden p-0">
           <h5 className="font-weight-bold mb-1">{title}</h5>
           <p className="card-text text-muted mb-3">{description}</p>
@@ -34,7 +33,11 @@ function Article({ data }) {
         </div>
         <ul className="tag-list text-gray col-lg-5 pt-3">
           {tagList.map((item, slug) => {
-            return <li key={slug}>{item}</li>;
+            return (
+              <li className="mw-100 overflow-hidden" key={slug}>
+                {item}
+              </li>
+            );
           })}
         </ul>
       </Link>

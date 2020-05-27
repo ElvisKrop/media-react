@@ -6,7 +6,7 @@ const TagList = ({ tagList }) => {
       {tagList.map((tag, i) => (
         <span
           key={i + tag}
-          className="badge badge-light border border-dark text-muted px-2 mx-1">
+          className="badge badge-light border border-active text-muted px-2 mx-1 mw-100 overflow-hidden">
           {tag}
         </span>
       ))}
