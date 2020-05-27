@@ -10,6 +10,8 @@ function Feed({ mrService, strFeed, author = "", tagName = "" }) {
   const [articlesCount, setCountArticle] = useState(0);
   const [currentPage, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [currentPos, setCurrentPos] = useState(0);
+  const [countClicks, setCountClicks] = useState(0);
 
   const getRequest = useCallback(
     (page, author, tag) => {
@@ -40,6 +42,8 @@ function Feed({ mrService, strFeed, author = "", tagName = "" }) {
 
   useEffect(() => {
     setPage(0);
+    setCurrentPos(0);
+    setCountClicks(0);
   }, [strFeed, tagName]);
 
   function setData({ articles, articlesCount }) {
@@ -55,7 +59,17 @@ function Feed({ mrService, strFeed, author = "", tagName = "" }) {
       {data.map((item) => (
         <Article data={item} key={item.slug} />
       ))}
-      <Pagination data={{ articlesCount, currentPage, setPage }} />
+      <Pagination
+        data={{
+          articlesCount,
+          currentPage,
+          currentPos,
+          countClicks,
+          setPage,
+          setCurrentPos,
+          setCountClicks
+        }}
+      />
     </div>
   );
 }

@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from "react";
 
-function Pagination({ data: { articlesCount, currentPage, setPage } }) {
-  const [currentPos, setCurrentPos] = useState(0);
-  const [countClicks, setCountClicks] = useState(0);
+function Pagination({
+  data: {
+    articlesCount,
+    currentPage,
+    setPage,
+    currentPos,
+    countClicks,
+    setCurrentPos,
+    setCountClicks
+  }
+}) {
   const [invisibleBlock, setInvisibleBlock] = useState(0);
   const [maxClick, setMaxClick] = useState(0);
   const [shearWidth, setShearWidth] = useState(0);
   const [remainderDivision, setRemainderDivision] = useState(0);
+  const [blockListBtn, setBlockListBtn] = useState(0);
 
   const refList = React.createRef();
   const refFeed = React.createRef();
@@ -17,20 +26,13 @@ function Pagination({ data: { articlesCount, currentPage, setPage } }) {
       const visiblePartBlock = refFeed.current.offsetWidth;
       const invisiblePartBlock = wholeBlockWidth - visiblePartBlock;
 
+      setBlockListBtn(wholeBlockWidth);
       setInvisibleBlock(invisiblePartBlock + 68);
       setShearWidth(visiblePartBlock / 4);
       setMaxClick(Math.floor(invisiblePartBlock / shearWidth));
       setRemainderDivision(invisibleBlock - shearWidth * maxClick);
     }
-  }, [
-    refList,
-    refFeed,
-    shearWidth,
-    remainderDivision,
-    countClicks,
-    invisibleBlock,
-    maxClick
-  ]);
+  }, [refList, refFeed, shearWidth, invisibleBlock, maxClick]);
 
   const next = () => {
     if (currentPos === -(shearWidth * maxClick)) {
@@ -62,7 +64,7 @@ function Pagination({ data: { articlesCount, currentPage, setPage } }) {
       let classNameBtn = "page-link";
 
       if (item === currentPage) classNameItem += " active";
-      if (invisibleBlock > shearWidth * 4 - 70) classNameBtn += " rounded-0";
+      if (blockListBtn > shearWidth * 4 - 70) classNameBtn += " rounded-0";
 
       return (
         <li className={classNameItem} key={item} onClick={() => setPage(item)}>
@@ -72,7 +74,7 @@ function Pagination({ data: { articlesCount, currentPage, setPage } }) {
     });
   }
 
-  if (invisibleBlock < shearWidth * 4 - 70) {
+  if (blockListBtn < shearWidth * 4 - 70) {
     return (
       <ul className="pagination d-flex justify-content-center">
         {renderButton()}

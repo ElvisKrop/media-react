@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { withService, withToken } from "../../hocs";
 import { Link } from "react-router-dom";
 import MiniSpinner from "../mini-spinner";
+import PropTypes from "prop-types";
 import "./buttons.scss";
 
 function ButtonLike({ mrService, isToken, data, onChange }) {
@@ -94,5 +95,25 @@ function ButtonLike({ mrService, isToken, data, onChange }) {
     </Link>
   );
 }
+
+ButtonLike.defaultProps = {
+  mrService: {},
+  isToken: false,
+  onChange: () => {},
+  data: {}
+};
+
+ButtonLike.propTypes = {
+  mrService: PropTypes.object,
+  isToken: PropTypes.bool,
+  onChange: PropTypes.func,
+  data: PropTypes.shape({
+    favoritesCount: PropTypes.number,
+    favorited: PropTypes.bool,
+    loadLike: PropTypes.bool,
+    slug: PropTypes.string,
+    text: PropTypes.string
+  })
+};
 
 export default withService()(withToken(ButtonLike));
