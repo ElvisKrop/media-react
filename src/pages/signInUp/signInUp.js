@@ -51,15 +51,17 @@ const SignInUp = ({
   return (
     <>
       <div className="container d-flex wrapper">
-        <div className="col-lg-6 col-sm-10 col-11 mt-5 text-center">
-          <h1>Sign {settings.head}</h1>
-          <Link to={`/${settings.linkTo}`}>
-            {settings.linkWord} an account?
-          </Link>
+        <div className="col-lg-6 col-sm-10 col-11 mt-5">
+          <div className="text-center">
+            <h1>Sign {settings.head}</h1>
+            <Link to={`/${settings.linkTo}`}>
+              {settings.linkWord} an account?
+            </Link>
+          </div>
+          <ErrorList errors={errors} />
           <SignForm {...{ settings, ...forUserLoad }} />
         </div>
       </div>
-      <ErrorList errors={errors} />
     </>
   );
 };

@@ -36,10 +36,13 @@ const SettingsPage = ({ mrService, slug }) => {
   }
 
   return (
-    <>
-      <NewArticleForm {...{ slug, sendForm }} />
-      <ErrorList errors={objError} />
-    </>
+    <div className="container">
+      <div className="col-lg-6 col-sm-10 col-11 mt-5 m-auto">
+        <h1 className="my-4 text-center">Your Article</h1>
+        <ErrorList errors={objError} />
+        <NewArticleForm {...{ slug, sendForm }} />
+      </div>
+    </div>
   );
 };
 

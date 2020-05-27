@@ -24,6 +24,7 @@ const SettingsPage = ({
 
   const sendForm = (e, newUser) => {
     e.preventDefault();
+    setError(false);
     mrService
       .putUserUpdate(newUser)
       .then(({ user }) => {
@@ -41,10 +42,13 @@ const SettingsPage = ({
   }
 
   return (
-    <>
-      <SettingsForm {...{ user, ...forUserLoad }} sendForm={sendForm} />
-      <ErrorList errors={errors} />
-    </>
+    <div className="container">
+      <div className="col-lg-6 col-sm-10 col-11 mt-5 m-auto">
+        <h1 className="my-4 text-center">Your Settings</h1>
+        <ErrorList errors={errors} />
+        <SettingsForm {...{ user, ...forUserLoad, sendForm }} />
+      </div>
+    </div>
   );
 };
 
