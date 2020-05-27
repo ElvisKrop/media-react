@@ -47,58 +47,52 @@ function SettingsForm({ mrService, sendForm, slug }) {
   if (loading) return <Spinner />;
 
   return (
-    <div className="container text-center">
-      <div className="col-lg-6 col-sm-10 col-11 mt-5 m-auto">
-        <h1 className="mt-4 mb-3">Your Article</h1>
-        <form
-          onSubmit={(e) => {
-            sendForm(e, newArticle);
-          }}
-        >
-          <fieldset>
-            <div className="form-group">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Article Title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </div>
-            <div className="form-group">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="What's this article about?"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </div>
-            <div className="form-group">
-              <textarea
-                className="form-control"
-                placeholder="Write your article (in markdown)"
-                value={body}
-                onChange={(e) => setBody(e.target.value)}
-                rows="8"
-              />
-            </div>
-            <div className="form-group">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter tags with a space"
-                value={tagList.join(" ")}
-                onChange={(e) => setTagList(e.target.value.split(" "))}
-              />
-            </div>
-            <button type="submit" className="btn btn-primary float-right">
-              Publish Article
-            </button>
-          </fieldset>
-        </form>
-      </div>
-    </div>
+    <form
+      onSubmit={(e) => {
+        sendForm(e, newArticle);
+      }}>
+      <fieldset>
+        <div className="form-group">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Article Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="What's this article about?"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <textarea
+            className="form-control"
+            placeholder="Write your article (in markdown)"
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+            rows="8"
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Enter tags with a space"
+            value={tagList.join(" ")}
+            onChange={(e) => setTagList(e.target.value.split(" "))}
+          />
+        </div>
+        <button type="submit" className="btn btn-primary float-right">
+          Publish Article
+        </button>
+      </fieldset>
+    </form>
   );
 }
 

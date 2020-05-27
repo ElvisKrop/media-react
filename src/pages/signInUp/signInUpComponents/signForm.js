@@ -48,7 +48,7 @@ const SignForm = ({
 
   return (
     <form onSubmit={(e) => sendFormFields(e)}>
-      <fieldset>
+      <fieldset className="text-center">
         {settings.isUsername && (
           <div className="form-group">
             <input
