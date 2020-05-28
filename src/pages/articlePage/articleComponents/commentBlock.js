@@ -1,61 +1,38 @@
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect } from "react";
 import NewComment from "./newComment";
 import ErrorList from "../../../components/errorList";
 import CommentList from "./commentList";
 import { withService } from "../../../hocs";
-
-function checkMountingConstructor(fn, flag) {
-  return flag ? fn : null;
-}
+import useUpgradeState from "../../../hooks";
 
 const CommentBlock = ({ slug, username, mrService, image }) => {
-  const [comments, setComments] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
-  const subRef = useRef(!!slug);
-
-  const upgradeSetComments = useCallback(
-    (comments) => {
-      return checkMountingConstructor(setComments(comments), subRef.current);
-    },
-    [subRef]
-  );
-
-  const upgradeSetLoading = useCallback(
-    (load) => {
-      return checkMountingConstructor(setLoading(load), subRef.current);
-    },
-    [subRef]
-  );
+  const [comments, setComments] = useUpgradeState([], !!slug);
+  const [loading, setLoading] = useUpgradeState(false, !!slug);
+  const [errors, setErrors] = useUpgradeState({}, !!slug);
 
   useEffect(() => {
     mrService
       .getComments(slug)
-      .then(({ comments }) => upgradeSetComments(comments))
+      .then(({ comments }) => setComments(comments))
       .catch(console.error);
-    return () => {
-      subRef.current = false;
-    };
-  }, [slug, mrService, upgradeSetComments]);
+  }, [slug, mrService, setComments]);
 
   const _deleteOneComment = useCallback(
     (id) => {
       const temp = comments.filter((item) => item.id !== id);
-      upgradeSetComments(temp);
-      upgradeSetLoading(false);
+      setComments(temp);
+      setLoading(false);
     },
-    [comments, upgradeSetLoading, upgradeSetComments]
+    [comments, setLoading, setComments]
   );
 
   const onDelete = useCallback(
     (id) => {
       setErrors({});
-      upgradeSetLoading(true);
-      mrService
-        .deleteComment(slug, id)
-        .finally(() => (subRef.current ? _deleteOneComment(id) : null));
+      setLoading(true);
+      mrService.deleteComment(slug, id).finally(() => _deleteOneComment(id));
     },
-    [mrService, slug, _deleteOneComment, upgradeSetLoading]
+    [mrService, slug, _deleteOneComment, setLoading, setErrors]
   );
 
   const submitNewComment = useCallback(
@@ -63,18 +40,10 @@ const CommentBlock = ({ slug, username, mrService, image }) => {
       setErrors({});
       mrService
         .postComment(slug, { body: newCom })
-        .then(({ comment }) => {
-          if (subRef.current) {
-            upgradeSetComments([comment, ...comments]);
-          }
-        })
-        .catch(({ errors }) => {
-          if (subRef.current) {
-            setErrors(errors);
-          }
-        });
+        .then(({ comment }) => setComments([comment, ...comments]))
+        .catch(({ errors }) => setErrors(errors));
     },
-    [mrService, slug, comments, upgradeSetComments]
+    [mrService, slug, comments, setComments, setErrors]
   );
   const forList = { username, comments, onDelete, loading };
   const forNewCom = { image, submitNewComment };
