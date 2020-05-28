@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect } from "react";
+import PropTypes from "prop-types";
 import NewComment from "./newComment";
 import ErrorList from "../../../components/errorList";
 import CommentList from "./commentList";
 import { withService } from "../../../hocs";
-import useUpgradeState from "../../../hooks";
+import { useUpgradeState } from "../../../hooks";
 
 const CommentBlock = ({ slug, username, mrService, image }) => {
   const [comments, setComments] = useUpgradeState([], !!slug);
@@ -56,3 +57,10 @@ const CommentBlock = ({ slug, username, mrService, image }) => {
   );
 };
 export default withService()(CommentBlock);
+
+CommentBlock.propTypes = {
+  slug: PropTypes.string.isRequired,
+  username: PropTypes.string,
+  mrService: PropTypes.object.isRequired,
+  image: PropTypes.string
+};

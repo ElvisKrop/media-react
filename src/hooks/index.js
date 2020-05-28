@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
-function useUpgradeState(init, initFlag) {
+export function useUpgradeState(init, initFlag = false) {
   const [state, setState] = useState(init);
   const flag = useRef(initFlag);
 
@@ -13,5 +13,3 @@ function useUpgradeState(init, initFlag) {
 
   return [state, setUpState];
 }
-
-export default useUpgradeState;

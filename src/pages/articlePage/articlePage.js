@@ -1,15 +1,17 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
+import PropTypes from "prop-types";
 import { Buttons, TagList, CommentBlock } from "./articleComponents";
-import { withService } from "../../hocs";
 import Spinner from "../../components/spinner";
 import UserIcon from "../../components/userIcon";
 import { connect } from "react-redux";
+import { withService } from "../../hocs";
+import { useUpgradeState } from "../../hooks";
 
 const ArticlePage = ({ mrService, slug, username, image }) => {
-  const [artInfo, setArtInfo] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [loadLike, setLoadLike] = useState(false);
-  const [loadFollow, setLoadFollow] = useState(false);
+  const [artInfo, setArtInfo] = useUpgradeState("", !!slug);
+  const [loading, setLoading] = useUpgradeState(true, !!slug);
+  const [loadLike, setLoadLike] = useUpgradeState(false, !!slug);
+  const [loadFollow, setLoadFollow] = useUpgradeState(false, !!slug);
 
   //onChange вызывается при загрузке страницы и в компонентах btnLike и btnFollow при клике по им
   const onChange = useCallback(
@@ -26,35 +28,18 @@ const ArticlePage = ({ mrService, slug, username, image }) => {
           setLoadFollow(false);
         });
     },
-    [slug, mrService]
+    [slug, mrService, setLoading, setArtInfo, setLoadFollow, setLoadLike]
   );
 
   useEffect(() => {
     setLoading(true);
     onChange();
-  }, [onChange]);
+  }, [onChange, setLoading]);
 
-  const {
-    author,
-    body,
-    createdAt,
-    favorited,
-    favoritesCount,
-    title,
-    tagList
-  } = artInfo;
-
-  const forBtns = {
-    author,
-    favorited,
-    favoritesCount,
-    slug,
-    username,
-    loadLike,
-    loadFollow,
-    onChange
-  };
+  const { author, createdAt, body, title, tagList, ...rest } = artInfo;
+  const forBtns = { author, username, loadLike, loadFollow, onChange, ...rest };
   const forUser = { ...author, createdAt };
+
   const classNameForButtons = "d-flex flex-wrap align-items-center mb-1";
   return (
     <>
@@ -91,6 +76,13 @@ const ArticlePage = ({ mrService, slug, username, image }) => {
       )}
     </>
   );
+};
+
+ArticlePage.propTypes = {
+  mrService: PropTypes.object,
+  slug: PropTypes.string,
+  username: PropTypes.string,
+  image: PropTypes.string
 };
 
 const mapStateToProps = ({ user }) => ({

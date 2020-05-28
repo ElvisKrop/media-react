@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   ButtonFollow,
   ButtonLike,
@@ -27,3 +28,15 @@ const Buttons = ({ settings }) => {
 };
 
 export default Buttons;
+
+Buttons.propTypes = {
+  settings: PropTypes.shape({
+    author: PropTypes.shape({
+      username: PropTypes.string
+    }),
+    username: PropTypes.string,
+    onChange: PropTypes.func,
+    loadFollow: PropTypes.bool,
+    slug: PropTypes.string
+  })
+};

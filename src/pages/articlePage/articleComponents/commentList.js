@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import UserIcon from "../../../components/userIcon";
 import Spinner from "../../../components/spinner";
 
@@ -17,6 +18,13 @@ const CommentList = ({ username, comments, onDelete, loading }) => {
       ))}
     </div>
   );
+};
+
+CommentList.propTypes = {
+  username: PropTypes.string,
+  comments: PropTypes.arrayOf(PropTypes.object),
+  onDelete: PropTypes.func,
+  loading: PropTypes.bool
 };
 
 function Comment({ author, body, createdAt, username, onDelete }) {
@@ -40,5 +48,15 @@ function Comment({ author, body, createdAt, username, onDelete }) {
     </div>
   );
 }
+
+Comment.propTypes = {
+  author: PropTypes.shape({
+    username: PropTypes.string
+  }),
+  body: PropTypes.string,
+  createdAt: PropTypes.string,
+  username: PropTypes.string,
+  onDelete: PropTypes.func
+};
 
 export default CommentList;

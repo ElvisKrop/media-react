@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 import { withToken } from "../../../hocs";
+import { useUpgradeState } from "../../../hooks";
 import { Link } from "react-router-dom";
 
 const style = {
@@ -10,7 +12,7 @@ const style = {
 };
 
 const NewComment = ({ image, isToken, submitNewComment }) => {
-  const [newComment, setNewComment] = useState("");
+  const [newComment, setNewComment] = useUpgradeState("", true);
 
   const onSubmitComment = (e) => {
     e.preventDefault();
@@ -25,6 +27,7 @@ const NewComment = ({ image, isToken, submitNewComment }) => {
         to add comments on this article.
       </p>
     );
+
   return (
     <>
       <form onSubmit={onSubmitComment} className="card border-primary mb-2">
@@ -47,6 +50,12 @@ const NewComment = ({ image, isToken, submitNewComment }) => {
       </form>
     </>
   );
+};
+
+NewComment.propTypes = {
+  image: PropTypes.string,
+  isToken: PropTypes.bool,
+  submitNewComment: PropTypes.func
 };
 
 export default withToken(NewComment);
