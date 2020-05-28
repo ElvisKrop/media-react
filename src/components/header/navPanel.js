@@ -15,7 +15,10 @@ function NavPanel({ isToken, username, data: { burgerMenu, setburgerMenu } }) {
       ["/login", "fas fa-sign-in-alt", "Sign in"],
       ["/register", "fas fa-sign-out-alt", "Sign up"]
     ],
-    home: [["/", "fas fa-home", "Home"]]
+    rest: [
+      ["/", "fas fa-home", "Home"],
+      ["/about_developers", "fas fa-users-cog", "About"]
+    ]
   };
 
   function renderLink(arr) {
@@ -24,7 +27,8 @@ function NavPanel({ isToken, username, data: { burgerMenu, setburgerMenu } }) {
         <li
           key={index}
           className="nav-item text-shedow"
-          onClick={() => setburgerMenu(false)}>
+          onClick={() => setburgerMenu(false)}
+        >
           <Link className="nav-link" to={item[0]}>
             <i className={`${item[1]} pr-1`} />
             <span>{item[2]}</span>
@@ -39,7 +43,7 @@ function NavPanel({ isToken, username, data: { burgerMenu, setburgerMenu } }) {
   return (
     <>
       <ul className={burgerMenu ? `${className} open` : className}>
-        {renderLink(linkList.home)}
+        {renderLink(linkList.rest)}
         {isToken ? renderLink(linkList.privat) : renderLink(linkList.public)}
       </ul>
     </>

@@ -1,0 +1,17 @@
+.card-max-height {
+  /* max-height: 380px; */
+  width: 250px;
+  margin: 0 auto;
+  color: black;
+  & i {
+    font-size: 26px;
+  }
+  & .img-developer {
+    display: block;
+    width: 100%;
+  }
+  & .card-size-img {
+    height: 248px;
+    overflow: hidden;
+  }
+}
