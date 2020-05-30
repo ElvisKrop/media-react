@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useUpgradeState } from "../../hooks";
 import { UserBanner } from "./authorComponents";
 import Feed from "../../components/feed";
 import { withService } from "../../hocs";
@@ -8,17 +9,17 @@ import PropTypes from "prop-types";
 import "./authorPage.scss";
 
 function AuthorPage({ mrService, username, strFeed }) {
-  const [profile, setProfile] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [profile, setProfile] = useUpgradeState({}, !!username);
+  const [loading, setLoading] = useUpgradeState(false, !!username);
 
   useEffect(() => {
     setLoading(true);
     mrService
       .getProfile(username)
       .then(({ profile }) => setProfile(profile))
-      .catch((error) => console.error(error))
+      .catch(console.error)
       .finally(() => setLoading(false));
-  }, [mrService, username]);
+  }, [mrService, username, setLoading, setProfile]);
 
   let classMPost = "nav-link";
   let classFPost = "nav-link";

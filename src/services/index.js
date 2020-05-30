@@ -81,7 +81,8 @@ export default class MediaReactService {
   };
   //получение данных для страницы NewArticle
   getArticleForInputs = async (slug) => {
-    return await this._getResourse(`articles/${slug}`);
+    const { article } = await this._getResourse(`articles/${slug}`);
+    return article;
   };
 
   ////////////////// Post запросы ////////////////////////

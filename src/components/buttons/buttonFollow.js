@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useUpgradeState } from "../../hooks";
 import { withService, withToken } from "../../hocs";
 import { Link } from "react-router-dom";
 import MiniSpinner from "../mini-spinner";
@@ -7,19 +8,19 @@ import "./buttons.scss";
 
 function ButtonFollow({ mrService, isToken, profile, onChange }) {
   const { username, following, loadFollow } = profile;
-  const [follow, setFollow] = useState(following);
-  const [loading, setLoading] = useState(loadFollow);
-  const [widthBtn, setWidthBtn] = useState(0);
+  const [follow, setFollow] = useUpgradeState(following, !!username);
+  const [loading, setLoading] = useUpgradeState(loadFollow, !!username);
+  const [widthBtn, setWidthBtn] = useUpgradeState(0, !!username);
   const ref = React.createRef();
 
   useEffect(() => {
     setFollow(following);
     setLoading(loadFollow);
-  }, [following, loadFollow]);
+  }, [following, loadFollow, setFollow, setLoading]);
 
   useEffect(() => {
     if (ref.current !== null) setWidthBtn(ref.current.offsetWidth);
-  }, [ref]);
+  }, [ref, setWidthBtn]);
 
   function toggleFollow(username) {
     setLoading(true);
@@ -55,8 +56,7 @@ function ButtonFollow({ mrService, isToken, profile, onChange }) {
       <button
         type="button"
         className="btn-follow"
-        style={{ minWidth: widthBtn + "px" }}
-      >
+        style={{ minWidth: widthBtn + "px" }}>
         <MiniSpinner />
       </button>
     );
@@ -68,8 +68,7 @@ function ButtonFollow({ mrService, isToken, profile, onChange }) {
         type="button"
         className="btn-follow"
         onClick={() => toggleFollow(username)}
-        ref={ref}
-      >
+        ref={ref}>
         <i className={classSVG} />
         {textBtn}
       </button>

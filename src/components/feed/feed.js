@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
+import { useUpgradeState } from "../../hooks";
 import { withService } from "../../hocs";
 import Article from "./article";
 import Pagination from "./pagination";
@@ -7,12 +8,21 @@ import PropTypes from "prop-types";
 import "./feed.scss";
 
 function Feed({ mrService, strFeed, author = "", tagName = "" }) {
-  const [data, setDataArticle] = useState([]);
-  const [articlesCount, setCountArticle] = useState(0);
-  const [currentPage, setPage] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [currentPos, setCurrentPos] = useState(0);
-  const [countClicks, setCountClicks] = useState(0);
+  const [data, setDataArticle] = useUpgradeState([], !!strFeed);
+  const [articlesCount, setCountArticle] = useUpgradeState(0, !!strFeed);
+  const [currentPage, setPage] = useUpgradeState(0, !!strFeed);
+  const [loading, setLoading] = useUpgradeState(false, !!strFeed);
+  const [currentPos, setCurrentPos] = useUpgradeState(0, !!strFeed);
+  const [countClicks, setCountClicks] = useUpgradeState(0, !!strFeed);
+
+  const setData = useCallback(
+    ({ articles, articlesCount }) => {
+      setDataArticle(articles);
+      setCountArticle(articlesCount);
+      setLoading(false);
+    },
+    [setDataArticle, setCountArticle, setLoading]
+  );
 
   const getRequest = useCallback(
     (page, author, tag) => {
@@ -36,22 +46,14 @@ function Feed({ mrService, strFeed, author = "", tagName = "" }) {
 
   useEffect(() => {
     setLoading(true);
-    getRequest(currentPage, author, tagName)
-      .then((data) => setData(data))
-      .catch((error) => console.error(error));
-  }, [getRequest, currentPage, author, tagName]);
+    getRequest(currentPage, author, tagName).then(setData).catch(console.error);
+  }, [getRequest, currentPage, author, tagName, setLoading, setData]);
 
   useEffect(() => {
     setPage(0);
     setCurrentPos(0);
     setCountClicks(0);
-  }, [strFeed, tagName]);
-
-  function setData({ articles, articlesCount }) {
-    setDataArticle(articles);
-    setCountArticle(articlesCount);
-    setLoading(false);
-  }
+  }, [strFeed, tagName, setCountClicks, setCurrentPos, setPage]);
 
   if (loading) return <Spinner />;
 

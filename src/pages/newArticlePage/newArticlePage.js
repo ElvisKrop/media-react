@@ -1,27 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import NewArticleForm from "./newArticleForm";
 import { withService } from "../../hocs";
 import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import ErrorList from "../../components/errorList/errorList";
+import { useUpgradeState } from "../../hooks";
 
 const NewArticlePage = ({ mrService, slug }) => {
-  const [checkingSendData, setCheckingSendData] = useState(false);
-  const [slugForRedirect, setSlugForRedirect] = useState("");
-  const [error, setError] = useState(false);
-  const [objError, setObjError] = useState({});
+  const [checkingSendData, setCheckingSendData] = useUpgradeState(false, true);
+  const [slugForRedirect, setSlugForRedirect] = useUpgradeState("", true);
+  const [error, setError] = useUpgradeState(false, true);
+  const [objError, setObjError] = useUpgradeState({}, true);
 
   const sendForm = (e, newArticle) => {
     e.preventDefault();
-    if (slug) {
-      sendingRequest(mrService.putArticleUpdate, newArticle, slug);
-    } else {
-      sendingRequest(mrService.postNewArticle, newArticle);
-    }
+    sendingRequest(newArticle, slug);
   };
 
-  function sendingRequest(request, newArticle, slug = null) {
-    return request(newArticle, slug)
+  function sendingRequest(newArticle, slug = null) {
+    const { putArticleUpdate, postNewArticle } = mrService;
+    return (slug ? putArticleUpdate : postNewArticle)(newArticle, slug)
       .then(({ article }) => {
         setSlugForRedirect(article.slug);
         setError(false);
@@ -32,6 +30,7 @@ const NewArticlePage = ({ mrService, slug }) => {
         setObjError(errors);
       });
   }
+
   if (!error && checkingSendData) {
     return <Redirect to={`/article/${slugForRedirect}`} />;
   }

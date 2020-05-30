@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import SettingsForm from "./settingsForm";
 import { withService } from "../../hocs";
 import { connect } from "react-redux";
@@ -6,6 +6,7 @@ import { Actions } from "../../redux-store";
 import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import ErrorList from "../../components/errorList/errorList";
+import { useUpgradeState } from "../../hooks";
 
 const SettingsPage = ({
   mrService,
@@ -16,8 +17,11 @@ const SettingsPage = ({
   clearErrors,
   ...forUserLoad
 }) => {
-  const [checkingSendData, setCheckingSendData] = useState(false);
-  const [error, setError] = useState(false);
+  const [checkingSendData, setCheckingSendData] = useUpgradeState(
+    false,
+    !!user
+  );
+  const [error, setError] = useUpgradeState(false, !!user);
 
   useEffect(() => {
     clearErrors();

@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { withService } from "../../../hocs";
+import { useUpgradeState } from "../../../hooks";
 
 const Tag = ({ label, selectTag }) => {
   return (
@@ -13,11 +14,11 @@ const Tag = ({ label, selectTag }) => {
 };
 
 const TagsList = ({ mrService, setSelectedTag }) => {
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useUpgradeState([], true);
 
   useEffect(() => {
     mrService.getTags().then(({ tags }) => setTags(tags));
-  }, [mrService]);
+  }, [mrService, setTags]);
 
   return (
     <div className="card bg-light">

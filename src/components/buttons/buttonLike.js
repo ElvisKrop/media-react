@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useUpgradeState } from "../../hooks";
 import { withService, withToken } from "../../hocs";
 import { Link } from "react-router-dom";
 import MiniSpinner from "../mini-spinner";
@@ -7,21 +8,21 @@ import "./buttons.scss";
 
 function ButtonLike({ mrService, isToken, data, onChange }) {
   const { favoritesCount, favorited, loadLike, slug, text = "" } = data;
-  const [like, setLike] = useState(favorited);
-  const [likeCount, setLikeCount] = useState(favoritesCount);
-  const [load, setLoad] = useState(loadLike);
-  const [widthBtn, setWidthBtn] = useState(0);
+  const [like, setLike] = useUpgradeState(favorited, !!slug);
+  const [likeCount, setLikeCount] = useUpgradeState(favoritesCount, !!slug);
+  const [load, setLoad] = useUpgradeState(loadLike, !!slug);
+  const [widthBtn, setWidthBtn] = useUpgradeState(0, !!slug);
   const ref = React.createRef();
 
   useEffect(() => {
     setLike(favorited);
     setLikeCount(favoritesCount);
     setLoad(loadLike);
-  }, [favorited, favoritesCount, loadLike]);
+  }, [favorited, favoritesCount, loadLike, setLike, setLikeCount, setLoad]);
 
   useEffect(() => {
     if (ref.current !== null) setWidthBtn(ref.current.offsetWidth);
-  }, [ref]);
+  }, [ref, setWidthBtn]);
 
   function toggleFavorited(slug) {
     setLoad(true);
@@ -59,8 +60,7 @@ function ButtonLike({ mrService, isToken, data, onChange }) {
       <button
         type="button"
         className={className}
-        style={{ minWidth: widthBtn + "px" }}
-      >
+        style={{ minWidth: widthBtn + "px" }}>
         <MiniSpinner />
       </button>
     );
@@ -72,8 +72,7 @@ function ButtonLike({ mrService, isToken, data, onChange }) {
         type="button"
         className={className}
         onClick={() => toggleFavorited(slug)}
-        ref={ref}
-      >
+        ref={ref}>
         <i className="fas fa-heart" />
         <span>
           {textForLike}

@@ -1,14 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import Spinner from "../../components/spinner";
 import PropTypes from "prop-types";
 import { withService } from "../../hocs";
+import { useUpgradeState } from "../../hooks";
 
 function SettingsForm({ mrService, sendForm, slug }) {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [body, setBody] = useState("");
-  const [tagList, setTagList] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [title, setTitle] = useUpgradeState("", true);
+  const [description, setDescription] = useUpgradeState("", true);
+  const [body, setBody] = useUpgradeState("", true);
+  const [tagList, setTagList] = useUpgradeState([], true);
+  const [loading, setLoading] = useUpgradeState(false, true);
+
+  const inputsData = useCallback(
+    (article = {}) => {
+      const { title = "", description = "", body = "", tagList = [] } = article;
+      setTitle(title);
+      setDescription(description);
+      setBody(body);
+      setTagList(tagList);
+    },
+    [setTitle, setDescription, setBody, setTagList]
+  );
 
   useEffect(() => {
     // загрузка данных для ввода и их редактирования
@@ -16,34 +28,13 @@ function SettingsForm({ mrService, sendForm, slug }) {
       setLoading(true);
       mrService
         .getArticleForInputs(slug)
-        .then(({ article }) => loadingInputsData(article))
-        .catch(({ errors }) => console.error(errors))
+        .then(inputsData)
+        .catch(console.error)
         .finally(() => setLoading(false));
-    } else {
-      defaultInputsData();
-    }
-  }, [mrService, slug]);
+    } else inputsData();
+  }, [mrService, slug, inputsData, setLoading]);
 
-  function loadingInputsData(article) {
-    setTitle(article.title);
-    setDescription(article.description);
-    setBody(article.body);
-    setTagList(article.tagList);
-  }
-
-  function defaultInputsData() {
-    setTitle("");
-    setDescription("");
-    setBody("");
-    setTagList([]);
-  }
-
-  const newArticle = {
-    title,
-    description,
-    body,
-    tagList
-  };
+  const newArticle = { title, description, body, tagList };
 
   if (loading) return <Spinner />;
 
@@ -51,8 +42,7 @@ function SettingsForm({ mrService, sendForm, slug }) {
     <form
       onSubmit={(e) => {
         sendForm(e, newArticle);
-      }}
-    >
+      }}>
       <fieldset>
         <div className="form-group">
           <input

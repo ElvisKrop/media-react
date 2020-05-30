@@ -1,5 +1,6 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { withService } from "../../../hocs";
+import { useUpgradeState } from "../../../hooks";
 
 const SignForm = ({
   settings,
@@ -8,16 +9,16 @@ const SignForm = ({
   userLoaded,
   userLoading
 }) => {
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useUpgradeState("", true);
   //TODO In production mode: delete default values
-  const [email, setEmail] = useState("new_human@mail.com");
-  const [password, setPassword] = useState("human_password_12345");
+  const [email, setEmail] = useUpgradeState("new_human@mail.com", true);
+  const [password, setPassword] = useUpgradeState("human_password_12345", true);
 
   const makeBlank = useCallback(() => {
     setUsername("");
     setEmail("");
     setPassword("");
-  }, []);
+  }, [setEmail, setPassword, setUsername]);
 
   useEffect(() => {
     // TODO In production mode: turn on this
