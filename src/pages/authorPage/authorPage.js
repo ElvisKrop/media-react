@@ -4,6 +4,7 @@ import Feed from "../../components/feed";
 import { withService } from "../../hocs";
 import { Link } from "react-router-dom";
 import Spinner from "../../components/spinner";
+import PropTypes from "prop-types";
 import "./authorPage.scss";
 
 function AuthorPage({ mrService, username, strFeed }) {
@@ -49,5 +50,11 @@ function AuthorPage({ mrService, username, strFeed }) {
     </>
   );
 }
+
+AuthorPage.propTypes = {
+  mrService: PropTypes.object,
+  username: PropTypes.string,
+  strFeed: PropTypes.string
+};
 
 export default withService()(AuthorPage);

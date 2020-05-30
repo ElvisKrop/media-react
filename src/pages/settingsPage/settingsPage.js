@@ -4,6 +4,7 @@ import { withService } from "../../hocs";
 import { connect } from "react-redux";
 import { Actions } from "../../redux-store";
 import { Redirect } from "react-router-dom";
+import PropTypes from "prop-types";
 import ErrorList from "../../components/errorList/errorList";
 
 const SettingsPage = ({
@@ -63,6 +64,15 @@ const mapDispatchToProps = (dispatch) => ({
   userLoadFail: (errors) => dispatch(Actions.userLoadFail(errors)),
   clearErrors: () => dispatch(Actions.clearErrors())
 });
+
+SettingsPage.propTypes = {
+  mrService: PropTypes.object,
+  errors: PropTypes.object,
+  user: PropTypes.object,
+  userUpdate: PropTypes.func,
+  userLoadFail: PropTypes.func,
+  clearErrors: PropTypes.func
+};
 
 export default connect(
   mapStateToProps,

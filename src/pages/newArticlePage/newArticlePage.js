@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import NewArticleForm from "./newArticleForm";
 import { withService } from "../../hocs";
 import { Redirect } from "react-router-dom";
+import PropTypes from "prop-types";
 import ErrorList from "../../components/errorList/errorList";
 
-const SettingsPage = ({ mrService, slug }) => {
+const NewArticlePage = ({ mrService, slug }) => {
   const [checkingSendData, setCheckingSendData] = useState(false);
   const [slugForRedirect, setSlugForRedirect] = useState("");
   const [error, setError] = useState(false);
@@ -46,4 +47,9 @@ const SettingsPage = ({ mrService, slug }) => {
   );
 };
 
-export default withService()(SettingsPage);
+NewArticlePage.propTypes = {
+  mrService: PropTypes.object,
+  slug: PropTypes.string
+};
+
+export default withService()(NewArticlePage);

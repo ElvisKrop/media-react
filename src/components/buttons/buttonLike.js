@@ -96,13 +96,6 @@ function ButtonLike({ mrService, isToken, data, onChange }) {
   );
 }
 
-ButtonLike.defaultProps = {
-  mrService: {},
-  isToken: false,
-  onChange: () => {},
-  data: {}
-};
-
 ButtonLike.propTypes = {
   mrService: PropTypes.object,
   isToken: PropTypes.bool,

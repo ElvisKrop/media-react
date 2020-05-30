@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import "./userIcon.scss";
 
 function UserIcon({ image, username, createdAt }) {
@@ -22,5 +23,11 @@ function UserIcon({ image, username, createdAt }) {
     </div>
   );
 }
+
+UserIcon.propTypes = {
+  image: PropTypes.string,
+  username: PropTypes.string,
+  createdAt: PropTypes.string
+};
 
 export default UserIcon;

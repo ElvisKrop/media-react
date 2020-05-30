@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import PropTypes from "prop-types";
 function Pagination({
   data: {
     articlesCount,
@@ -111,5 +111,15 @@ function Pagination({
     </div>
   );
 }
+
+Pagination.propTypes = {
+  articlesCount: PropTypes.number,
+  currentPage: PropTypes.number,
+  setPage: PropTypes.func,
+  currentPos: PropTypes.number,
+  countClicks: PropTypes.number,
+  setCurrentPos: PropTypes.func,
+  setCountClicks: PropTypes.func
+};
 
 export default Pagination;

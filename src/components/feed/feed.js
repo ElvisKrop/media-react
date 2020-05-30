@@ -3,6 +3,7 @@ import { withService } from "../../hocs";
 import Article from "./article";
 import Pagination from "./pagination";
 import Spinner from "../spinner";
+import PropTypes from "prop-types";
 import "./feed.scss";
 
 function Feed({ mrService, strFeed, author = "", tagName = "" }) {
@@ -73,5 +74,12 @@ function Feed({ mrService, strFeed, author = "", tagName = "" }) {
     </div>
   );
 }
+
+Feed.propTypes = {
+  mrService: PropTypes.object,
+  strFeed: PropTypes.string,
+  author: PropTypes.string,
+  tagName: PropTypes.string
+};
 
 export default withService()(Feed);

@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { withToken } from "../../hocs";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import "./header.scss";
 
 function NavPanel({ isToken, username, data: { burgerMenu, setburgerMenu } }) {
@@ -53,5 +54,11 @@ function NavPanel({ isToken, username, data: { burgerMenu, setburgerMenu } }) {
 const mapStateToProps = ({ user }) => ({
   username: user.username
 });
+NavPanel.propTypes = {
+  isToken: PropTypes.bool,
+  username: PropTypes.string,
+  burgerMenu: PropTypes.bool,
+  setburgerMenu: PropTypes.func
+};
 
 export default connect(mapStateToProps)(withToken(NavPanel));

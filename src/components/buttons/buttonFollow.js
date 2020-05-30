@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { withService, withToken } from "../../hocs";
 import { Link } from "react-router-dom";
 import MiniSpinner from "../mini-spinner";
+import PropTypes from "prop-types";
 import "./buttons.scss";
 
 function ButtonFollow({ mrService, isToken, profile, onChange }) {
@@ -84,5 +85,16 @@ function ButtonFollow({ mrService, isToken, profile, onChange }) {
     </Link>
   );
 }
+
+ButtonFollow.propTypes = {
+  mrService: PropTypes.object,
+  isToken: PropTypes.bool,
+  onChange: PropTypes.func,
+  profile: PropTypes.shape({
+    following: PropTypes.bool,
+    loadFollow: PropTypes.bool,
+    slug: PropTypes.string
+  })
+};
 
 export default withService()(withToken(ButtonFollow));

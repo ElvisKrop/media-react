@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Spinner from "../../components/spinner";
+import PropTypes from "prop-types";
 import { withService } from "../../hocs";
 
 function SettingsForm({ mrService, sendForm, slug }) {
@@ -50,7 +51,8 @@ function SettingsForm({ mrService, sendForm, slug }) {
     <form
       onSubmit={(e) => {
         sendForm(e, newArticle);
-      }}>
+      }}
+    >
       <fieldset>
         <div className="form-group">
           <input
@@ -95,5 +97,11 @@ function SettingsForm({ mrService, sendForm, slug }) {
     </form>
   );
 }
+
+SettingsForm.propTypes = {
+  mrService: PropTypes.object,
+  sendForm: PropTypes.func,
+  slug: PropTypes.string
+};
 
 export default withService()(SettingsForm);

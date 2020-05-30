@@ -2,6 +2,7 @@ import React from "react";
 import { ButtonFollow } from "../../../components/buttons/index";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 function UserBanner({ image, bio, username, following, userStore }) {
   function renderButton() {
@@ -39,5 +40,12 @@ function UserBanner({ image, bio, username, following, userStore }) {
 const mapStateToProps = ({ user }) => ({
   userStore: user.username
 });
+UserBanner.propTypes = {
+  image: PropTypes.string,
+  bio: PropTypes.string,
+  username: PropTypes.string,
+  following: PropTypes.bool,
+  userStore: PropTypes.string
+};
 
 export default connect(mapStateToProps)(UserBanner);

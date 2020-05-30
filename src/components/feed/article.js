@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import UserIcon from "../userIcon";
 import { ButtonLike } from "../buttons/index";
+import PropTypes from "prop-types";
 
 function Article({ data }) {
   const {
@@ -14,6 +15,7 @@ function Article({ data }) {
     favoritesCount,
     author
   } = data;
+
   const { username, image } = author;
   const forUser = { image, username, createdAt };
 
@@ -25,7 +27,8 @@ function Article({ data }) {
       </div>
       <Link
         className="text-decoration-none d-flex flex-wrap justify-content-between"
-        to={`/article/${slug}`}>
+        to={`/article/${slug}`}
+      >
         <div className="col-lg-7 w-100 overflow-hidden p-0">
           <h5 className="font-weight-bold mb-1">{title}</h5>
           <p className="card-text text-muted mb-3">{description}</p>
@@ -44,5 +47,18 @@ function Article({ data }) {
     </div>
   );
 }
+
+Article.propTypes = {
+  data: PropTypes.shape({
+    title: PropTypes.string,
+    slug: PropTypes.string,
+    createdAt: PropTypes.string,
+    tagList: PropTypes.arrayOf(PropTypes.string),
+    description: PropTypes.string,
+    favorited: PropTypes.bool,
+    favoritesCount: PropTypes.number,
+    author: PropTypes.object
+  })
+};
 
 export default Article;
