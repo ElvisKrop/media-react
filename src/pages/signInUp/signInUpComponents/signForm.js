@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect } from "react";
+import PropTypes from "prop-types";
 import { withService } from "../../../hocs";
 import { useUpgradeState } from "../../../hooks";
 
@@ -85,6 +86,17 @@ const SignForm = ({
       </fieldset>
     </form>
   );
+};
+
+SignForm.propTypes = {
+  settings: PropTypes.shape({
+    isUsername: PropTypes.bool,
+    head: PropTypes.string
+  }),
+  mrService: PropTypes.object,
+  userLoadFail: PropTypes.func,
+  userLoaded: PropTypes.func,
+  userLoading: PropTypes.func
 };
 
 export default withService()(SignForm);

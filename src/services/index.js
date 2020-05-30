@@ -22,7 +22,8 @@ export default class MediaReactService {
 
   // получение списка всех тегов
   getTags = async () => {
-    return await this._getResourse("tags/");
+    const { tags } = await this._getResourse("tags/");
+    return tags;
   };
 
   getProfile = async (username) => {

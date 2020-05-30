@@ -25,15 +25,12 @@ function ButtonFollow({ mrService, isToken, profile, onChange }) {
   function toggleFollow(username) {
     setLoading(true);
     if (!follow) {
-      mrService
-        .postFollowig(username)
-        .then(updateFollow)
-        .catch((error) => console.error(error));
+      mrService.postFollowig(username).then(updateFollow).catch(console.error);
     } else {
       mrService
         .deleteFollowig(username)
         .then(updateFollow)
-        .catch((error) => console.error(error));
+        .catch(console.error);
     }
   }
 

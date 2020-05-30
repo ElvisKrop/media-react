@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { withService } from "../../hocs";
 import "./buttons.scss";
+import PropTypes from "prop-types";
 
 const DeleteArticle = ({ mrService, slug }) => {
   const onDeleteArt = () => {
@@ -16,6 +17,11 @@ const DeleteArticle = ({ mrService, slug }) => {
       </button>
     </Link>
   );
+};
+
+DeleteArticle.propTypes = {
+  mrService: PropTypes.object,
+  slug: PropTypes.string
 };
 
 export default withService()(DeleteArticle);

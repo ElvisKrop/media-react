@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import { withService } from "../../../hocs";
 import { useUpgradeState } from "../../../hooks";
 
@@ -17,7 +18,7 @@ const TagsList = ({ mrService, setSelectedTag }) => {
   const [tags, setTags] = useUpgradeState([], true);
 
   useEffect(() => {
-    mrService.getTags().then(({ tags }) => setTags(tags));
+    mrService.getTags().then(setTags);
   }, [mrService, setTags]);
 
   return (
@@ -35,4 +36,10 @@ const TagsList = ({ mrService, setSelectedTag }) => {
     </div>
   );
 };
+
+TagsList.propTypes = {
+  mrService: PropTypes.object,
+  setSelectedTag: PropTypes.func
+};
+
 export default withService()(TagsList);

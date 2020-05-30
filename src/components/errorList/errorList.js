@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const ErrorList = ({ errors }) => {
   return (
@@ -10,6 +11,10 @@ const ErrorList = ({ errors }) => {
   );
 };
 
+ErrorList.propTypes = {
+  errors: PropTypes.object
+};
+
 const ErrorItem = ({ area, messages }) => {
   return (
     <>
@@ -18,6 +23,11 @@ const ErrorItem = ({ area, messages }) => {
       ))}
     </>
   );
+};
+
+ErrorItem.propTypes = {
+  area: PropTypes.string,
+  messages: PropTypes.arrayOf(PropTypes.string)
 };
 
 export default ErrorList;
