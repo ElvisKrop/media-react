@@ -11,7 +11,6 @@ const SignForm = ({
   userLoading
 }) => {
   const [username, setUsername] = useUpgradeState("", true);
-  //TODO In production mode: delete default values
   const [email, setEmail] = useUpgradeState("new_human@mail.com", true);
   const [password, setPassword] = useUpgradeState("human_password_12345", true);
 
@@ -23,7 +22,7 @@ const SignForm = ({
 
   useEffect(() => {
     // TODO In production mode: turn on this
-    //   makeBlank();
+    makeBlank();
   }, [makeBlank]);
 
   const sendFormFields = (event) => {
