@@ -14,10 +14,8 @@ const HomePage = ({ isToken }) => {
   }, []);
 
   useEffect(() => {
-    if (typeof isToken !== "undefined") {
-      if (isToken) setStrFeed("YourFeed");
-      else setStrFeed("GlobalFeed");
-    }
+    if (isToken) setStrFeed("YourFeed");
+    else if (isToken === false) setStrFeed("GlobalFeed");
   }, [isToken]);
 
   let classYPost = "nav-link";
@@ -43,8 +41,7 @@ const HomePage = ({ isToken }) => {
       {isToken ? null : (
         <div
           style={{ maxHeight: "200px", boxShadow: "inset 0 0 15px grey" }}
-          className="banner bg-success text-center py-5 text-white"
-        >
+          className="banner bg-success text-center py-5 text-white">
           <h1 className="font-weight-bolder">MediaReact</h1>
           <p>
             Here you can find a project developed by a team of two novice
@@ -58,8 +55,7 @@ const HomePage = ({ isToken }) => {
             {isToken ? (
               <button
                 className={classYPost}
-                onClick={() => setStrFeed("YourFeed")}
-              >
+                onClick={() => setStrFeed("YourFeed")}>
                 Your Feed
               </button>
             ) : (
@@ -69,8 +65,7 @@ const HomePage = ({ isToken }) => {
             )}
             <button
               className={classGPost}
-              onClick={() => setStrFeed("GlobalFeed")}
-            >
+              onClick={() => setStrFeed("GlobalFeed")}>
               Global Feed
             </button>
             {strFeed === "TagFeed" && (

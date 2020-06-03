@@ -18,14 +18,9 @@ import {
 import { connect } from "react-redux";
 import { Actions } from "./redux-store";
 
-const App = ({ user, userLoaded, isToken, mrService }) => {
+const App = ({ userLoaded, isToken, mrService }) => {
   useEffect(() => {
-    if (isToken) {
-      mrService
-        .getUser()
-        .then((user) => userLoaded(user))
-        .catch((err) => console.error(err));
-    }
+    if (isToken) mrService.getUser().then(userLoaded).catch(console.error);
   }, [isToken, mrService, userLoaded]);
 
   return (

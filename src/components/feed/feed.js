@@ -56,6 +56,8 @@ function Feed({ mrService, strFeed, author = "", tagName = "" }) {
   }, [strFeed, tagName, setCountClicks, setCurrentPos, setPage]);
 
   if (loading) return <Spinner />;
+  else if (!Object.keys(data).length)
+    return <h5 className="mt-5 text-center">No one article yet...</h5>;
 
   return (
     <div>

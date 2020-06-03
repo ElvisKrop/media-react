@@ -27,15 +27,12 @@ function ButtonLike({ mrService, isToken, data, onChange }) {
   function toggleFavorited(slug) {
     setLoad(true);
     if (!like) {
-      mrService
-        .postFavorited(slug)
-        .then(updateFavorited)
-        .catch((error) => console.error(error));
+      mrService.postFavorited(slug).then(updateFavorited).catch(console.error);
     } else {
       mrService
         .deleteFavorited(slug)
         .then(updateFavorited)
-        .catch((error) => console.error(error));
+        .catch(console.error);
     }
   }
 

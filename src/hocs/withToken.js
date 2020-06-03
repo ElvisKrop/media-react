@@ -3,7 +3,7 @@ import { useUpgradeState } from "../hooks";
 
 const withToken = (Wrapped) => {
   return (props) => {
-    const [token, setToken] = useUpgradeState(false, true);
+    const [token, setToken] = useUpgradeState(null, true);
 
     useEffect(() => {
       setToken(Boolean(localStorage.getItem("mrToken")));

@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 const DeleteArticle = ({ mrService, slug }) => {
   const onDeleteArt = () => {
-    mrService.deleteArticle(slug).catch((err) => console.error(err));
+    mrService.deleteArticle(slug).catch(console.error);
   };
 
   return (

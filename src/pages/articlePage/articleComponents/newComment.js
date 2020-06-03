@@ -4,13 +4,6 @@ import { withToken } from "../../../hocs";
 import { useUpgradeState } from "../../../hooks";
 import { Link } from "react-router-dom";
 
-const style = {
-  height: "32px",
-  width: "32px",
-  borderRadius: "50%",
-  boxShadow: "0 0 3px black"
-};
-
 const NewComment = ({ image, isToken, submitNewComment }) => {
   const [newComment, setNewComment] = useUpgradeState("", true);
 
@@ -42,7 +35,7 @@ const NewComment = ({ image, isToken, submitNewComment }) => {
           />
         </div>
         <div className="card-header d-flex justify-content-between align-items-center border-0">
-          <img src={image} style={style} alt="icon" />
+          <img src={image} className="icon-image" alt="icon" />
           <button type="submit" className="btn btn-outline-primary card-header">
             Post Comment
           </button>

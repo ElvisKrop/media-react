@@ -7,21 +7,22 @@ import { connect } from "react-redux";
 import { withService } from "../../hocs";
 import { useUpgradeState } from "../../hooks";
 
+import "./articlePage.scss";
+
 const ArticlePage = ({ mrService, slug, username, image }) => {
   const [artInfo, setArtInfo] = useUpgradeState("", !!slug);
   const [loading, setLoading] = useUpgradeState(true, !!slug);
   const [loadLike, setLoadLike] = useUpgradeState(false, !!slug);
   const [loadFollow, setLoadFollow] = useUpgradeState(false, !!slug);
 
-  //onChange вызывается при загрузке страницы и в компонентах btnLike и btnFollow при клике по им
   const onChange = useCallback(
     (text) => {
       if (text === "like") setLoadLike(true);
       if (text === "follow") setLoadFollow(true);
       mrService
         .getArticle(slug)
-        .then((data) => setArtInfo(data))
-        .catch((err) => console.error(err))
+        .then(setArtInfo)
+        .catch(console.error)
         .finally(() => {
           setLoading(false);
           setLoadLike(false);
@@ -43,7 +44,7 @@ const ArticlePage = ({ mrService, slug, username, image }) => {
   const classNameForButtons = "d-flex flex-wrap align-items-center mb-1";
   return (
     <>
-      <div style={{ background: "#f3f3f3" }} className="py-4">
+      <div className="article-banner py-4">
         {loading ? (
           <Spinner />
         ) : (
